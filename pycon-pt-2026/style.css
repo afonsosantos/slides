@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap');
+
+:root {
+  --bg: #f7f4ee;
+  --fg: #1c1a17;
+  --fg-dim: #6f6a5d;
+  --rule: rgba(28, 26, 23, 0.14);
+  --accent: #a8621a;
+  --accent-soft: rgba(168, 98, 26, 0.16);
+
+  --slidev-theme-primary: var(--accent);
+  --slidev-code-font-size: 18px;
+  --slidev-code-line-height: 28px;
+  --slidev-code-padding: 18px 22px;
+  --slidev-code-radius: 6px;
+  --slidev-code-background: #efece2;
+  --slidev-code-foreground: #1c1a17;
+}
+
+/* keep the code block light regardless of colorSchema */
+html.dark {
+  --slidev-code-background: #efece2;
+  --slidev-code-foreground: #1c1a17;
+}
+
+/* ---- base ---- */
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-family: 'Fraunces', ui-serif, Georgia, serif;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.slidev-layout h1 { font-size: 3.4rem; line-height: 1.05; }
+
+.slidev-layout h1 + p {
+  opacity: 1;
+  margin-top: 0.6rem;
+}
+
+.slidev-layout strong {
+  color: var(--fg);
+  font-weight: 700;
+  background: linear-gradient(to bottom, transparent 62%, var(--accent-soft) 62%);
+}
+
+.slidev-layout a {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.slidev-layout code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.slidev-layout pre {
+  border: 1px solid var(--rule);
+}
+
+.slidev-layout ul {
+  list-style: none;
+  padding: 0;
+}
+
+.slidev-layout ul li {
+  position: relative;
+  padding-left: 1.1em;
+}
+
+.slidev-layout ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--fg-dim);
+}
+
+/* ---- editorial system (minimal) ---- */
+
+.rule {
+  width: 52px;
+  height: 2px;
+  background: var(--accent);
+  margin: 1.2rem 0 1.6rem;
+}
+
+.meta {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+.lead {
+  font-size: 1.35rem;
+  color: var(--fg-dim);
+}
+
+.dim {
+  color: var(--fg-dim);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.plain-list li {
+  padding: 0.5rem 0 0.5rem 1.1em;
+  line-height: 1.6;
+}
+
+.logo-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+}
+
+.fineprint {
+  font-size: 0.68rem;
+  color: var(--fg-dim);
+  opacity: 0.75;
+}
+
+/* footer bar injected via global-bottom.vue */
+.deck-footer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--fg-dim);
+  z-index: 100;
+}
