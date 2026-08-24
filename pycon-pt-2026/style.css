@@ -1,26 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&display=swap');
-
 :root {
-  --bg: #f7f4ee;
-  --fg: #1c1a17;
-  --fg-dim: #6f6a5d;
-  --rule: rgba(28, 26, 23, 0.14);
-  --accent: #a8621a;
-  --accent-soft: rgba(168, 98, 26, 0.16);
+  --bg: #0d1117;
+  --fg: #e6e8eb;
+  --fg-dim: #8b93a1;
+  --rule: rgba(230, 232, 235, 0.16);
+  --accent: #e8b339;
+  --accent-soft: rgba(232, 179, 57, 0.14);
 
   --slidev-theme-primary: var(--accent);
   --slidev-code-font-size: 18px;
   --slidev-code-line-height: 28px;
   --slidev-code-padding: 18px 22px;
   --slidev-code-radius: 6px;
-  --slidev-code-background: #efece2;
-  --slidev-code-foreground: #1c1a17;
-}
-
-/* keep the code block light regardless of colorSchema */
-html.dark {
-  --slidev-code-background: #efece2;
-  --slidev-code-foreground: #1c1a17;
+  --slidev-code-background: #161b22;
+  --slidev-code-foreground: #e6e8eb;
 }
 
 /* ---- base ---- */
@@ -34,12 +26,22 @@ html.dark {
 .slidev-layout h1,
 .slidev-layout h2,
 .slidev-layout h3 {
-  font-family: 'Fraunces', ui-serif, Georgia, serif;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--fg);
 }
 
-.slidev-layout h1 { font-size: 3.4rem; line-height: 1.05; }
+.slidev-layout h1 { font-size: 2.5rem; line-height: 1.15; }
+
+/* theme-default's cover layout forces h1 to text-6xl at a higher specificity */
+.slidev-layout.cover h1 { font-size: 3.1rem; line-height: 1.15; }
+
+.slidev-layout h1::before {
+  content: '// ';
+  color: var(--accent);
+  font-weight: 400;
+}
 
 .slidev-layout h1 + p {
   opacity: 1;
@@ -76,13 +78,13 @@ html.dark {
 }
 
 .slidev-layout ul li::before {
-  content: '•';
+  content: '>';
   position: absolute;
   left: 0;
-  color: var(--fg-dim);
+  color: var(--accent);
 }
 
-/* ---- editorial system (minimal) ---- */
+/* ---- terminal system (minimal) ---- */
 
 .rule {
   width: 52px;
@@ -92,6 +94,7 @@ html.dark {
 }
 
 .meta {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;

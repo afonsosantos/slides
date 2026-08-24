@@ -24,7 +24,7 @@ fonts:
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
   <img src="/pycon-logo.svg" class="h-7 object-contain" />
   <div class="logo-sep"></div>
-  <img src="/visionsoft-logo.svg" class="h-6 object-contain" />
+  <img src="/visionsoft-white.svg" class="h-6 object-contain" />
 </div>
 
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
@@ -58,7 +58,7 @@ timing: 25s
   </div>
   <div>
     <p class="meta">Company</p>
-    <img src="/visionsoft-logo.svg" class="h-7 object-contain mt-2" />
+    <img src="/visionsoft-white.svg" class="h-7 object-contain mt-2" />
   </div>
   <div>
     <p class="meta">Based in</p>
@@ -114,7 +114,7 @@ layout: statement
 timing: 75s
 ---
 
-<img src="/pretix-logo.svg" class="h-9 mx-auto mb-6 object-contain" />
+<img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" />
 
 # Enter <span class="accent">pretix</span>
 
@@ -206,8 +206,6 @@ timing: 155s
 <li>Open-source - Apache 2.0 - <code>pip install pretix-eupago</code></li>
 </ul>
 
-<p class="meta mt-6">github.com/afonsosantos/pretix-eupago</p>
-
 <div class="rule mt-8"></div>
 
 <p class="lead">The plugin isn't the point. The point is: the gap was never the software's fault.</p>
@@ -281,7 +279,7 @@ timing: 215s
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
   <img src="/pycon-logo.svg" class="h-7 object-contain" />
   <div class="logo-sep"></div>
-  <img src="/visionsoft-logo.svg" class="h-6 object-contain" />
+  <img src="/visionsoft-white.svg" class="h-6 object-contain" />
 </div>
 
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
