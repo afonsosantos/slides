@@ -1,6 +1,6 @@
 ---
 theme: default
-title: pretix in Portugal
+title: Ticketing has a default. It's the wrong one.
 colorSchema: dark
 layout: cover
 duration: 5min
@@ -11,15 +11,13 @@ fonts:
   mono: 'JetBrains Mono'
 ---
 
-<!-- timing: 0s -->
-
 <p class="meta">Lightning Talk · PyCon Portugal 2026 · Aveiro</p>
 
-# pretix in Portugal
+# Ticketing has a default. It's the wrong one.
 
 <div class="rule"></div>
 
-<p class="lead">Real Payments, Real Invoices, Real Compliance</p>
+<p class="lead">Closed-source SaaS, by habit - not because it's better.</p>
 
 <p class="meta mt-10">Afonso Santos</p>
 
@@ -31,19 +29,21 @@ fonts:
 
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
+<!--
+Everyone in this room has used a paid, closed-source platform to buy a ticket. Nobody chose that. It's just the default. I'm here to argue it shouldn't be.
+-->
+
 ---
 layout: default
-timing: 30s
+timing: 25s
 ---
-
-<!-- timing: 30s -->
 
 # Who am I?
 
 <div class="grid gap-12 mt-6" style="grid-template-columns: 3fr 2fr">
 
 <ul class="plain-list text-lg">
-<li>Went looking for an <strong>open-source</strong> ticketing platform for a conference next year — nothing fit Portugal</li>
+<li>Went looking for an <strong>open-source</strong> ticketing platform for a conference next year - nothing fit Portugal, so I got annoyed enough to fix it</li>
 <li>Author of <strong>pretix-eupago</strong>, an open-source payment plugin for the Portuguese market</li>
 </ul>
 
@@ -69,69 +69,69 @@ timing: 30s
 </div>
 
 <!--
-I was hunting for an open-source ticketing platform for a conference we're running next year. There's plenty of closed-source SaaS options out there, but none of them fit what Portugal actually needs — no Multibanco, no proper invoicing. That's what this talk is about.
+I was hunting for an open-source ticketing platform for a conference I'm helping to organize next year. That search is where this talk comes from.
+-->
+
+---
+layout: default
+timing: 50s
+---
+
+# Renting, by default
+
+<div class="grid grid-cols-2 gap-10 mt-8">
+
+<div>
+  <p class="meta">What most events run on</p>
+  <ul class="plain-list mt-2">
+    <li>Closed-source SaaS</li>
+    <li>Pay per ticket, forever</li>
+    <li>Your data, their servers</li>
+  </ul>
+</div>
+
+<div>
+  <p class="meta accent">What you never get</p>
+  <ul class="plain-list mt-2">
+    <li>Self-hosting</li>
+    <li>Code you can even read, let alone extend</li>
+    <li>A plugin ecosystem you control</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">Open-source alternatives have been sitting there the whole time.</p>
+
+<!--
+Most events default to a commercial platform - fees per ticket, closed source, your data on someone else's infrastructure. Open-source alternatives have existed for years. pretix is one of them, and one of the best.
 -->
 
 ---
 layout: statement
-timing: 30s
+timing: 75s
 ---
-
-<!-- timing: 30s -->
 
 <img src="/pretix-logo.svg" class="h-9 mx-auto mb-6 object-contain" />
 
 # Enter <span class="accent">pretix</span>
 
-<p class="lead mt-2">Open-source, self-hostable ticketing</p>
+<p class="lead mt-2">As good. Often better. And free.</p>
 
 <p class="meta mt-6">Django + Python · Plugin-driven · Self-hostable · Used across Europe</p>
 
 <!--
-pretix is everything you'd want if you're in this room — open-source, Django-based, and designed to be extended. And that plugin system is the key.
+pretix matches, and in places beats, what commercial platforms offer - fully open source, Django-based, and built to be extended.
 -->
 
 ---
 layout: default
-timing: 30s
+timing: 95s
 ---
 
-<!-- timing: 30s -->
-
-# It's already here
-
-<div class="grid grid-cols-2 gap-10 mt-8">
-
-<div>
-  <p class="meta">Case 01</p>
-  <h3 class="mt-2">PyCon Portugal 2026</h3>
-  <p class="mt-2 text-lg dim">You're literally sitting in the room right now.</p>
-</div>
-
-<div>
-  <p class="meta">Case 02</p>
-  <h3 class="mt-2">SPMC</h3>
-  <p class="mt-2 text-lg dim">A Portuguese professional association, adopting pretix for their events, starting this year.</p>
-</div>
-
-</div>
-
-<div class="rule mt-10"></div>
-
-<p class="lead">Two very different organizations. One stack.</p>
-
-<!--
-This isn't a proof of concept. PyCon PT runs on pretix today. And SPMC — a Portuguese professional association — will be using it starting this year. The ecosystem is starting to grow here.
--->
-
----
-layout: default
-timing: 45s
----
-
-<!-- timing: 45s -->
-
-# What pretix is missing
+# What's missing
 
 <div class="grid grid-cols-2 gap-10 mt-8">
 
@@ -156,52 +156,73 @@ timing: 45s
 
 <div class="rule mt-8"></div>
 
-<p class="lead">euPago fills that gap: a PT-native payment gateway. Someone just had to build the bridge.</p>
+<p class="lead">A great product, missing a Portuguese accent.</p>
 
 <!--
-Portugal has specific payment habits and legal requirements pretix doesn't cover out of the box — no Multibanco, no MB WAY. euPago is one of the gateways that gives you both. So I built the bridge.
+Portugal has specific payment habits and legal requirements pretix doesn't cover out of the box. That gap - not product quality - is why adoption stopped.
 -->
 
 ---
-layout: two-cols
-timing: 60s
+layout: default
+timing: 130s
 ---
 
-<!-- timing: 60s -->
+# Already working
 
-# pretix-eupago
+<div class="grid grid-cols-2 gap-10 mt-8">
+
+<div>
+  <p class="meta">Case 01</p>
+  <h3 class="mt-2">PyCon Portugal</h3>
+  <p class="mt-2 text-lg dim">You're literally sitting in the room right now.</p>
+</div>
+
+<div>
+  <p class="meta">Case 02</p>
+  <h3 class="mt-2">SPMC</h3>
+  <p class="mt-2 text-lg dim">A Portuguese professional association, adopting pretix for their events, starting this year.</p>
+</div>
+
+</div>
+
+<div class="rule mt-10"></div>
+
+<p class="lead">Proof the excuse doesn't hold.</p>
+
+<!--
+This isn't a proof of concept. PyCon Portugal runs on pretix today. SPMC starts this year. The gap is closeable - here's what closing it looks like.
+-->
+
+---
+layout: default
+timing: 155s
+---
+
+# I closed one gap
 
 <ul class="plain-list mt-6">
 <li>Generates Multibanco references per order, automatically</li>
 <li>Sends MB WAY push payment requests</li>
 <li>Handles async payment confirmation via webhooks</li>
-<li>Open-source - Apache 2.0</li>
+<li>Open-source - Apache 2.0 - <code>pip install pretix-eupago</code></li>
 </ul>
 
 <p class="meta mt-6">github.com/afonsosantos/pretix-eupago</p>
 
-::right::
+<div class="rule mt-8"></div>
 
-<div class="h-full flex items-center justify-center">
-
-```bash
-pip install pretix-eupago
-```
-
-</div>
+<p class="lead">The plugin isn't the point. The point is: the gap was never the software's fault.</p>
 
 <!--
-One pip install. Multibanco and MB WAY, fully integrated. The plugin handles the entire async flow — from reference generation to webhook confirmation. And it's open source.
+I built pretix-eupago to close the payments gap - Multibanco, MB WAY, all through webhooks, open source. But the plugin isn't the story. The story is that these gaps are just... solvable.
 -->
 
 ---
 layout: default
-timing: 30s
+timing: 190s
 ---
 
-<!-- timing: 30s -->
-
-# What's still missing
+# One gap left
 
 <div class="grid grid-cols-2 gap-10 mt-8">
 
@@ -216,8 +237,7 @@ timing: 30s
 <div>
   <p class="meta accent">Still open</p>
   <ul class="plain-list mt-2">
-    <li>ATCUD + AT communication</li>
-    <li>A Portuguese invoicing plugin for pretix</li>
+    <li>A Portuguese invoicing plugin - ATCUD, AT communication</li>
   </ul>
 </div>
 
@@ -225,26 +245,24 @@ timing: 30s
 
 <div class="rule mt-8"></div>
 
-<p class="lead">This is an open problem. Come find me after.</p>
+<p class="lead">If commercial SaaS still wins by default, that's on us - not on the software.</p>
 
 <!--
-Payments are solved. Fiscal compliance is still open — ATCUD, AT communication. If you've dealt with this before, come find me after.
+Payments are solved. Fiscal compliance is still open. If you've dealt with pretix and want to help, come find me after.
 -->
 
 ---
 layout: cover
-timing: 15s
+timing: 215s
 ---
-
-<!-- timing: 15s -->
 
 <p class="meta">Thanks for Listening</p>
 
-# Let's talk
+# Change the default
 
 <div class="rule"></div>
 
-<p class="lead">Let's make pretix work for Portugal.</p>
+<p class="lead">One event at a time.</p>
 
 <div class="flex gap-12 mt-10">
   <div>
@@ -270,7 +288,5 @@ timing: 15s
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
 <!--
-The plugin is on PyPI, the code is on GitHub, and I'm around all conference. Let's make pretix actually work for Portugal.
+The default doesn't change because a plugin exists. It changes because someone picks it instead. The plugin's on PyPI, the code's on GitHub, and I'm around all conference if you want to discuss it.
 -->
-
-<!-- Total: ~4:15 -->

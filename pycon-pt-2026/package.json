@@ -1,14 +1,13 @@
 {
   "name": "pycon-pt-2026-pretix-talk",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "slidev slides.md",
-    "build": "slidev build slides.md",
-    "export": "slidev export slides.md"
-  },
   "dependencies": {
     "@slidev/cli": "^52.19.1",
     "@slidev/theme-default": "latest"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "dev": "slidev slides.md",
+    "build": "slidev build slides.md"
+  },
+  "type": "module"
 }
