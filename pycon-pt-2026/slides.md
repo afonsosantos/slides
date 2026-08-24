@@ -30,7 +30,7 @@ fonts:
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
 <!--
-Everyone in this room has used a paid, closed-source platform to buy a ticket. Nobody chose that. It's just the default. I'm here to argue it shouldn't be.
+Everyone here has used a paid, closed platform to buy a ticket. Nobody chose it. It's just the default. Today I want to explain why it should not be.
 -->
 
 ---
@@ -69,7 +69,7 @@ timing: 25s
 </div>
 
 <!--
-I was hunting for an open-source ticketing platform for a conference I'm helping to organize next year. That search is where this talk comes from.
+I was looking for an open-source ticketing tool for a conference next year. Nothing fit Portugal well. That search is where this talk comes from.
 -->
 
 ---
@@ -106,7 +106,7 @@ timing: 50s
 <p class="lead">Open-source alternatives have been sitting there the whole time.</p>
 
 <!--
-Most events default to a commercial platform - fees per ticket, closed source, your data on someone else's infrastructure. Open-source alternatives have existed for years. pretix is one of them, and one of the best.
+Most events use a paid, closed platform. You pay per ticket, forever. Your data stays on their servers. But open-source options exist too. pretix is one of the best.
 -->
 
 ---
@@ -123,7 +123,7 @@ timing: 75s
 <p class="meta mt-6">Django + Python · Plugin-driven · Self-hostable · Used across Europe</p>
 
 <!--
-pretix matches, and in places beats, what commercial platforms offer - fully open source, Django-based, and built to be extended.
+pretix is as good as the paid platforms. In some ways, it is better. It is open source, built with Django, and easy to extend.
 -->
 
 ---
@@ -138,8 +138,7 @@ timing: 95s
 <div>
   <p class="meta">Portugal expects</p>
   <ul class="plain-list mt-2">
-    <li>Multibanco references</li>
-    <li>MB WAY</li>
+    <li>Multibanco references and MB WAY</li>
     <li>Fiscally valid invoices - ATCUD, AT communication</li>
   </ul>
 </div>
@@ -159,7 +158,7 @@ timing: 95s
 <p class="lead">A great product, missing a Portuguese accent.</p>
 
 <!--
-Portugal has specific payment habits and legal requirements pretix doesn't cover out of the box. That gap - not product quality - is why adoption stopped.
+Portugal needs a few specific things: Multibanco, MB WAY, and legal invoices. pretix does not have these yet. That is the real gap - not the quality of the product.
 -->
 
 ---
@@ -190,7 +189,7 @@ timing: 130s
 <p class="lead">Proof the excuse doesn't hold.</p>
 
 <!--
-This isn't a proof of concept. PyCon Portugal runs on pretix today. SPMC starts this year. The gap is closeable - here's what closing it looks like.
+This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts this year. So we know the gap can be closed. Here is how.
 -->
 
 ---
@@ -214,7 +213,7 @@ timing: 155s
 <p class="lead">The plugin isn't the point. The point is: the gap was never the software's fault.</p>
 
 <!--
-I built pretix-eupago to close the payments gap - Multibanco, MB WAY, all through webhooks, open source. But the plugin isn't the story. The story is that these gaps are just... solvable.
+I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. It is open source. But the plugin is not the real point. The real point: these gaps can be solved.
 -->
 
 ---
@@ -248,7 +247,7 @@ timing: 190s
 <p class="lead">If commercial SaaS still wins by default, that's on us - not on the software.</p>
 
 <!--
-Payments are solved. Fiscal compliance is still open. If you've dealt with pretix and want to help, come find me after.
+Payments are solved now. Invoices are still missing. If you know pretix and want to help, please talk to me after this.
 -->
 
 ---
@@ -288,5 +287,5 @@ timing: 215s
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
 <!--
-The default doesn't change because a plugin exists. It changes because someone picks it instead. The plugin's on PyPI, the code's on GitHub, and I'm around all conference if you want to discuss it.
+A plugin alone does not change the default. People need to choose it. The plugin is on PyPI, the code is on GitHub. Find me during the conference if you want to talk.
 -->
