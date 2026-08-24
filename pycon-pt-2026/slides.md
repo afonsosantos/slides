@@ -5,6 +5,8 @@ colorSchema: dark
 layout: cover
 duration: 5min
 timer: countdown
+addons:
+  - slidev-addon-second-screen
 fonts:
   sans: 'Inter'
   serif: 'Fraunces'

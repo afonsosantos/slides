@@ -126,6 +126,9 @@
 }
 
 .fineprint {
+  display: flex;
+  align-items: center;
+  height: 28px;
   font-size: 0.68rem;
   color: var(--fg-dim);
   opacity: 0.75;

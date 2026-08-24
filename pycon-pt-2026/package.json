@@ -2,12 +2,13 @@
   "name": "pycon-pt-2026-pretix-talk",
   "dependencies": {
     "@slidev/cli": "^52.19.1",
-    "@slidev/theme-default": "latest"
+    "@slidev/theme-default": "latest",
+    "slidev-addon-second-screen": "^1.0.2"
   },
   "private": true,
   "scripts": {
     "dev": "slidev slides.md",
-    "build": "slidev build slides.md"
+    "build": "slidev build slides.md --without-notes"
   },
   "type": "module"
 }
