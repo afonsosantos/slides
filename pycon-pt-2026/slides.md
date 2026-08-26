@@ -79,7 +79,7 @@ layout: default
 timing: 50s
 ---
 
-# Renting, by default
+# The habit
 
 <div class="grid grid-cols-2 gap-10 mt-8">
 
