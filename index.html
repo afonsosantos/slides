@@ -5,13 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Afonso Santos | Presentations</title>
   <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1a;
+      --card-bg: #fff;
+      --card-border: #e0e0e0;
+      --card-border-hover: #999;
+      --desc: #666;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --fg: #eaeaea;
+        --card-bg: #1c1c1c;
+        --card-border: #333;
+        --card-border-hover: #666;
+        --desc: #999;
+      }
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       max-width: 640px;
       margin: 4rem auto;
       padding: 0 1.5rem;
-      color: #1a1a1a;
-      background: #fafafa;
+      color: var(--fg);
+      background: var(--bg);
     }
     h1 {
       font-size: 1.5rem;
@@ -28,14 +46,14 @@
       display: block;
       padding: 1rem 1.25rem;
       border-radius: 8px;
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      color: #1a1a1a;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--fg);
       text-decoration: none;
       transition: border-color 0.15s ease;
     }
     a:hover {
-      border-color: #999;
+      border-color: var(--card-border-hover);
     }
     .title {
       font-weight: 600;
@@ -43,7 +61,7 @@
     .desc {
       display: block;
       font-size: 0.85rem;
-      color: #666;
+      color: var(--desc);
       margin-top: 0.2rem;
     }
   </style>
