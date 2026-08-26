@@ -24,9 +24,9 @@ fonts:
 <p class="meta mt-10">Afonso Santos</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/pycon-logo.svg" class="h-7 object-contain" />
+  <img src="/pycon-logo.svg" class="h-7 object-contain" alt="PyCon Portugal 2026" />
   <div class="logo-sep"></div>
-  <img src="/visionsoft-white.svg" class="h-6 object-contain" />
+  <img src="/visionsoft-white.svg" class="h-6 object-contain" alt="Visionsoft" />
 </div>
 
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
@@ -60,7 +60,7 @@ timing: 25s
   </div>
   <div>
     <p class="meta">Company</p>
-    <img src="/visionsoft-white.svg" class="h-7 object-contain mt-2" />
+    <img src="/visionsoft-white.svg" class="h-7 object-contain mt-2" alt="Visionsoft" />
   </div>
   <div>
     <p class="meta">Based in</p>
@@ -113,10 +113,23 @@ Most events use a paid, closed platform. You pay per ticket, forever. Your data 
 
 ---
 layout: statement
-timing: 75s
+timing: 65s
 ---
 
-<img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" />
+<p class="giant-word">RENTING.</p>
+
+<p class="lead mt-4">by default.</p>
+
+<!--
+Renting. By default. That is the habit we need to break.
+-->
+
+---
+layout: statement
+timing: 85s
+---
+
+<img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" alt="PyCon Portugal 2026" />
 
 # Enter <span class="accent">pretix</span>
 
@@ -130,7 +143,7 @@ pretix is as good as the paid platforms. In some ways, it is better. It is open 
 
 ---
 layout: default
-timing: 95s
+timing: 105s
 ---
 
 # What's missing
@@ -165,7 +178,7 @@ Portugal needs a few specific things: Multibanco, MB WAY, and legal invoices. pr
 
 ---
 layout: default
-timing: 130s
+timing: 140s
 ---
 
 # Already working
@@ -195,8 +208,21 @@ This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts thi
 -->
 
 ---
+layout: statement
+timing: 150s
+---
+
+<p class="giant-word">PROOF.</p>
+
+<p class="lead mt-4">the excuse doesn't hold.</p>
+
+<!--
+Proof. The excuse does not hold.
+-->
+
+---
 layout: default
-timing: 155s
+timing: 175s
 ---
 
 # I closed one gap
@@ -218,7 +244,7 @@ I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. I
 
 ---
 layout: default
-timing: 190s
+timing: 210s
 ---
 
 # One gap left
@@ -251,8 +277,21 @@ Payments are solved now. Invoices are still missing. If you know pretix and want
 -->
 
 ---
+layout: statement
+timing: 230s
+---
+
+<p class="giant-word">ON US.</p>
+
+<p class="lead mt-4">not on the software.</p>
+
+<!--
+On us. Not on the software.
+-->
+
+---
 layout: cover
-timing: 215s
+timing: 245s
 ---
 
 <p class="meta">Thanks for Listening</p>
@@ -279,9 +318,9 @@ timing: 215s
 </div>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/pycon-logo.svg" class="h-7 object-contain" />
+  <img src="/pycon-logo.svg" class="h-7 object-contain" alt="PyCon Portugal 2026" />
   <div class="logo-sep"></div>
-  <img src="/visionsoft-white.svg" class="h-6 object-contain" />
+  <img src="/visionsoft-white.svg" class="h-6 object-contain" alt="Visionsoft" />
 </div>
 
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
@@ -289,3 +328,4 @@ timing: 215s
 <!--
 A plugin alone does not change the default. People need to choose it. The plugin is on PyPI, the code is on GitHub. Find me during the conference if you want to talk.
 -->
+

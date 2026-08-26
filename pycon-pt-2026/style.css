@@ -134,6 +134,17 @@
   opacity: 0.75;
 }
 
+/* ---- big-type punch slide ---- */
+
+.giant-word {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 7rem;
+  line-height: 1 !important;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
 /* footer bar injected via global-bottom.vue */
 .deck-footer {
   font-family: 'JetBrains Mono', monospace;
