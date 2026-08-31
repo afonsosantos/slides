@@ -37,46 +37,7 @@ Everyone here has used a paid, closed platform to buy a ticket. Nobody chose it.
 
 ---
 layout: default
-timing: 25s
----
-
-# Who am I?
-
-<div class="grid gap-12 mt-6" style="grid-template-columns: 3fr 2fr">
-
-<ul class="plain-list text-lg">
-<li>Went looking for an <strong>open-source</strong> ticketing platform for a conference next year - nothing fit Portugal, so I got annoyed enough to fix it</li>
-<li>Author of <strong>pretix-eupago</strong>, an open-source payment plugin for the Portuguese market</li>
-</ul>
-
-<div class="flex flex-col gap-4 pl-10" style="border-left: 1px solid var(--rule)">
-  <div>
-    <p class="meta">Name</p>
-    <p class="mt-1 text-lg">Afonso Santos</p>
-  </div>
-  <div>
-    <p class="meta">Role</p>
-    <p class="mt-1 text-lg">Full Stack Developer</p>
-  </div>
-  <div>
-    <p class="meta">Company</p>
-    <img src="/visionsoft-white.svg" class="h-7 object-contain mt-2" alt="Visionsoft" />
-  </div>
-  <div>
-    <p class="meta">Based in</p>
-    <p class="mt-1 text-lg">Leiria, Portugal</p>
-  </div>
-</div>
-
-</div>
-
-<!--
-I was looking for an open-source ticketing tool for a conference next year. Nothing fit Portugal well. That search is where this talk comes from.
--->
-
----
-layout: default
-timing: 50s
+timing: 30s
 ---
 
 # The habit
@@ -113,7 +74,7 @@ Most events use a paid, closed platform. You pay per ticket, forever. Your data 
 
 ---
 layout: statement
-timing: 65s
+timing: 50s
 ---
 
 <p class="giant-word">RENTING.</p>
@@ -126,7 +87,7 @@ Renting. By default. That is the habit we need to break.
 
 ---
 layout: statement
-timing: 85s
+timing: 70s
 ---
 
 <img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" alt="PyCon Portugal 2026" />
@@ -143,10 +104,12 @@ pretix is as good as the paid platforms. In some ways, it is better. It is open 
 
 ---
 layout: default
-timing: 105s
+timing: 100s
 ---
 
-# What's missing
+# I hit a wall
+
+<p class="text-lg dim mt-4">I was looking for open-source ticketing for a conference of my own. pretix was the best fit - almost.</p>
 
 <div class="grid grid-cols-2 gap-10 mt-8">
 
@@ -173,12 +136,34 @@ timing: 105s
 <p class="lead">A great product, missing a Portuguese accent.</p>
 
 <!--
-Portugal needs a few specific things: Multibanco, MB WAY, and legal invoices. pretix does not have these yet. That is the real gap - not the quality of the product.
+I went looking for open-source ticketing for a conference of my own. pretix was the best fit I found. But it is missing two things Portugal needs: local payments and legal invoices.
 -->
 
 ---
 layout: default
-timing: 140s
+timing: 135s
+---
+
+# I closed one gap
+
+<ul class="plain-list mt-6">
+<li>Generates Multibanco references per order, automatically</li>
+<li>Sends MB WAY push payment requests</li>
+<li>Handles async payment confirmation via webhooks</li>
+<li>Open-source - Apache 2.0 - <code>pip install pretix-eupago</code></li>
+</ul>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">The plugin isn't the point. The gap was never the software's fault.</p>
+
+<!--
+So I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. It is open source. But the plugin is not the real point. The real point: this gap can be closed.
+-->
+
+---
+layout: default
+timing: 165s
 ---
 
 # Already working
@@ -201,50 +186,15 @@ timing: 140s
 
 <div class="rule mt-10"></div>
 
-<p class="lead">Proof the gap doesn't stop pretix.</p>
+<p class="lead">Proof: the gap doesn't stop it.</p>
 
 <!--
-This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts this year. So we know the gap can be closed. Here is how.
--->
-
----
-layout: statement
-timing: 150s
----
-
-<p class="giant-word">PROOF.</p>
-
-<p class="lead mt-4">the gap doesn't stop it.</p>
-
-<!--
-Proof. The gap doesn't stop it.
+This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts this year. Real events, running today, gap and all.
 -->
 
 ---
 layout: default
-timing: 175s
----
-
-# I closed one gap
-
-<ul class="plain-list mt-6">
-<li>Generates Multibanco references per order, automatically</li>
-<li>Sends MB WAY push payment requests</li>
-<li>Handles async payment confirmation via webhooks</li>
-<li>Open-source - Apache 2.0 - <code>pip install pretix-eupago</code></li>
-</ul>
-
-<div class="rule mt-8"></div>
-
-<p class="lead">The plugin isn't the point. The point is: the gap was never the software's fault.</p>
-
-<!--
-I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. It is open source. But the plugin is not the real point. The real point: these gaps can be solved.
--->
-
----
-layout: default
-timing: 210s
+timing: 195s
 ---
 
 # One gap left
@@ -278,7 +228,7 @@ Payments are solved now. Invoices are still missing. If you know pretix and want
 
 ---
 layout: statement
-timing: 230s
+timing: 215s
 ---
 
 <p class="giant-word">ON US.</p>
@@ -291,7 +241,7 @@ On us. Not on the software.
 
 ---
 layout: cover
-timing: 245s
+timing: 230s
 ---
 
 <p class="meta">Thanks for Listening</p>
@@ -320,4 +270,3 @@ timing: 245s
 <!--
 A plugin alone does not change the default. People need to choose it. The plugin is on PyPI, the code is on GitHub. Find me during the conference if you want to talk.
 -->
-
