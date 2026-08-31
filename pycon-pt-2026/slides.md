@@ -201,7 +201,7 @@ timing: 140s
 
 <div class="rule mt-10"></div>
 
-<p class="lead">Proof the excuse doesn't hold.</p>
+<p class="lead">Proof the gap doesn't stop pretix.</p>
 
 <!--
 This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts this year. So we know the gap can be closed. Here is how.
@@ -214,10 +214,10 @@ timing: 150s
 
 <p class="giant-word">PROOF.</p>
 
-<p class="lead mt-4">the excuse doesn't hold.</p>
+<p class="lead mt-4">the gap doesn't stop it.</p>
 
 <!--
-Proof. The excuse does not hold.
+Proof. The gap doesn't stop it.
 -->
 
 ---
@@ -316,14 +316,6 @@ timing: 245s
     <p class="mt-1">afonso@afonsosantos.me</p>
   </div>
 </div>
-
-<div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/pycon-logo.svg" class="h-7 object-contain" alt="PyCon Portugal 2026" />
-  <div class="logo-sep"></div>
-  <img src="/visionsoft-white.svg" class="h-6 object-contain" alt="Visionsoft" />
-</div>
-
-<p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
 <!--
 A plugin alone does not change the default. People need to choose it. The plugin is on PyPI, the code is on GitHub. Find me during the conference if you want to talk.
