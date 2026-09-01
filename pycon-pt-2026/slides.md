@@ -5,6 +5,7 @@ colorSchema: dark
 layout: cover
 duration: 5min
 timer: countdown
+routerMode: hash
 addons:
   - slidev-addon-second-screen
 fonts:

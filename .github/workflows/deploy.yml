@@ -34,8 +34,7 @@ jobs:
 
             echo "Building $dir"
             (cd "$dir" && bun install && bun run build -- \
-              --base "/slides/$dir/" \
-              --router-mode hash)
+              --base "/slides/$dir/")
 
             mkdir -p "site/$dir"
             cp -r "$dir/dist/." "site/$dir/"
