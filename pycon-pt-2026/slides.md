@@ -37,7 +37,37 @@ Everyone here has used a paid, closed platform to buy a ticket. Nobody chose it.
 
 ---
 layout: default
-timing: 30s
+timing: 15s
+---
+
+# Who am I
+
+<div class="grid grid-cols-3 gap-10 mt-20">
+  <div>
+    <p class="meta">Role</p>
+    <p class="mt-3 text-2xl">Full Stack Developer</p>
+  </div>
+  <div>
+    <p class="meta">Company</p>
+    <img src="/visionsoft-white.svg" class="h-11 object-contain mt-4" alt="Visionsoft" />
+  </div>
+  <div>
+    <p class="meta">Based in</p>
+    <p class="mt-3 text-2xl">Leiria, Portugal</p>
+  </div>
+</div>
+
+<div class="rule mt-16"></div>
+
+<p class="lead">Author of <strong>pretix-eupago</strong>.</p>
+
+<!--
+I'm a full stack developer at Visionsoft, based in Leiria. I'm also the author of pretix-eupago.
+-->
+
+---
+layout: default
+timing: 45s
 ---
 
 # The habit
@@ -74,7 +104,7 @@ Most events use a paid, closed platform. You pay per ticket, forever. Your data 
 
 ---
 layout: statement
-timing: 50s
+timing: 65s
 ---
 
 <p class="giant-word">RENTING.</p>
@@ -87,7 +117,7 @@ Renting. By default. That is the habit we need to break.
 
 ---
 layout: statement
-timing: 70s
+timing: 85s
 ---
 
 <img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" alt="PyCon Portugal 2026" />
@@ -104,7 +134,7 @@ pretix is as good as the paid platforms. In some ways, it is better. It is open 
 
 ---
 layout: default
-timing: 100s
+timing: 115s
 ---
 
 # I hit a wall
@@ -141,7 +171,7 @@ I went looking for open-source ticketing for a conference of my own. pretix was 
 
 ---
 layout: default
-timing: 135s
+timing: 150s
 ---
 
 # I closed one gap
@@ -163,7 +193,7 @@ So I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments
 
 ---
 layout: default
-timing: 165s
+timing: 180s
 ---
 
 # Already working
@@ -173,7 +203,7 @@ timing: 165s
 <div>
   <p class="meta">Case 01</p>
   <h3 class="mt-2">PyCon Portugal</h3>
-  <p class="mt-2 text-lg dim">You're literally sitting in the room right now.</p>
+  <p class="mt-2 text-lg dim">The event you're at right now runs on it.</p>
 </div>
 
 <div>
@@ -194,7 +224,7 @@ This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts thi
 
 ---
 layout: default
-timing: 195s
+timing: 210s
 ---
 
 # One gap left
@@ -227,21 +257,8 @@ Payments are solved now. Invoices are still missing. If you know pretix and want
 -->
 
 ---
-layout: statement
-timing: 215s
----
-
-<p class="giant-word">ON US.</p>
-
-<p class="lead mt-4">not on the software.</p>
-
-<!--
-On us. Not on the software.
--->
-
----
 layout: cover
-timing: 230s
+timing: 245s
 ---
 
 <p class="meta">Thanks for Listening</p>
