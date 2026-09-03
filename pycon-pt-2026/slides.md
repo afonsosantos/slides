@@ -39,6 +39,7 @@ Everyone here has used a paid, closed platform to buy a ticket. <br>Nobody chose
 ---
 layout: default
 timing: 15s
+disabled: true
 ---
 
 # Who am I
