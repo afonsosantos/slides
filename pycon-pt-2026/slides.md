@@ -3,8 +3,8 @@ theme: default
 title: Ticketing has a default. It's the wrong one.
 colorSchema: dark
 layout: cover
-duration: 5min
 timer: countdown
+duration: 5min
 routerMode: hash
 addons:
   - slidev-addon-second-screen
@@ -25,7 +25,7 @@ fonts:
 <p class="meta mt-10">Afonso Santos</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/pycon-logo.svg" class="h-7 object-contain" alt="PyCon Portugal 2026" />
+  <img src="/pycon-logo.svg" class="h-12 object-contain" style="" alt="PyCon Portugal 2026" />
   <div class="logo-sep"></div>
   <img src="/visionsoft-white.svg" class="h-6 object-contain" alt="Visionsoft" />
 </div>
@@ -121,7 +121,7 @@ layout: statement
 timing: 85s
 ---
 
-<img src="/pretix-white.svg" class="h-9 mx-auto mb-6 object-contain" alt="PyCon Portugal 2026" />
+<img src="/pretix-white.svg" class="h-12 mx-auto mb-6 object-contain" alt="PyCon Portugal 2026" />
 
 # Enter <span class="accent">pretix</span>
 
@@ -175,7 +175,7 @@ layout: default
 timing: 150s
 ---
 
-# I closed one gap
+# One gap closed
 
 <ul class="plain-list mt-6">
 <li>Generates Multibanco references per order, automatically</li>
@@ -199,7 +199,7 @@ timing: 180s
 
 # Already working
 
-<div class="grid grid-cols-2 gap-10 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-8">
 
 <div>
   <p class="meta">Case 01</p>
@@ -209,7 +209,7 @@ timing: 180s
 
 <div>
   <p class="meta">Case 02</p>
-  <h3 class="mt-2">SPMC</h3>
+  <h3 class="mt-2">Portuguese Society of Chinese Medicine (SPMC)</h3>
   <p class="mt-2 text-lg dim">A Portuguese professional association, adopting pretix for their events, starting this year.</p>
 </div>
 
@@ -286,5 +286,5 @@ timing: 245s
 </div>
 
 <!--
-A plugin alone does not change the default. People need to choose it. The plugin is on PyPI, the code is on GitHub. Find me during the conference if you want to talk.
+A plugin alone does not change the default. People need to choose it. The plugin is on PyPI (_py-pea-eye_), the code is on GitHub. Find me during the conference if you want to talk.
 -->
