@@ -33,7 +33,7 @@ fonts:
 <p class="fineprint absolute bottom-10 right-14">Not affiliated with or endorsed by pretix GmbH or euPago.</p>
 
 <!--
-Everyone here has used a paid, closed platform to buy a ticket. Nobody chose it. It's just the default. Today I want to explain why it should not be.
+Everyone here has used a paid, closed platform to buy a ticket. <br>Nobody chose it. <br>It's just the default. <br>Today I want to explain why it should not be.
 -->
 
 ---
@@ -100,7 +100,7 @@ timing: 45s
 <p class="lead">Open-source alternatives have been sitting there the whole time.</p>
 
 <!--
-Most events use a paid, closed platform. You pay per ticket, forever. Your data stays on their servers. But open-source options exist too. pretix is one of the best.
+Most events use a paid, closed platform. <br>It's the default. <br>You pay per ticket, forever. <br>Your data stays on their servers. <br>But open-source options exist too. <br>pretix is one of the best.
 -->
 
 ---
@@ -113,7 +113,7 @@ timing: 65s
 <p class="lead mt-4">by default.</p>
 
 <!--
-Renting. By default. That is the habit we need to break.
+Renting. <br>By default. <br>That is the habit we need to break.
 -->
 
 ---
@@ -130,7 +130,7 @@ timing: 85s
 <p class="meta mt-6">Django + Python · Plugin-driven · Self-hostable · Used across Europe</p>
 
 <!--
-pretix is as good as the paid platforms. In some ways, it is better. It is open source, built with Django, and easy to extend.
+pretix is as good as the paid platforms. <br>In some ways, it is better. <br>It is open source, built with Django, and easy to extend.
 -->
 
 ---
@@ -167,7 +167,7 @@ timing: 115s
 <p class="lead">A great product, missing a Portuguese accent.</p>
 
 <!--
-I went looking for open-source ticketing for a conference of my own. pretix was the best fit I found. But it is missing two things Portugal needs: local payments and legal invoices.
+I went looking for open-source ticketing for a conference of my own. <br>pretix was the best fit I found. <br>But it is missing two things Portugal needs: local payments and legal invoices.
 -->
 
 ---
@@ -189,7 +189,7 @@ timing: 150s
 <p class="lead">The plugin isn't the point. The gap was never the software's fault.</p>
 
 <!--
-So I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. It is open source. But the plugin is not the real point. The real point: this gap can be closed.
+So I built a plugin called pretix-eupago. It adds Multibanco and MB WAY payments. <br>It's open source. <br>But the plugin is not the real point. The real point: this gap can be closed.
 -->
 
 ---
@@ -220,7 +220,7 @@ timing: 180s
 <p class="lead">Proof: the gap doesn't stop it.</p>
 
 <!--
-This is not just an idea. PyCon Portugal already runs on pretix. SPMC starts this year. Real events, running today, gap and all.
+This is not just an idea. <br>PyCon Portugal already runs on pretix. <br>SPMC starts this year. <br>Real events, running today, gap and all.
 -->
 
 ---
@@ -254,7 +254,7 @@ timing: 210s
 <p class="lead">If commercial SaaS still wins by default, that's on us - not on the software.</p>
 
 <!--
-Payments are solved now. Invoices are still missing. If you know pretix and want to help, please talk to me after this.
+Payments are solved now. <br>Invoices are still missing. <br>If you know pretix and want to help, please talk to me after this.
 -->
 
 ---
@@ -286,5 +286,5 @@ timing: 245s
 </div>
 
 <!--
-A plugin alone does not change the default. People need to choose it. The plugin is on PyPI (_py-pea-eye_), the code is on GitHub. Find me during the conference if you want to talk.
+A plugin alone does not change the default. People need to choose it. <br>The plugin is on PyPI, the code is on GitHub. <br>Find me during the conference if you want to talk.
 -->
