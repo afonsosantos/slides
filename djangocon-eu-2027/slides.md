@@ -462,22 +462,26 @@ timing: 730s
 
 <p class="lead mt-4">countries, four different defaults.</p>
 
-<div class="grid grid-cols-4 gap-8 mt-12">
+<div class="grid grid-cols-4 gap-8 mt-10">
   <div>
-    <p class="meta">Portugal</p>
-    <p class="mt-3 text-2xl">Multibanco</p>
+    <p class="flag">🇵🇹</p>
+    <p class="meta mt-2">Portugal</p>
+    <p class="mt-2 text-2xl">Multibanco</p>
   </div>
   <div>
-    <p class="meta">Austria</p>
-    <p class="mt-3 text-2xl">EPS</p>
+    <p class="flag">🇦🇹</p>
+    <p class="meta mt-2">Austria</p>
+    <p class="mt-2 text-2xl">EPS</p>
   </div>
   <div>
-    <p class="meta">Netherlands</p>
-    <p class="mt-3 text-2xl">iDEAL</p>
+    <p class="flag">🇳🇱</p>
+    <p class="meta mt-2">Netherlands</p>
+    <p class="mt-2 text-2xl">iDEAL</p>
   </div>
   <div>
-    <p class="meta">Poland</p>
-    <p class="mt-3 text-2xl">BLIK</p>
+    <p class="flag">🇵🇱</p>
+    <p class="meta mt-2">Poland</p>
+    <p class="mt-2 text-2xl">BLIK</p>
   </div>
 </div>
 

@@ -262,3 +262,9 @@ html, body, #slide-content { background: var(--bg); }
 
 /* theme-default's cover wrapper stretches instead of centring under grid alignment */
 .slidev-layout.cover > div { align-self: center; }
+
+/* country marker above a payment method */
+.flag {
+  font-size: 2.1rem;
+  line-height: 1;
+}
