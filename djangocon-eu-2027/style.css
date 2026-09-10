@@ -1,0 +1,264 @@
+/* DjangoCon EU 2027 — modern, restrained: one grotesk, one accent, flat surfaces.
+   Distinct from the PyCon PT deck (dark terminal, mono headings, amber). */
+
+:root {
+  --bg: #fcfcfb;
+  --card: #f2f3f1;
+  --fg: #16181c;
+  --fg-dim: #6a7078;
+  --rule: rgba(22, 24, 28, 0.12);
+  --accent: #0f5c46;
+  --accent-2: #a8552b;
+  --accent-soft: rgba(15, 92, 70, 0.10);
+
+  --slidev-theme-primary: var(--accent);
+  --slidev-code-font-size: 15px;
+  --slidev-code-line-height: 23px;
+  --slidev-code-padding: 18px 22px;
+  --slidev-code-radius: 8px;
+  --slidev-code-background: var(--card);
+  --slidev-code-foreground: var(--fg);
+}
+
+html, body, #slide-content { background: var(--bg); }
+
+/* ---- base ---- */
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+.slidev-layout h1 { font-size: 2.7rem; line-height: 1.1; }
+.slidev-layout.cover h1 { font-size: 3.3rem; line-height: 1.06; }
+
+.slidev-layout h1 + p {
+  opacity: 1;
+  margin-top: 0.9rem;
+}
+
+.slidev-layout strong {
+  color: var(--fg);
+  font-weight: 600;
+  box-shadow: inset 0 -0.36em 0 var(--accent-soft);
+}
+
+.slidev-layout a {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.slidev-layout code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.slidev-layout pre {
+  border: 1px solid var(--rule);
+}
+
+.slidev-layout ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* hanging indent + an inline marker, so the bullet sits on the text baseline
+   instead of at a hand-tuned offset */
+.slidev-layout ul li {
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+
+.slidev-layout ul li::before {
+  content: '\2022';
+  display: inline-block;
+  width: 1.4em;
+  text-indent: 0;
+  color: var(--accent);
+}
+
+/* the logo files ship as white fills; flip them for the light deck */
+.logo-invert { filter: invert(1); }
+
+/* QR codes: fixed square, white quiet zone so they scan off a projector */
+.qr {
+  width: 116px;
+  height: 116px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+/* ---- system ---- */
+
+.rule {
+  width: 56px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  margin: 1.2rem 0 1.6rem;
+}
+
+/* quiet label chip */
+.meta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: rgba(22, 24, 28, 0.05);
+  border-radius: 4px;
+  padding: 0.3em 0.7em;
+}
+
+.lead {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--fg-dim);
+}
+
+.dim { color: var(--fg-dim); }
+.accent { color: var(--accent-2); }
+
+.plain-list li {
+  padding: 0.5rem 0 0.5rem 1.4em;
+  line-height: 1.6;
+}
+
+.logo-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+}
+
+.fineprint {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  font-size: 0.68rem;
+  color: var(--fg-dim);
+  opacity: 0.8;
+}
+
+/* ---- big-type punch slide ---- */
+
+.giant-word {
+  font-weight: 700;
+  font-size: 6.4rem;
+  line-height: 1 !important;
+  letter-spacing: -0.045em;
+  color: var(--fg);
+}
+
+/* footer bar injected via global-bottom.vue */
+.deck-footer {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fg-dim);
+  z-index: 100;
+}
+
+.deck-footer.on-section { color: rgba(255, 255, 255, 0.7); }
+
+/* ---- layout tweaks ---- */
+
+.slidev-layout.fact,
+.slidev-layout.quote,
+.slidev-layout.center,
+.slidev-layout.statement {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* section dividers: full-bleed accent block */
+.slidev-layout.section {
+  background: var(--accent);
+  color: #fff;
+}
+.slidev-layout.section h1 { color: #fff; }
+.slidev-layout.section .meta { color: #fff; background: rgba(255, 255, 255, 0.16); }
+.slidev-layout.section .lead { color: rgba(255, 255, 255, 0.8); }
+.slidev-layout.section .rule { background: rgba(255, 255, 255, 0.55); }
+
+.slidev-layout.quote blockquote,
+.slidev-layout.quote p {
+  font-weight: 600;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+
+.slidev-layout.quote p + p {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--fg-dim);
+}
+
+.slidev-layout.fact .big-number {
+  font-weight: 700;
+  font-size: 6rem;
+  line-height: 1 !important;
+  letter-spacing: -0.045em;
+  color: var(--accent);
+}
+
+/* centred layouts: title and rule centre together */
+.slidev-layout.section,
+.slidev-layout.center,
+.slidev-layout.fact {
+  text-align: center;
+}
+
+.slidev-layout.section h1,
+.slidev-layout.center h1,
+.slidev-layout.fact h1 {
+  text-align: center;
+}
+
+.slidev-layout.section .rule,
+.slidev-layout.center .rule,
+.slidev-layout.fact .rule {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* dense code slides */
+.code-sm .slidev-code {
+  font-size: 13px !important;
+  line-height: 20px !important;
+}
+
+/* stacked label above a code block */
+.code-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 0.5rem;
+}
+
+/* two-cols puts the h1 inside the left column (its root class is still "default"),
+   so opt in per-slide with `class: tight-title` to keep titles on one line */
+.tight-title h1 {
+  font-size: 2rem;
+}
+
+/* theme-default's cover wrapper stretches instead of centring under grid alignment */
+.slidev-layout.cover > div { align-self: center; }
