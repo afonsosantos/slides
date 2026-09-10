@@ -34,7 +34,7 @@ jobs:
 
             echo "Building $dir"
             (cd "$dir" && bun install && bun run build -- \
-              --base "/slides/$dir/")
+              --base "/$dir/")
 
             mkdir -p "site/$dir"
             cp -r "$dir/dist/." "site/$dir/"
