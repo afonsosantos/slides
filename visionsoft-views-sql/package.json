@@ -1,0 +1,13 @@
+{
+  "name": "vsoft-plastics-views-sql-talk",
+  "dependencies": {
+    "@slidev/cli": "^52.19.1",
+    "@slidev/theme-default": "latest"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "slidev slides.md",
+    "build": "slidev build slides.md --without-notes"
+  },
+  "type": "module"
+}

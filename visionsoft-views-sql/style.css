@@ -1,0 +1,278 @@
+/* Views SQL Versionadas — Visionsoft, formação interna.
+   Light, restrained: one grotesk, one accent (Visionsoft blue), flat surfaces. */
+
+:root {
+  --bg: #fbfbfc;
+  --card: #f1f4f8;
+  --fg: #14181f;
+  --fg-dim: #5b6472;
+  --rule: rgba(20, 24, 31, 0.12);
+  --accent: #1f4e85;
+  --accent-2: #b45309;
+  --accent-soft: rgba(31, 78, 133, 0.1);
+
+  --slidev-theme-primary: var(--accent);
+  --slidev-code-font-size: 15px;
+  --slidev-code-line-height: 23px;
+  --slidev-code-padding: 18px 22px;
+  --slidev-code-radius: 8px;
+  --slidev-code-background: var(--card);
+  --slidev-code-foreground: var(--fg);
+}
+
+html, body, #slide-content { background: var(--bg); }
+
+/* ---- base ---- */
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.slidev-layout h1 { font-size: 2.6rem; line-height: 1.12; }
+.slidev-layout.cover h1 { font-size: 3.2rem; line-height: 1.08; }
+
+.slidev-layout h1 + p {
+  opacity: 1;
+  margin-top: 0.9rem;
+}
+
+.slidev-layout strong {
+  color: var(--fg);
+  font-weight: 600;
+  box-shadow: inset 0 -0.36em 0 var(--accent-soft);
+}
+
+.slidev-layout a {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.slidev-layout code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.slidev-layout pre {
+  border: 1px solid var(--rule);
+}
+
+.slidev-layout ul {
+  list-style: none;
+  padding: 0;
+}
+
+.slidev-layout ul li {
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+
+.slidev-layout ul li::before {
+  content: '\2022';
+  display: inline-block;
+  width: 1.4em;
+  text-indent: 0;
+  color: var(--accent);
+}
+
+.slidev-layout ol {
+  padding-left: 1.4em;
+}
+
+.slidev-layout ol li {
+  padding-left: 0.3em;
+  line-height: 1.7;
+}
+
+.slidev-layout ol li::marker {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---- system ---- */
+
+.rule {
+  width: 56px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  margin: 1.2rem 0 1.6rem;
+}
+
+.meta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: rgba(20, 24, 31, 0.05);
+  border-radius: 4px;
+  padding: 0.3em 0.7em;
+}
+
+.lead {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--fg-dim);
+}
+
+.dim { color: var(--fg-dim); }
+.accent { color: var(--accent-2); }
+
+.plain-list li {
+  padding: 0.5rem 0 0.5rem 1.4em;
+  line-height: 1.6;
+}
+
+.logo-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+}
+
+/* ---- big-type punch slide ---- */
+
+.giant-word {
+  font-weight: 700;
+  font-size: 6.4rem;
+  line-height: 1 !important;
+  letter-spacing: -0.045em;
+  color: var(--fg);
+}
+
+/* footer bar injected via global-bottom.vue */
+.deck-footer {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fg-dim);
+  z-index: 100;
+}
+
+.deck-footer.on-section { color: rgba(255, 255, 255, 0.75); }
+
+/* ---- layout tweaks ---- */
+
+.slidev-layout.fact,
+.slidev-layout.quote,
+.slidev-layout.center,
+.slidev-layout.statement,
+.slidev-layout.end {
+  background: var(--bg) !important;
+  color: var(--fg) !important;
+}
+
+.slidev-layout.end .meta {
+  color: var(--fg-dim) !important;
+  background: rgba(20, 24, 31, 0.05) !important;
+}
+
+/* section dividers: full-bleed accent block */
+.slidev-layout.section {
+  background: var(--accent);
+  color: #fff;
+}
+.slidev-layout.section h1 { color: #fff; }
+.slidev-layout.section .meta { color: #fff; background: rgba(255, 255, 255, 0.16); }
+.slidev-layout.section .lead { color: rgba(255, 255, 255, 0.8); }
+.slidev-layout.section .rule { background: rgba(255, 255, 255, 0.55); }
+.slidev-layout.section code { color: #fff; background: rgba(255, 255, 255, 0.16); }
+
+.slidev-layout.quote blockquote,
+.slidev-layout.quote p {
+  font-weight: 600;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+
+.slidev-layout.quote p + p {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--fg-dim);
+}
+
+.slidev-layout.fact .big-number {
+  font-weight: 700;
+  font-size: 6rem;
+  line-height: 1 !important;
+  letter-spacing: -0.045em;
+  color: var(--accent);
+}
+
+/* centred layouts: title and rule centre together */
+.slidev-layout.section,
+.slidev-layout.center,
+.slidev-layout.fact,
+.slidev-layout.end {
+  text-align: center;
+}
+
+.slidev-layout.section h1,
+.slidev-layout.center h1,
+.slidev-layout.fact h1,
+.slidev-layout.end h1 {
+  text-align: center;
+}
+
+.slidev-layout.section .rule,
+.slidev-layout.end .rule,
+.slidev-layout.center .rule,
+.slidev-layout.fact .rule {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* dense code slides */
+.code-sm .slidev-code {
+  font-size: 13px !important;
+  line-height: 20px !important;
+}
+
+/* stacked label above a code block */
+.code-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 0.5rem;
+}
+
+/* two-cols puts the h1 inside the left column (its root class is still "default"),
+   so opt in per-slide with `class: tight-title` to keep titles on one line */
+.tight-title h1 {
+  font-size: 2rem;
+}
+
+/* theme-default's cover wrapper stretches instead of centring under grid alignment */
+.slidev-layout.cover > div { align-self: center; }
+
+/* status cards on the test-views slide */
+.status-card {
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid;
+}
+.status-card .status-name { font-weight: 700; font-size: 0.95rem; }
+.status-card .status-desc { font-size: 0.8rem; color: var(--fg-dim); margin-top: 0.15rem; line-height: 1.35; }
+.status-ok { border-color: rgba(15, 118, 82, 0.3); background: rgba(15, 118, 82, 0.08); }
+.status-ok .status-name { color: #0f7652; }
+.status-warn { border-color: rgba(180, 83, 9, 0.3); background: rgba(180, 83, 9, 0.08); }
+.status-warn .status-name { color: #b45309; }
+.status-danger { border-color: rgba(185, 28, 28, 0.3); background: rgba(185, 28, 28, 0.08); }
+.status-danger .status-name { color: #b91c1c; }
