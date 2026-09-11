@@ -19,9 +19,9 @@ fonts:
 
 <div class="rule"></div>
 
-<p class="lead">Como o backend continua a funcionar quando a view SQL de um cliente ainda não tem a última coluna.</p>
+<p class="lead">Mecanismo de versionamento de views SQL para integração.</p>
 
-<p class="meta mt-10">common/models/views</p>
+<p class="meta mt-10">VSoft Industry</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
   <img src="/logo.png" class="h-8 object-contain" alt="Visionsoft" />
@@ -46,7 +46,7 @@ layout: section
 # As views são geridas por terceiros
 
 <ul class="plain-list mt-6">
-<li>As <em>views</em> de integração (<code>ViewArtigos</code>, <code>ViewArmazens</code>, <code>ViewEncomendasCliente</code>, ...) são criadas e mantidas por <strong>empresas terceiras</strong>, uma por cliente.</li>
+<li>As <em>views</em> de integração (<code>ViewArtigos</code>, <code>ViewArmazens</code>, <code>ViewEncomendasCliente</code>, ...) são criadas e mantidas por <strong>empresas terceiras</strong>.</li>
 <li>O software evolui e passa a pedir <strong>novas colunas</strong>.</li>
 <li><strong>Nem todos os clientes atualizam a view ao mesmo tempo.</strong></li>
 </ul>
@@ -60,7 +60,7 @@ SELECT id, codigoArtigo, nomeArtigo, ..., aux1, aux2 FROM ViewArtigos
 -- Invalid column name 'aux1' (cliente ainda não tem a coluna)
 ```
 
-<p class="dim mt-4">A query parte assim que um cliente fica atrasado numa coluna nova.</p>
+<p class="dim mt-4">A query deixa de funcionar assim que um cliente fica atrasado numa coluna nova.</p>
 
 <!--
 As views são de terceiros, uma por cliente. Quando o software evolui e pede novas colunas, nem todos os clientes atualizam ao mesmo tempo. Um SELECT fixo com todas as colunas parte assim que um cliente fica atrasado.
@@ -73,7 +73,7 @@ As views são de terceiros, uma por cliente. Quando o software evolui e pede nov
 <ul class="plain-list mt-6">
 <li>O código PHP pede sempre o conjunto de campos <strong>mais recente conhecido</strong>.</li>
 <li>O mecanismo resolve, <strong>por cliente/versão</strong>, quais desses campos a view realmente tem em produção.</li>
-<li>Campos que a view ainda não tem → preenchidos com <code>NULL</code> (ou um valor por defeito), <strong>sem partir a query</strong>.</li>
+<li>Campos que a view ainda não tem → preenchidos com <code>NULL</code> (ou um valor por defeito), <strong>sem a query deixar de funcionar</strong>.</li>
 <li>Tudo isto sem tocar em cada <code>Commands.php</code> sempre que um cliente está atrasado — só quando a <em>especificação</em> evolui.</li>
 </ul>
 
@@ -157,7 +157,7 @@ Três métodos. Todos os campos, os defaults para os que faltam, e os campos des
 ```php {2-5|7-10}
 class ViewClientes extends AbstractViewModelVersion
 {
-    // Nome FÍSICO da view SQL — nunca muda entre versões
+    // Nome FÍSICO da view SQL — pode mudar entre versões
     public function getViewName(): string
     {
         return "ViewClientes";
@@ -237,10 +237,10 @@ layout: section
 
 <ol class="mt-6 text-lg">
 <li>Criar a pasta <code>common/models/views/{Entidade}/</code>.</li>
-<li>Criar a classe <strong>default</strong> <code>{Entidade}.php</code>, com todos os métodos (slide anterior).</li>
-<li>Criar a <strong>factory</strong> <code>{Entidade}Factory.php</code> — só indica a classe default.</li>
-<li>Adicionar a chave <code>views_sql_view{entidade}</code> em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões".</li>
-<li>Nos <code>Commands.php</code> (ou em <code>AbstractCommandsERP</code>), substituir o <code>FROM ViewX</code> literal por <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
+<li v-click>Criar a classe <strong>default</strong> <code>{Entidade}.php</code>, com todos os métodos (slide anterior).</li>
+<li v-click>Criar a <strong>factory</strong> <code>{Entidade}Factory.php</code> — só indica a classe default.</li>
+<li v-click>Adicionar a chave <code>views_sql_view{entidade}</code> em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões".</li>
+<li v-click>Nos <code>Commands.php</code> (ou em <code>AbstractCommandsERP</code>), substituir o <code>FROM ViewX</code> literal por <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
 </ol>
 
 <div class="rule mt-8"></div>
@@ -505,7 +505,7 @@ Sempre o mesmo padrão: factory, versão configurada, getSelectSql, executar.
 # De onde vem a versão a usar
 
 <ul class="plain-list mt-6">
-<li>Configuração <strong>por instalação</strong>, guardada em <code>ConfigApp</code>, gerível em Configurações do Projeto → <strong>Views SQL → Versões</strong>.</li>
+<li>Configuração <strong>por instalação</strong>, guardada em <code>ConfigApp</code>, configurável em Configurações do Projeto → <strong>Views SQL → Versões</strong>.</li>
 <li>Lida através de <code>AppCache::getConfig('views_sql_view{entidade}')</code> (cache invalidada automaticamente ao gravar).</li>
 <li>O valor é só o <strong>número da revisão</strong> (ex: <code>14</code>) → resolve para <code>{ClasseDefault}_v14</code>.</li>
 </ul>
