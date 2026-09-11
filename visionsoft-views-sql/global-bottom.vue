@@ -6,7 +6,7 @@ const { currentLayout, currentPage } = useNav()
 <template>
   <img
     v-if="!['cover', 'end'].includes(currentLayout)"
-    src="/logo.png"
+    src="/logo.svg"
     class="fixed bottom-4 left-14 h-5 opacity-60 pointer-events-none"
   />
   <footer

@@ -24,7 +24,7 @@ fonts:
 <p class="meta mt-10">VSoft Industry</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/logo.png" class="h-8 object-contain" alt="Visionsoft" />
+  <img src="/logo.svg" class="h-8 object-contain" alt="Visionsoft" />
 </div>
 
 <!--
@@ -367,7 +367,7 @@ class ViewClientes_v13
 <div class="pl-8 mt-4">
   <ul class="plain-list">
     <li>Nome da classe <strong>tem de ser</strong> <code>{ClasseDefault}_{versão}</code></li>
-    <li><strong>Nunca</strong> sobrepor <code>getViewName()</code></li>
+    <li><strong>Atualizar</strong> <code>getViewName()</code> com a versão correspondente</li>
     <li>Não mexer na factory — resolve <code>_{versão}</code> automaticamente</li>
     <li>Configurar <code>views_sql_viewclientes = 13</code> em ConfigApp para os clientes ainda na revisão antiga</li>
   </ul>
@@ -625,10 +625,10 @@ class: text-center
 
 <div class="rule"></div>
 
-<p class="lead">common/models/views/README.md</p>
+<p class="lead">Docs em <code>common/models/views/README.md</code></p>
 
 <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6">
-  <img src="/logo.png" class="h-7 object-contain" alt="Visionsoft" />
+  <img src="/logo.svg" class="h-7 object-contain" alt="Visionsoft" />
 </div>
 
 <!--
