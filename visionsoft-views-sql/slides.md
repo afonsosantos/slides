@@ -457,11 +457,15 @@ layout: section
 <p class="lead">a partir de <code>common/interfaceERP/*/Commands.php</code></p>
 
 ---
-layout: two-cols
+layout: two-cols-header
 class: code-sm
 ---
 
 # Chamada + exemplo real
+
+<div class="rule"></div>
+
+::left::
 
 <div class="pr-6 mt-4">
 <p class="code-label">Genérico</p>
