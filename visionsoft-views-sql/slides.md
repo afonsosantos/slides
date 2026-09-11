@@ -6,6 +6,8 @@ layout: cover
 routerMode: hash
 duration: 30min
 timer: countdown
+addons:
+  - slidev-addon-second-screen
 fonts:
   sans: 'Inter'
   serif: 'Inter'

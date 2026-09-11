@@ -7,6 +7,7 @@
       "dependencies": {
         "@slidev/cli": "^52.19.1",
         "@slidev/theme-default": "latest",
+        "slidev-addon-second-screen": "^1.0.2",
       },
     },
   },
@@ -1142,6 +1143,8 @@
     "sirv": ["sirv@3.0.2", "", { "dependencies": { "@polka/url": "^1.0.0-next.24", "mrmime": "^2.0.0", "totalist": "^3.0.0" } }, "sha512-2wcC/oGxHis/BoHkkPwldgiPSYcpZK3JU28WoMVv55yHJgcZ8rlXvuG9iZggz+sU1d4bRgIGASwyWqjxu3FM0g=="],
 
     "sisteransi": ["sisteransi@1.0.5", "", {}, "sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg=="],
+
+    "slidev-addon-second-screen": ["slidev-addon-second-screen@1.0.2", "", { "dependencies": { "@slidev/client": "^52.14.2" }, "peerDependencies": { "vue": "^3.5.0" } }, "sha512-yVoQ/GQRgP3Yb1tQK2UetLSG+b5UXRutHiy+v4HKU7bLVPbCS6FgGiraCnuCNV0h/tzFVNt9xcpzfKCb6e0lgQ=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
 
