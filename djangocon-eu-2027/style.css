@@ -254,12 +254,6 @@ html, body, #slide-content { background: var(--bg); }
   margin-bottom: 0.5rem;
 }
 
-/* two-cols puts the h1 inside the left column (its root class is still "default"),
-   so opt in per-slide with `class: tight-title` to keep titles on one line */
-.tight-title h1 {
-  font-size: 2rem;
-}
-
 /* theme-default's cover wrapper stretches instead of centring under grid alignment */
 .slidev-layout.cover > div { align-self: center; }
 

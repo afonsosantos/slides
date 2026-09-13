@@ -38,13 +38,17 @@ Good morning. <br>Today I want to talk about contributing to open source. <br>No
 -->
 
 ---
-layout: two-cols
+layout: two-cols-header
 timing: 40s
 ---
 
 # Who am I
 
-<div class="mt-10">
+<div class="rule"></div>
+
+::left::
+
+<div class="pr-10">
   <p class="meta">Role</p>
   <p class="mt-2 text-2xl">Full Stack Developer</p>
 
@@ -56,7 +60,7 @@ timing: 40s
 
 ::right::
 
-<div class="mt-24 pl-10">
+<div class="pl-4">
   <p class="meta accent">What I maintain</p>
   <ul class="plain-list mt-3">
     <li><strong>pretix-eupago</strong> — payments</li>
@@ -260,14 +264,18 @@ A plugin is just a Django app. <br>There is a cookiecutter to start. <br>You alr
 -->
 
 ---
-layout: two-cols
+layout: two-cols-header
 timing: 430s
 class: code-sm
 ---
 
 # The metadata
 
-<div class="pr-6 mt-4">
+<div class="rule"></div>
+
+::left::
+
+<div class="pr-8">
 
 ```python
 class PluginApp(PluginConfig):
@@ -288,7 +296,7 @@ class PluginApp(PluginConfig):
 
 ::right::
 
-<div class="pl-8 mt-28">
+<div class="pl-4">
   <p class="meta accent">Notice</p>
   <ul class="plain-list mt-3">
     <li>A normal Django <code>AppConfig</code></li>
@@ -342,14 +350,19 @@ This is how pretix discovers the plugin. <br>One entry point in pyproject. <br>T
 -->
 
 ---
-layout: two-cols
+layout: two-cols-header
 timing: 560s
-class: code-sm tight-title
+class: code-sm
 ---
 
 # Where you hook in
 
-<div class="pr-6 mt-4">
+<div class="rule"></div>
+
+::left::
+
+<div class="pr-8">
+  <p class="meta">pretix_eupago/signals.py</p>
 
 ```python
 @receiver(register_payment_providers)
@@ -364,14 +377,14 @@ def register_payment_provider(sender, **kw):
 
 ::right::
 
-<div class="pl-8 mt-20">
+<div class="pl-4">
   <p class="meta accent">Django signals. That is the whole mechanism.</p>
-  <ul class="plain-list mt-4">
-    <li><code>register_payment_providers</code></li>
-    <li><code>order_paid</code></li>
-    <li><code>register_data_exporters</code></li>
-    <li><code>nav_event</code></li>
-    <li>…and many more</li>
+  <ul class="plain-list mt-3">
+    <li><code>register_payment_providers</code> <span class="dim">— payments</span></li>
+    <li><code>order_paid</code> <span class="dim">— money landed</span></li>
+    <li><code>register_data_exporters</code> <span class="dim">— reports</span></li>
+    <li><code>nav_event</code> <span class="dim">— backend pages</span></li>
+    <li class="dim">…and many more</li>
   </ul>
 </div>
 
@@ -743,14 +756,18 @@ They handle the law. I handle the glue. <br>Certification is not my problem. <br
 -->
 
 ---
-layout: two-cols
+layout: two-cols-header
 timing: 1360s
-class: code-sm tight-title
+class: code-sm
 ---
 
 # No provider class
 
-<div class="pr-6 mt-4">
+<div class="rule"></div>
+
+::left::
+
+<div class="pr-8">
 
 ```python
 @receiver(order_paid)
@@ -767,7 +784,7 @@ def factpt_order_paid(sender, order, **kw):
 
 ::right::
 
-<div class="pl-8 mt-24">
+<div class="pl-4">
   <p class="meta accent">A different shape</p>
   <ul class="plain-list mt-3">
     <li>One signal: <code>order_paid</code></li>

@@ -104,8 +104,8 @@ common/models/views/
 ├── AbstractViewModelVersion.php   # motor comum (não duplicar)
 ├── AbstractViewModelFactory.php   # base comum das factories
 └── Armazens/
-    ├── ViewArmazens.php           # classe "default" / mais recente
-    ├── ViewArmazens_v14.php       # versão v14 (delta face ao default)
+    ├── ViewArmazens.php           # classe "default" / revisão inicial
+    ├── ViewArmazens_v14.php       # revisão v14 (delta face ao default)
     └── ViewArmazensFactory.php    # factory desta entidade
 ```
 
@@ -128,12 +128,12 @@ class: code-sm
 ```php {3-7|8-12|13-17}
 class ViewClientes extends AbstractViewModelVersion
 {
-    // Todos os campos que a view MAIS RECENTE deve ter
+    // Todos os campos que esta versão da view declara
     protected function getAllFields(): array
     {
         return ['id', 'codigoCliente', 'nomeCliente', 'nifCliente', 'isAtivo'];
     }
-    // Defaults para campos que uma versão antiga não tem
+    // Defaults para campos que a view real não tem
     protected function getMissingFieldDefaults(): array
     {
         return ['nifCliente' => ''];
@@ -151,30 +151,36 @@ Três métodos. Todos os campos, os defaults para os que faltam, e os campos des
 -->
 
 ---
+class: code-sm
+---
 
 # Anatomia da classe *default* (2/2)
 
-<p class="dim mt-1">Os dois métodos que identificam a view e a sua versão</p>
+<p class="dim mt-1">Identificação da view, chave de configuração, e campos garantidos</p>
 
-```php {2-5|7-10}
+```php {2-6|7-10|11-15}
 class ViewClientes extends AbstractViewModelVersion
 {
-    // Nome FÍSICO da view SQL — pode mudar entre versões
+    // Nome FÍSICO da view SQL — nem sempre igual ao da classe
     public function getViewName(): string
     {
-        return "ViewClientes";
+        return "ViewClientes"; // ViewUtilizadores -> "ViewUsers"
     }
-
     // Chave em ConfigApp com a versão configurada do cliente
     public function getVersionConfigKey(): string
     {
         return "views_sql_viewclientes";
     }
+    // Campos que a app assume como garantidos
+    protected function getRequiredFields(): array
+    {
+        return ['id', 'codigoCliente', 'nomeCliente', 'isAtivo'];
+    }
 }
 ```
 
 <!--
-Dois métodos. O nome físico da view, e a chave de configuração.
+O nome físico da view, a chave de configuração, e os campos obrigatórios — estes últimos só servem para a página de teste assinalar versões que não os fornecem.
 -->
 
 ---
@@ -192,7 +198,7 @@ layout: two-cols-header
 
 ```php
 $view = ViewClientesFactory::create($versao);
-// '' = default/mais recente
+// '' = classe default (revisão inicial)
 
 $sql = $view->getSelectSql('isAtivo = 1');
 ```
@@ -206,7 +212,7 @@ $sql = $view->getSelectSql('isAtivo = 1');
 ::right::
 
 <div class="pl-4">
-  <p class="meta accent">Cliente numa versão antiga, sem nifCliente</p>
+  <p class="meta accent">Cliente numa revisão sem nifCliente</p>
 
 ```sql
 SELECT
@@ -247,7 +253,7 @@ layout: section
 
 <div class="rule mt-8"></div>
 
-<p class="lead">Não criar classes de versão antiga especulativamente — só quando existir mesmo uma divergência documentada.</p>
+<p class="lead">Não criar classes de versão especulativamente — só quando existir mesmo uma divergência documentada.</p>
 
 <!--
 Cinco passos. Pasta, classe default, factory, chave de config, e trocar o FROM literal pelo mecanismo.
@@ -301,82 +307,54 @@ layout: section
 <p class="lead">Cenário: o Manual de Integração avança — a especificação ganha uma coluna nova</p>
 
 ---
-layout: two-cols
 class: code-sm
 ---
 
 # `emailCliente` (G01.014)
 
-<div class="pr-6 mt-4">
+<p class="dim mt-1">A classe default não se toca — a revisão nova é uma classe nova</p>
 
-```php
-protected function getAllFields(): array
+```php {1|3-8|10-13}
+class ViewClientes_v14 extends ViewClientes
 {
-    return [
-        'id', 'codigoCliente',
-        'nomeCliente', 'nifCliente',
-        'emailCliente', // <- novo
-        'isAtivo',
-    ];
-}
-```
-
-</div>
-
-::right::
-
-<div class="pl-8 mt-4">
-  <p class="meta accent">1. Atualizar a classe default</p>
-  <p class="mt-3 dim">O mesmo campo entra em <code>getAllFields()</code> <strong>e</strong> em <code>getFieldsInThisVersion()</code>.</p>
-  <p class="mt-4 dim">A classe default representa <strong>sempre</strong> a versão mais recente conhecida.</p>
-</div>
-
-<!--
-Rev G01.014 traz emailCliente. Atualizamos a classe default nos dois métodos ao mesmo tempo.
--->
-
----
-layout: two-cols
-class: code-sm
----
-
-# 2. Congelar o estado anterior
-
-<div class="pr-6 mt-4">
-
-```php
-// ViewClientes rev. G01.013
-// - sem o campo emailCliente
-class ViewClientes_v13
-    extends ViewClientes
-{
-    protected function
-        getFieldsInThisVersion(): array
+    // rev. G01.014: acrescenta emailCliente
+    protected function getAllFields(): array
     {
-        return [
-            'id', 'codigoCliente',
-            'nomeCliente', 'nifCliente',
-            'isAtivo',
-        ];
+        return ['id', 'codigoCliente', 'nomeCliente',
+                'nifCliente', 'emailCliente', 'isAtivo'];
+    }
+
+    protected function getFieldsInThisVersion(): array
+    {
+        return $this->getAllFields();
     }
 }
 ```
 
-</div>
-
-::right::
-
-<div class="pl-8 mt-4">
-  <ul class="plain-list">
-    <li>Nome da classe <strong>tem de ser</strong> <code>{ClasseDefault}_{versão}</code></li>
-    <li><strong>Atualizar</strong> <code>getViewName()</code> com a versão correspondente</li>
-    <li>Não mexer na factory — resolve <code>_{versão}</code> automaticamente</li>
-    <li>Configurar <code>views_sql_viewclientes = 13</code> em ConfigApp para os clientes ainda na revisão antiga</li>
-  </ul>
-</div>
+<p class="lead mt-6">Só se <strong>acrescenta</strong>: a default fica congelada na revisão inicial e a factory continua a apontar para ela.</p>
 
 <!--
-Uma subclasse congela o estado anterior. O nome tem de seguir a convenção. Nunca mexer no nome físico da view.
+Rev G01.014 traz emailCliente. Não mexemos na classe default: criamos a classe da revisão nova, com o campo acrescentado.
+-->
+
+---
+
+# Apontar os clientes à nova revisão
+
+<ul class="plain-list mt-6">
+<li>Nome da classe <strong>tem de ser</strong> <code>{ClasseDefault}_{versão}</code> — a factory resolve-o automaticamente.</li>
+<li><strong>Não mexer na factory</strong> — aponta sempre para a classe inicial, sem versão.</li>
+<li>Se o nome físico da view mudou nesta revisão, sobrepor também <code>getViewName()</code>.</li>
+<li>Configurar <code>views_sql_viewclientes = 14</code> em ConfigApp, para os clientes que já têm a view atualizada.</li>
+<li>Clientes ainda na revisão inicial → chave vazia → classe default, <strong>sem alterações</strong>.</li>
+</ul>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">A classe default e a factory mantêm-se intactas para sempre.</p>
+
+<!--
+A classe nova segue a convenção de nome, a factory resolve sozinha, e a configuração do cliente diz qual usar. Quem está na revisão inicial não precisa de nada.
 -->
 
 ---
@@ -386,7 +364,7 @@ Uma subclasse congela o estado anterior. O nome tem de seguir a convenção. Nun
 | Secção | Quando usar |
 |---|---|
 | **Criar um pacote** | A view ainda não existe neste mecanismo |
-| **Criar uma versão** | A especificação evolui — a view *default* ganha/perde colunas |
+| **Criar uma versão** | O Manual de Integração avança — a revisão nova ganha/perde colunas |
 | **Adicionar versão antiga** | Descobre-se que um cliente já configurado está preso a uma revisão anterior |
 
 <!--
@@ -403,7 +381,7 @@ layout: section
 
 <div class="rule"></div>
 
-<p class="lead">Cenário: descobre-se, depois de facto, que um cliente está preso a uma revisão anterior à que já está mapeada como default</p>
+<p class="lead">Cenário: descobre-se, depois de facto, que um cliente está preso a uma revisão <strong>anterior</strong> à classe default</p>
 
 ---
 layout: two-cols
@@ -525,7 +503,7 @@ Sempre o mesmo padrão: factory, versão configurada, getSelectSql, executar.
   </div>
   <div>
     <p class="meta accent">Chave preenchida, sem classe correspondente</p>
-    <p class="mt-2 dim">Factory <strong>lança exceção</strong> — nunca assume o default silenciosamente</p>
+    <p class="mt-2 dim">Factory lança <code>InvalidViewException</code> — nunca assume o default silenciosamente</p>
   </div>
 </div>
 
@@ -542,6 +520,7 @@ A versão vem do ConfigApp, por cliente. Vazio é default. Preenchido sem classe
 <li><code>getFieldsAsSelectString($showColumns = [])</code> — a mesma lista como string; <code>$showColumns</code> filtra só as colunas pedidas</li>
 <li><code>getFieldsAsJsonElements($showColumns = [])</code> — formato <code>"chave": "valor"</code> para respostas <em>ajax</em></li>
 <li><code>getSelectSql($where = '', $showColumns = [])</code> — atalho <code>SELECT ... FROM ... [WHERE ...]</code> completo</li>
+<li><code>ViewNamesTrait</code> — só o <strong>nome</strong> da view já resolvido (ex: <code>viewClientesName()</code>), para <em>JOINs</em> e SQL montado à mão</li>
 </ul>
 
 <div class="rule mt-8"></div>
@@ -611,7 +590,7 @@ layout: section
 <ol class="mt-8 text-lg">
 <li><code>common/models/views/{Entidade}/{Entidade}.php</code> — classe <em>default</em>, estende <code>AbstractViewModelVersion</code>.</li>
 <li><code>common/models/views/{Entidade}/{Entidade}Factory.php</code> — estende <code>AbstractViewModelFactory</code>, só define <code>defaultClass()</code>.</li>
-<li><em>(só quando necessário)</em> <code>{Entidade}_{versão}.php</code> — estende a classe default, sobrepõe só <code>getFieldsInThisVersion()</code>.</li>
+<li><em>(a cada revisão do manual)</em> <code>{Entidade}_{versão}.php</code> — estende a classe default; a default nunca muda.</li>
 <li>Nova chave em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões", nome <code>views_sql_view{entidade}</code>.</li>
 <li>Nos <code>Commands.php</code> do cliente (ou em <code>AbstractCommandsERP</code>), trocar o <code>FROM ViewX</code> literal pelo <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
 </ol>
