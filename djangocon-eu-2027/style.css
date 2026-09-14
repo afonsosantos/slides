@@ -1,6 +1,9 @@
 /* DjangoCon EU 2027 — modern, restrained: one grotesk, one accent, flat surfaces.
    Distinct from the PyCon PT deck (dark terminal, mono headings, amber). */
 
+/* Windows has no flag emoji glyphs — pull a colour emoji font for .flag */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+
 :root {
   --bg: #fcfcfb;
   --card: #f2f3f1;
@@ -259,6 +262,7 @@ html, body, #slide-content { background: var(--bg); }
 
 /* country marker above a payment method */
 .flag {
+  font-family: 'Noto Color Emoji', sans-serif;
   font-size: 2.1rem;
   line-height: 1;
 }

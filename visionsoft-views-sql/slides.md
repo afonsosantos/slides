@@ -47,8 +47,6 @@ Hoje vamos falar sobre o mecanismo de versionamento das views SQL de integraçã
   <div class="agenda-item"><span class="agenda-num">08</span><span>Checklist</span></div>
 </div>
 
-<p class="dim mt-8">Exemplo ao longo de toda a apresentação: <code>ViewClientes</code>.</p>
-
 <!--
 Oito partes. Vamos usar sempre o mesmo exemplo, ViewClientes, do problema até à checklist.
 -->
