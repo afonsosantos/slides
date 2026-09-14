@@ -11,7 +11,7 @@ const { currentLayout, currentPage } = useNav()
   />
   <footer
     v-if="!['cover', 'end'].includes(currentLayout)"
-    :class="['deck-footer absolute bottom-0 right-0 px-14 py-4 pointer-events-none', currentLayout === 'section' ? 'on-section' : '']"
+    class="deck-footer absolute bottom-0 right-0 px-14 py-4 pointer-events-none"
   >
     {{ currentPage }}
   </footer>

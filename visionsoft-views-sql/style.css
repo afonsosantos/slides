@@ -173,9 +173,14 @@ html, body, #slide-content { background: var(--bg); }
   z-index: 100;
 }
 
-.deck-footer.on-section { color: rgba(255, 255, 255, 0.75); }
-
 /* ---- layout tweaks ---- */
+
+/* reserve the footer band (logo + page number) on content slides */
+.slidev-layout.default,
+.slidev-layout.two-cols,
+.slidev-layout.two-cols-header {
+  padding-bottom: 3.5rem;
+}
 
 .slidev-layout.fact,
 .slidev-layout.quote,
@@ -190,18 +195,6 @@ html, body, #slide-content { background: var(--bg); }
   color: var(--fg-dim) !important;
   background: rgba(20, 24, 31, 0.05) !important;
 }
-
-/* section dividers: full-bleed accent block */
-.slidev-layout.section {
-  background: var(--accent);
-  color: #fff;
-}
-.slidev-layout.section h1 { color: #fff; }
-.slidev-layout.section .meta { color: #fff; background: rgba(255, 255, 255, 0.16); }
-.slidev-layout.section .lead { color: rgba(255, 255, 255, 0.8); }
-.slidev-layout.section .rule { background: rgba(255, 255, 255, 0.55); }
-.slidev-layout.section strong { color: #fff; box-shadow: inset 0 -0.36em 0 rgba(255, 255, 255, 0.25); }
-.slidev-layout.section code { color: #fff; background: rgba(255, 255, 255, 0.16); }
 
 .slidev-layout.quote blockquote,
 .slidev-layout.quote p {
@@ -227,21 +220,18 @@ html, body, #slide-content { background: var(--bg); }
 }
 
 /* centred layouts: title and rule centre together */
-.slidev-layout.section,
 .slidev-layout.center,
 .slidev-layout.fact,
 .slidev-layout.end {
   text-align: center;
 }
 
-.slidev-layout.section h1,
 .slidev-layout.center h1,
 .slidev-layout.fact h1,
 .slidev-layout.end h1 {
   text-align: center;
 }
 
-.slidev-layout.section .rule,
 .slidev-layout.end .rule,
 .slidev-layout.center .rule,
 .slidev-layout.fact .rule {
@@ -274,6 +264,44 @@ html, body, #slide-content { background: var(--bg); }
 
 /* theme-default's cover wrapper stretches instead of centring under grid alignment */
 .slidev-layout.cover > div { align-self: center; }
+
+/* agenda: numbered two-column list, reads down each column */
+.agenda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 3rem;
+}
+.agenda-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 1.15rem;
+}
+.agenda-num {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* checklist columns */
+.check-card {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+}
+.check-card .check-title {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.check-card ol li { line-height: 1.5; padding-top: 0.25rem; }
+
+/* label + one-line note pairs under a code block */
+.slidev-layout .note-grid p { margin: 0; }
+.slidev-layout .note-grid .meta { margin-bottom: 0.5rem; }
 
 /* status cards on the test-views slide */
 .status-card {

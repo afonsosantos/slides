@@ -35,87 +35,96 @@ Hoje vamos falar sobre o mecanismo de versionamento das views SQL de integraçã
 -->
 
 ---
-layout: section
+
+# Agenda
+
+<div class="agenda mt-8">
+  <div class="agenda-item"><span class="agenda-num">01</span><span>O problema</span></div>
+  <div class="agenda-item"><span class="agenda-num">05</span><span>Adicionar uma revisão antiga</span></div>
+  <div class="agenda-item"><span class="agenda-num">02</span><span>Estrutura de um pacote</span></div>
+  <div class="agenda-item"><span class="agenda-num">06</span><span>Como usar</span></div>
+  <div class="agenda-item"><span class="agenda-num">03</span><span>Criar um pacote novo</span></div>
+  <div class="agenda-item"><span class="agenda-num">07</span><span>Página de teste</span></div>
+  <div class="agenda-item"><span class="agenda-num">04</span><span>Criar uma nova revisão</span></div>
+  <div class="agenda-item"><span class="agenda-num">08</span><span>Checklist</span></div>
+</div>
+
+<p class="dim mt-8">Exemplo ao longo de toda a apresentação: <code>ViewClientes</code>.</p>
+
+<!--
+Oito partes. Vamos usar sempre o mesmo exemplo, ViewClientes, do problema até à checklist.
+-->
+
 ---
 
-<p class="meta">Parte 01</p>
-
-# O Problema
-
-<div class="rule"></div>
-
----
+<p class="meta">Parte 01 · O problema</p>
 
 # As views são geridas por terceiros
 
-<ul class="plain-list mt-6">
-<li>As <em>views</em> de integração (<code>ViewArtigos</code>, <code>ViewArmazens</code>, <code>ViewEncomendasCliente</code>, ...) são criadas e mantidas por <strong>empresas terceiras</strong>.</li>
-<li>O software evolui e passa a pedir <strong>novas colunas</strong>.</li>
+<ul class="plain-list mt-2">
+<li>As <em>views</em> de integração (<code>ViewClientes</code>, <code>ViewArmazens</code>, <code>ViewEncomendasCliente</code>, ...) são criadas e mantidas por <strong>empresas terceiras</strong>.</li>
+<li>O Manual de Integração evolui e as views passam a ter <strong>colunas novas</strong> (ou perdem outras).</li>
 <li><strong>Nem todos os clientes atualizam a view ao mesmo tempo.</strong></li>
 </ul>
 
-<div class="rule mt-8"></div>
-
-<p class="code-label">Sem mecanismo de versões</p>
+<p class="code-label mt-4">Sem mecanismo de versões</p>
 
 ```sql
-SELECT id, codigoArtigo, nomeArtigo, ..., aux1, aux2 FROM ViewArtigos
--- Invalid column name 'aux1' (cliente ainda não tem a coluna)
+SELECT id, codigoCliente, nomeCliente, nifCliente, emailCliente, isAtivo FROM ViewClientes
+-- Invalid column name 'emailCliente' (cliente ainda não tem a coluna)
 ```
 
 <p class="dim mt-4">A query deixa de funcionar assim que um cliente fica atrasado numa coluna nova.</p>
 
 <!--
-As views são de terceiros, uma por cliente. Quando o software evolui e pede novas colunas, nem todos os clientes atualizam ao mesmo tempo. Um SELECT fixo com todas as colunas deixa de funcionar assim que um cliente fica atrasado.
+As views são de terceiros, uma por cliente. Quando o manual evolui, nem todos os clientes atualizam ao mesmo tempo. Um SELECT fixo com todas as colunas deixa de funcionar assim que um cliente fica atrasado.
 -->
 
 ---
 
 # O que queremos
 
-<ul class="plain-list mt-6">
-<li>O código PHP pede sempre o conjunto de campos <strong>mais recente conhecido</strong>.</li>
-<li>O mecanismo resolve, <strong>por cliente/versão</strong>, quais desses campos a view realmente tem em produção.</li>
-<li>Campos que a view ainda não tem → preenchidos com <code>NULL</code> (ou um valor por defeito), <strong>sem a query deixar de funcionar</strong>.</li>
-<li>Tudo isto sem tocar em cada <code>Commands.php</code> sempre que um cliente está atrasado — só quando a especificação evolui.</li>
-</ul>
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="check-card">
+    <p class="check-title">Mesmo método</p>
+    <p class="dim">O código PHP chama sempre o mesmo método — nunca escreve a lista de colunas à mão.</p>
+  </div>
+  <div class="check-card">
+    <p class="check-title">Revisão decide</p>
+    <p class="dim">A revisão configurada por cliente decide que campos a view realmente tem.</p>
+  </div>
+  <div class="check-card">
+    <p class="check-title">Nunca parte</p>
+    <p class="dim">Campos em falta saem como <code>NULL</code> (ou valor por defeito) — a query funciona sempre.</p>
+  </div>
+</div>
+
+<p class="lead mt-8">Revisão nova = uma classe nova. Nada muda nos <code>Commands.php</code>.</p>
 
 <!--
-O objetivo: pedir sempre o mais recente, resolver por versão o que a view suporta, e nunca partir a query.
+O objetivo: o mesmo código de chamada para todos, a revisão configurada decide as colunas, e a query nunca parte.
 -->
 
 ---
-layout: section
----
 
-<p class="meta">Parte 02</p>
-
-# Estrutura de um "pacote" de view
-
-<div class="rule"></div>
-
----
+<p class="meta">Parte 02 · Estrutura de um pacote</p>
 
 # Uma pasta por entidade
-
-<p class="code-label">common/models/views/Armazens/</p>
 
 ```
 common/models/views/
 ├── AbstractViewModelVersion.php   # motor comum (não duplicar)
 ├── AbstractViewModelFactory.php   # base comum das factories
-└── Armazens/
-    ├── ViewArmazens.php           # classe "default" / revisão inicial
-    ├── ViewArmazens_v14.php       # revisão v14 (delta face ao default)
-    └── ViewArmazensFactory.php    # factory desta entidade
+└── Clientes/
+    ├── ViewClientes.php           # classe default: revisão inicial, nunca muda
+    ├── ViewClientes_v14.php       # revisão v14 (delta face à default)
+    └── ViewClientesFactory.php    # factory desta entidade
 ```
 
-<div class="rule mt-8"></div>
-
-<p class="lead">Duas peças partilhadas por todas as entidades — nunca duplicar.</p>
+<p class="lead mt-8">Convenção: <code>View{Entidade}.php</code>, <code>View{Entidade}_v{N}.php</code>, <code>View{Entidade}Factory.php</code>.</p>
 
 <!--
-Cada entidade tem a sua pasta. Duas peças são partilhadas por todas: o motor e a factory base.
+Cada entidade tem a sua pasta, sempre com os mesmos nomes. Duas peças são partilhadas por todas: o motor e a factory base.
 -->
 
 ---
@@ -126,29 +135,26 @@ class: code-sm
 
 <p class="dim mt-1">Os três métodos que definem os campos da view</p>
 
-```php {3-7|8-12|13-17}
+```php {all|3-6|7-10|11-14}
 class ViewClientes extends AbstractViewModelVersion
 {
-    // Todos os campos que esta versão da view declara
-    protected function getAllFields(): array
+    protected function getAllFields(): array // todos os campos desta revisão
     {
         return ['id', 'codigoCliente', 'nomeCliente', 'nifCliente', 'isAtivo'];
     }
-    // Defaults para campos que a view real não tem
-    protected function getMissingFieldDefaults(): array
+    protected function getMissingFieldDefaults(): array // defaults p/ campos em falta
     {
         return ['nifCliente' => ''];
     }
-    // Campos que ESTA versão realmente suporta
-    protected function getFieldsInThisVersion(): array
+    protected function getFieldsInThisVersion(): array // o que ESTA revisão suporta
     {
-        return ['id', 'codigoCliente', 'nomeCliente', 'nifCliente', 'isAtivo'];
+        return $this->getAllFields();
     }
 }
 ```
 
 <!--
-Três métodos. Todos os campos, os defaults para os que faltam, e os campos desta versão.
+Três métodos. Todos os campos, os defaults para os que faltam, e os campos desta revisão. Na default são iguais.
 -->
 
 ---
@@ -159,21 +165,18 @@ class: code-sm
 
 <p class="dim mt-1">Identificação da view, chave de configuração, e campos garantidos</p>
 
-```php {3-7|8-12|13-17}
-class ViewClientes extends AbstractViewModelVersion
+```php {all|3-6|7-10|11-14}
+class ViewClientes extends AbstractViewModelVersion // (continuação)
 {
-    // Nome FÍSICO da view SQL — nem sempre igual ao da classe
-    public function getViewName(): string
+    public function getViewName(): string // nome FÍSICO da view SQL
     {
         return "ViewClientes"; // ViewUtilizadores -> "ViewUsers"
     }
-    // Chave em ConfigApp com a versão configurada do cliente
-    public function getVersionConfigKey(): string
+    public function getVersionConfigKey(): string // chave em ConfigApp
     {
         return "views_sql_viewclientes";
     }
-    // Campos que a app assume como garantidos
-    protected function getRequiredFields(): array
+    protected function getRequiredFields(): array // campos garantidos pela app
     {
         return ['id', 'codigoCliente', 'nomeCliente', 'isAtivo'];
     }
@@ -181,7 +184,7 @@ class ViewClientes extends AbstractViewModelVersion
 ```
 
 <!--
-O nome físico da view, a chave de configuração, e os campos obrigatórios — estes últimos só servem para a página de teste assinalar versões que não os fornecem.
+O nome físico da view, a chave de configuração, e os campos obrigatórios — estes últimos só servem para a página de teste assinalar revisões que não os fornecem.
 -->
 
 ---
@@ -189,8 +192,6 @@ layout: two-cols-header
 ---
 
 # O que o motor faz por nós
-
-<div class="rule"></div>
 
 ::left::
 
@@ -205,8 +206,8 @@ $sql = $view->getSelectSql('isAtivo = 1');
 ```
 
   <ul class="plain-list mt-6">
-    <li>Campo em falta na versão → <code>NULL</code> ou o valor de <code>getMissingFieldDefaults()</code></li>
-    <li><strong>A query nunca deixa de funcionar</strong> por causa de uma coluna que o cliente ainda não tem</li>
+    <li>Campo em falta na revisão → <code>NULL</code> ou o valor de <code>getMissingFieldDefaults()</code></li>
+    <li><strong>A query nunca deixa de funcionar</strong> por causa de uma coluna que o cliente não tem</li>
   </ul>
 </div>
 
@@ -225,31 +226,21 @@ WHERE isAtivo = 1
 </div>
 
 <!--
-O mesmo código de chamada, para qualquer cliente. O motor gera o SQL certo consoante a versão configurada.
+O mesmo código de chamada, para qualquer cliente. O motor gera o SQL certo consoante a revisão configurada.
 -->
 
 ---
-layout: section
----
 
-<p class="meta">Parte 03</p>
+<p class="meta">Parte 03 · Criar um pacote novo</p>
 
-# Como criar uma nova view (pacote)
-
-<div class="rule"></div>
-
-<p class="lead">Cenário: a view ainda não existe no mecanismo</p>
-
----
-
-# Passos
+# Quando a view ainda não existe
 
 <ol class="mt-6 text-lg">
-<li>Criar a pasta <code>common/models/views/{Entidade}/</code>.</li>
-<li v-click>Criar a classe <strong>default</strong> <code>{Entidade}.php</code>, com todos os métodos (slide anterior).</li>
-<li v-click>Criar a <strong>factory</strong> <code>{Entidade}Factory.php</code> — só indica a classe default.</li>
-<li v-click>Adicionar a chave <code>views_sql_view{entidade}</code> em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões".</li>
-<li v-click>Nos <code>Commands.php</code> (ou em <code>AbstractCommandsERP</code>), substituir o <code>FROM ViewX</code> literal por <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
+<li>Criar a pasta <code>common/models/views/Clientes/</code>.</li>
+<li v-click>Criar a classe <strong>default</strong> <code>ViewClientes.php</code>, com todos os métodos (ver <em>Anatomia da classe default</em>).</li>
+<li v-click>Criar a <strong>factory</strong> <code>ViewClientesFactory.php</code> — só indica a classe default.</li>
+<li v-click>Adicionar a chave <code>views_sql_viewclientes</code> em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões".</li>
+<li v-click>Nos <code>Commands.php</code> (ou em <code>AbstractCommandsERP</code>), substituir o <code>FROM ViewClientes</code> literal por <code>ViewClientesFactory::create(...)->getSelectSql(...)</code>.</li>
 </ol>
 
 <!--
@@ -257,81 +248,61 @@ Cinco passos. Pasta, classe default, factory, chave de config, e trocar o FROM l
 -->
 
 ---
-layout: two-cols
-class: code-sm
----
 
 # A factory
 
-<div class="pr-6 mt-4">
-
 ```php
-class ViewClientesFactory
-    extends AbstractViewModelFactory
+class ViewClientesFactory extends AbstractViewModelFactory
 {
-    protected static function
-        defaultClass(): string
+    protected static function defaultClass(): string
     {
         return ViewClientes::class;
     }
 }
 ```
 
-</div>
-
-::right::
-
-<div class="pl-8 mt-4">
-  <p class="meta">Nada a registar</p>
-  <p class="mt-3 dim">A pasta já é suficiente para o mecanismo funcionar.</p>
-  <p class="mt-3 dim">A página <code>test-views/index</code> descobre automaticamente qualquer pasta com um <code>*Factory.php</code>.</p>
-</div>
+<p class="meta mt-10">Nada a registar</p>
+<p class="mt-3 dim">A pasta já é suficiente: a página <code>test-views/index</code> descobre automaticamente qualquer pasta com um <code>*Factory.php</code>.</p>
 
 <!--
 A factory só indica a classe default. Não é preciso registar o pacote nalgum sítio central.
 -->
 
 ---
-layout: section
----
-
-<p class="meta">Parte 04</p>
-
-# Como criar uma nova versão
-
-<div class="rule"></div>
-
-<p class="lead">Cenário: o Manual de Integração avança — a especificação ganha uma coluna nova</p>
-
----
 class: code-sm
 ---
 
-# `emailCliente` (G01.014)
+<p class="meta">Parte 04 · Criar uma nova revisão</p>
 
-<p class="dim mt-1">A classe default fica intacta — a revisão nova é uma classe nova</p>
+# O manual avança: `ViewClientes_v14`
 
-```php {1|3-8|10-13}
-class ViewClientes_v14 extends ViewClientes
+```php {all|1|3-6|7-10}
+class ViewClientes_v14 extends ViewClientes // a default nunca muda
 {
-    // rev. G01.014: acrescenta emailCliente
-    protected function getAllFields(): array
+    protected function getAllFields(): array // + emailCliente
     {
-        return ['id', 'codigoCliente', 'nomeCliente',
-                'nifCliente', 'emailCliente', 'isAtivo'];
+        return [...parent::getAllFields(), 'emailCliente'];
     }
-
-    protected function getFieldsInThisVersion(): array
+    protected function getFieldsInThisVersion(): array // - nifCliente → '' (default)
     {
-        return $this->getAllFields();
+        return array_values(array_diff($this->getAllFields(), ['nifCliente']));
     }
 }
 ```
 
-<p class="lead mt-6">Só se <strong>acrescenta</strong>: a default fica congelada na revisão inicial e a factory continua a apontar para ela.</p>
+<div class="note-grid grid grid-cols-2 gap-6 mt-4">
+  <div>
+    <p class="meta">Acrescentar campo</p>
+    <p class="dim">Adicionar em <code>getAllFields()</code></p>
+  </div>
+  <div>
+    <p class="meta accent">Remover campo</p>
+    <p class="dim">Tirar de <code>getFieldsInThisVersion()</code></p>
+  </div>
+</div>
 
 <!--
-Rev G01.014 traz emailCliente. Não mexemos na classe default: criamos a classe da revisão nova, com o campo acrescentado.
+O Manual de Integração avança: a v14 traz emailCliente e deixa de ter nifCliente. Não mexemos na default: a classe nova acrescenta em getAllFields e remove em getFieldsInThisVersion, para o código PHP continuar a receber a chave nifCliente.
 -->
 
 ---
@@ -339,111 +310,79 @@ Rev G01.014 traz emailCliente. Não mexemos na classe default: criamos a classe 
 # Apontar os clientes à nova revisão
 
 <ul class="plain-list mt-6">
-<li>Nome da classe <strong>tem de ser</strong> <code>{ClasseDefault}_{versão}</code> — a factory resolve-o automaticamente.</li>
-<li><strong>Não mexer na factory</strong> — aponta sempre para a classe inicial, sem versão.</li>
-<li>Se o nome físico da view mudou nesta revisão, sobrepor também <code>getViewName()</code>.</li>
-<li>Configurar <code>views_sql_viewclientes = 14</code> em ConfigApp, para os clientes que já têm a view atualizada.</li>
-<li>Clientes ainda na revisão inicial → chave vazia → classe default, <strong>sem alterações</strong>.</li>
+<li>Nome da classe <strong>tem de ser</strong> <code>ViewClientes_v14</code> — a factory resolve-o automaticamente.</li>
+<li><strong>Não mexer na factory nem na classe default.</strong></li>
+<li>Configurar <code>views_sql_viewclientes = 14</code> em ConfigApp, nos clientes que já têm a view v14.</li>
+<li>Restantes clientes → chave vazia → classe default, <strong>sem alterações</strong>.</li>
 </ul>
 
-<div class="rule mt-8"></div>
-
-<p class="lead">A classe default e a factory mantêm-se intactas para sempre.</p>
+<p class="lead mt-10">Cada revisão nova é só uma classe nova — nada do que já existe muda.</p>
 
 <!--
-A classe nova segue a convenção de nome, a factory resolve sozinha, e a configuração do cliente diz qual usar. Quem está na revisão inicial não precisa de nada.
+A classe nova segue a convenção de nome, a factory resolve sozinha, e a configuração do cliente diz qual usar. Quem não está na v14 não precisa de nada.
 -->
 
 ---
 
-# As 3 secções, resumidas
+<p class="meta">Parte 05 · Adicionar uma revisão antiga</p>
 
-| Secção | Quando usar |
-|---|---|
-| **Criar um pacote** | A view ainda não existe neste mecanismo |
-| **Criar uma versão** | O Manual de Integração avança — a revisão nova ganha/perde colunas |
-| **Adicionar versão antiga** | Descobre-se que um cliente já configurado está preso a uma revisão anterior |
-
-<!--
-Três cenários distintos, mesma mecânica por baixo.
--->
-
----
-layout: section
----
-
-<p class="meta">Parte 05</p>
-
-# Como adicionar uma versão antiga
-
-<div class="rule"></div>
-
-<p class="lead">Cenário: descobre-se, depois de facto, que um cliente está preso a uma revisão <strong>anterior</strong> à classe default</p>
-
----
-layout: two-cols
-class: code-sm
----
-
-# Mesma mecânica
-
-<div class="pr-6 mt-4">
+# Cliente numa revisão não mapeada
 
 ```php
-// ViewClientes rev. v10
-// - sem o campo nifCliente
-class ViewClientes_v10
-    extends ViewClientes
+// ViewClientes revisão v10 - sem o campo nifCliente
+class ViewClientes_v10 extends ViewClientes
 {
-    protected function
-        getFieldsInThisVersion(): array
+    protected function getFieldsInThisVersion(): array
     {
-        return [
-            'id', 'codigoCliente',
-            'nomeCliente', 'isAtivo',
-        ];
+        return ['id', 'codigoCliente', 'nomeCliente', 'isAtivo'];
     }
 }
 ```
 
-</div>
-
-::right::
-
-<div class="pl-8 mt-8">
-  <p class="meta">Só sobrepõe getFieldsInThisVersion()</p>
-  <p class="mt-3 dim">Qualquer campo que exista em <code>getAllFields()</code> mas não aqui é automaticamente substituído por <code>NULL</code> (ou o valor de <code>getMissingFieldDefaults()</code>).</p>
+<div class="note-grid grid grid-cols-2 gap-6 mt-6">
+  <div>
+    <p class="meta">Só sobrepõe getFieldsInThisVersion()</p>
+    <p class="dim">Em falta → <code>NULL</code> ou valor por defeito</p>
+  </div>
+  <div>
+    <p class="meta accent">Configurar o cliente</p>
+    <p class="dim"><code>views_sql_viewclientes = 10</code> em ConfigApp</p>
+  </div>
 </div>
 
 <!--
-Exatamente a mesma técnica de congelar uma versão — só que reativa, quando se descobre o atraso depois de facto.
+Descobre-se, depois de facto, que a view de um cliente não bate com nenhuma revisão mapeada. Exatamente a mesma técnica de remover campos numa revisão — só que reativa.
 -->
 
 ---
-layout: section
----
 
-<p class="meta">Parte 06</p>
+# Três cenários, uma mecânica
 
-# Como usar
+| Cenário | Quando usar | O que se cria |
+|---|---|---|
+| **Pacote novo** | A view ainda não existe neste mecanismo | `ViewClientes.php` + `ViewClientesFactory.php` |
+| **Nova revisão** | O Manual de Integração avança — a view ganha/perde colunas | `ViewClientes_v14.php` |
+| **Revisão antiga** | A view de um cliente não bate com nenhuma revisão mapeada | `ViewClientes_v10.php` |
 
-<div class="rule"></div>
+<p class="lead mt-8">Em todos os casos: a default e a factory ficam intactas.</p>
 
-<p class="lead">na implementação genérica ou específica de cliente</p>
+<!--
+Três cenários distintos, mesma mecânica por baixo: uma classe por revisão e a configuração do cliente a escolher.
+-->
 
 ---
 layout: two-cols-header
 class: code-sm
 ---
 
-# Chamada + exemplo real
+<p class="meta">Parte 06 · Como usar</p>
 
-<div class="rule"></div>
+# Chamada + exemplo real
 
 ::left::
 
-<div class="pr-6 mt-4">
-<p class="code-label">AbstractCommandsERP.php <span class="dim">(genérico, todos os clientes)</span></p>
+<div class="pr-6 mt-2">
+<p class="code-label">AbstractCommandsERP.php <span class="dim">· genérico</span></p>
 
 ```php
 protected function getClientesSql(): string
@@ -456,14 +395,12 @@ protected function getClientesSql(): string
         ->getSelectSql('isAtivo = 1');
 }
 ```
-
-<p class="mt-2 dim">Vive na classe base — herdado por quem não tem override.</p>
 </div>
 
 ::right::
 
-<div class="pl-8 mt-4">
-<p class="code-label accent">PEARLIZPLAS\Commands.php <span class="dim">(override específico)</span></p>
+<div class="pl-8 mt-2">
+<p class="code-label accent">PEARLIZPLAS\Commands.php <span class="dim">· override</span></p>
 
 ```php
 protected function getArmazens(): array
@@ -473,45 +410,44 @@ protected function getArmazens(): array
             'views_sql_viewarmazens'
         )
     )->getSelectSql('isAtivo = 1');
-
     return $this->fixEncoding(
         $this->queryAll($sql)
     );
 }
 ```
-
-<p class="mt-2 dim">Só o extra do cliente (aqui, <code>fixEncoding</code>) muda.</p>
 </div>
 
 <!--
-Sempre o mesmo padrão: factory, versão configurada, getSelectSql. A diferença entre genérico e específico não está no mecanismo — está em onde o método vive: na classe base ou num override do cliente.
+Na implementação genérica ou específica de cliente, sempre o mesmo padrão: factory, revisão configurada, getSelectSql. A diferença não está no mecanismo — está em onde o método vive: na classe base ou num override do cliente.
 -->
 
 ---
 
-# De onde vem a versão a usar
+# De onde vem a revisão a usar
+
+```mermaid {scale: 0.6}
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Poppins','fontSize':'14px','primaryColor':'#f1f4f8','primaryBorderColor':'#1f4e85','primaryTextColor':'#14181f','lineColor':'#5b6472'}}}%%
+flowchart LR
+  A["ConfigApp<br/>views_sql_viewclientes"] --> B["AppCache::getConfig()"]
+  B --> C["ViewClientesFactory::create()"]
+  C -->|vazio| D["ViewClientes<br/>(default)"]
+  C -->|14| E["ViewClientes_v14"]
+  C -->|sem classe| F["InvalidViewException"]
+  D --> G["getSelectSql()"]
+  E --> G
+  classDef err fill:#fdecec,stroke:#b91c1c,color:#b91c1c
+  classDef ok fill:#1f4e85,stroke:#1f4e85,color:#fff
+  class F err
+  class G ok
+```
 
 <ul class="plain-list mt-6">
-<li>Configuração <strong>por instalação</strong>, guardada em <code>ConfigApp</code>, configurável em Configurações do Projeto → <strong>Views SQL → Versões</strong>.</li>
-<li>Lida através de <code>AppCache::getConfig('views_sql_view{entidade}')</code> (cache invalidada automaticamente ao gravar).</li>
-<li>O valor é só o <strong>número da revisão</strong> (ex: <code>14</code>) → resolve para <code>{ClasseDefault}_v14</code>.</li>
+<li>Configuração <strong>por instalação</strong>, em Configurações do Projeto → <strong>Views SQL → Versões</strong> (cache invalidada ao gravar).</li>
+<li>Revisão configurada sem classe correspondente → <strong>exceção</strong>, nunca assume a default em silêncio.</li>
 </ul>
 
-<div class="rule mt-8"></div>
-
-<div class="grid grid-cols-2 gap-6">
-  <div>
-    <p class="meta">Chave vazia / não definida</p>
-    <p class="mt-2 dim">Factory devolve a classe <strong>default</strong></p>
-  </div>
-  <div>
-    <p class="meta accent">Chave preenchida, sem classe correspondente</p>
-    <p class="mt-2 dim">Factory lança <code>InvalidViewException</code> — nunca assume o default silenciosamente</p>
-  </div>
-</div>
-
 <!--
-A versão vem do ConfigApp, por cliente. Vazio é default. Preenchido sem classe correspondente é erro, de propósito.
+A revisão vem do ConfigApp, por cliente. Vazio é default. 14 resolve para a classe _v14. Preenchido sem classe correspondente é erro, de propósito.
 -->
 
 ---
@@ -520,12 +456,10 @@ layout: two-cols-header
 
 # Outros métodos úteis
 
-<div class="rule"></div>
-
 ::left::
 
 <ul class="plain-list mt-4 pr-6">
-<li><code>getFieldsAsArray()</code> — array pronto para SQL, ex: <code>["id", "nomeArmazem", "0 AS usaLocalizacoes"]</code></li>
+<li><code>getFieldsAsArray()</code> — array pronto para SQL, ex: <code>["id", "nomeCliente", "'' AS nifCliente"]</code></li>
 <li><code>getFieldsAsSelectString($showColumns = [])</code> — a mesma lista como string; <code>$showColumns</code> filtra só as colunas pedidas</li>
 <li><code>getFieldsAsJsonElements($showColumns = [])</code> — formato <code>"chave": "valor"</code> para respostas <em>ajax</em></li>
 </ul>
@@ -544,30 +478,20 @@ getSelectSql é o atalho a usar quase sempre.
 -->
 
 ---
-layout: section
----
 
-<p class="meta">Parte 07</p>
-
-# Página de teste automática
-
-<div class="rule"></div>
-
-<p class="lead"><code>backend/web/index.php?r=test-views/index</code></p>
-
----
+<p class="meta">Parte 07 · Página de teste</p>
 
 # `test-views/index`
 
-<ul class="plain-list mt-1">
-<li>Descobre <strong>automaticamente</strong> qualquer pasta em <code>common/models/views/</code> com um <code>*Factory.php</code> — não é preciso registar nada.</li>
-<li>Para cada entidade, consulta o <code>INFORMATION_SCHEMA.COLUMNS</code> real do cliente e compara com o que a versão configurada espera.</li>
+<ul class="mt-2">
+<li>Descobre <strong>automaticamente</strong> todas as pastas com um <code>*Factory.php</code>.</li>
+<li>Compara o <code>INFORMATION_SCHEMA.COLUMNS</code> real do cliente com a revisão configurada.</li>
 </ul>
 
 <div class="grid grid-cols-2 gap-2 mt-3">
   <div class="status-card status-ok">
     <p class="status-name">OK</p>
-    <p class="status-desc">Todos os campos da versão existem na view real</p>
+    <p class="status-desc">Todos os campos da revisão existem na view real</p>
   </div>
   <div class="status-card status-danger">
     <p class="status-name">VIEW MISSING</p>
@@ -575,7 +499,7 @@ layout: section
   </div>
   <div class="status-card status-warn">
     <p class="status-name">COLUMN MISSING</p>
-    <p class="status-desc">Faltam colunas não-obrigatórias desta versão</p>
+    <p class="status-desc">Faltam colunas não-obrigatórias desta revisão</p>
   </div>
   <div class="status-card status-danger">
     <p class="status-name">MANDATORY FIELD MISSING</p>
@@ -583,32 +507,51 @@ layout: section
   </div>
 </div>
 
-<p class="dim mt-2 pr-20">Primeiro sítio a consultar ao integrar um cliente novo. Hoje já são <strong>20 entidades</strong> versionadas.</p>
+<p class="dim mt-3">Primeiro sítio a consultar ao integrar um cliente novo. Hoje já são <strong>20 entidades</strong> versionadas.</p>
 
 <!--
 A página de teste é o primeiro sítio a consultar. Descoberta automática, comparação real ao schema do cliente (demonstração com a página de teste).
 -->
 
 ---
-layout: section
----
 
-# Checklist rápida ao criar um pacote
+<p class="meta">Parte 08 · Checklist</p>
 
-<div class="rule"></div>
+# O que criar em cada cenário
 
----
+<div class="grid grid-cols-3 gap-4 mt-4 text-sm">
+  <div class="check-card">
+    <p class="check-title">Pacote novo</p>
+    <ol>
+      <li><code>View{Entidade}.php</code> (default)</li>
+      <li><code>View{Entidade}Factory.php</code></li>
+      <li>Chave em <code>RequisitosMinimos::KEYS</code></li>
+      <li><code>FROM</code> literal → factory</li>
+    </ol>
+  </div>
+  <div class="check-card">
+    <p class="check-title">Nova revisão</p>
+    <ol>
+      <li><code>View{Entidade}_v14.php</code></li>
+      <li>Acrescentar em <code>getAllFields()</code></li>
+      <li>Remover em <code>getFieldsInThisVersion()</code></li>
+      <li><code>= 14</code> nos clientes atualizados</li>
+    </ol>
+  </div>
+  <div class="check-card">
+    <p class="check-title">Revisão antiga</p>
+    <ol>
+      <li><code>View{Entidade}_v10.php</code></li>
+      <li>Só <code>getFieldsInThisVersion()</code></li>
+      <li><code>= 10</code> nesse cliente</li>
+    </ol>
+  </div>
+</div>
 
-<ol class="mt-8 text-lg">
-<li><code>common/models/views/{Entidade}/{Entidade}.php</code> — classe <em>default</em>, estende <code>AbstractViewModelVersion</code>.</li>
-<li><code>common/models/views/{Entidade}/{Entidade}Factory.php</code> — estende <code>AbstractViewModelFactory</code>, só define <code>defaultClass()</code>.</li>
-<li><em>(a cada revisão do manual)</em> <code>{Entidade}_{versão}.php</code> — estende a classe default; a default nunca muda.</li>
-<li>Nova chave em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões", nome <code>views_sql_view{entidade}</code>.</li>
-<li>Nos <code>Commands.php</code> do cliente (ou em <code>AbstractCommandsERP</code>), trocar o <code>FROM ViewX</code> literal pelo <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
-</ol>
+<p class="dim mt-4">Sempre no fim: validar em <code>test-views/index</code>. A default e a factory nunca mudam.</p>
 
 <!--
-Cinco passos, sempre os mesmos.
+Uma coluna por cenário. E em todos, fechar com a página de teste.
 -->
 
 ---
