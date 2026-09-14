@@ -10,5 +10,8 @@
     "dev": "slidev slides.md",
     "build": "slidev build slides.md --without-notes"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "playwright-chromium": "^1.63.0"
+  }
 }
