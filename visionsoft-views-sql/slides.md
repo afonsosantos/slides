@@ -4,8 +4,6 @@ title: Views SQL Versionadas
 colorSchema: light
 layout: cover
 routerMode: hash
-duration: 30min
-timer: countdown
 addons:
   - slidev-addon-second-screen
 fonts:
