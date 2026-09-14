@@ -9,8 +9,8 @@ timer: countdown
 addons:
   - slidev-addon-second-screen
 fonts:
-  sans: 'Inter'
-  serif: 'Inter'
+  sans: 'Poppins'
+  serif: 'Poppins'
   mono: 'JetBrains Mono'
   weights: '400,500,600,700'
 ---
@@ -24,6 +24,7 @@ fonts:
 <p class="lead">Mecanismo de versionamento de views SQL para integração.</p>
 
 <p class="meta mt-10">VSoft Industry</p>
+<p class="meta-sub mt-2">Afonso Santos · afonso.santos@visionsoft.pt · 16/09/2026</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
   <img src="/logo.svg" class="h-8 object-contain" alt="Visionsoft" />
@@ -65,7 +66,7 @@ SELECT id, codigoArtigo, nomeArtigo, ..., aux1, aux2 FROM ViewArtigos
 <p class="dim mt-4">A query deixa de funcionar assim que um cliente fica atrasado numa coluna nova.</p>
 
 <!--
-As views são de terceiros, uma por cliente. Quando o software evolui e pede novas colunas, nem todos os clientes atualizam ao mesmo tempo. Um SELECT fixo com todas as colunas parte assim que um cliente fica atrasado.
+As views são de terceiros, uma por cliente. Quando o software evolui e pede novas colunas, nem todos os clientes atualizam ao mesmo tempo. Um SELECT fixo com todas as colunas deixa de funcionar assim que um cliente fica atrasado.
 -->
 
 ---
@@ -76,7 +77,7 @@ As views são de terceiros, uma por cliente. Quando o software evolui e pede nov
 <li>O código PHP pede sempre o conjunto de campos <strong>mais recente conhecido</strong>.</li>
 <li>O mecanismo resolve, <strong>por cliente/versão</strong>, quais desses campos a view realmente tem em produção.</li>
 <li>Campos que a view ainda não tem → preenchidos com <code>NULL</code> (ou um valor por defeito), <strong>sem a query deixar de funcionar</strong>.</li>
-<li>Tudo isto sem tocar em cada <code>Commands.php</code> sempre que um cliente está atrasado — só quando a <em>especificação</em> evolui.</li>
+<li>Tudo isto sem tocar em cada <code>Commands.php</code> sempre que um cliente está atrasado — só quando a especificação evolui.</li>
 </ul>
 
 <!--
@@ -158,7 +159,7 @@ class: code-sm
 
 <p class="dim mt-1">Identificação da view, chave de configuração, e campos garantidos</p>
 
-```php {2-6|7-10|11-15}
+```php {3-7|8-12|13-17}
 class ViewClientes extends AbstractViewModelVersion
 {
     // Nome FÍSICO da view SQL — nem sempre igual ao da classe
@@ -205,7 +206,7 @@ $sql = $view->getSelectSql('isAtivo = 1');
 
   <ul class="plain-list mt-6">
     <li>Campo em falta na versão → <code>NULL</code> ou o valor de <code>getMissingFieldDefaults()</code></li>
-    <li><strong>A query nunca parte</strong> por causa de uma coluna que o cliente ainda não tem</li>
+    <li><strong>A query nunca deixa de funcionar</strong> por causa de uma coluna que o cliente ainda não tem</li>
   </ul>
 </div>
 
@@ -250,10 +251,6 @@ layout: section
 <li v-click>Adicionar a chave <code>views_sql_view{entidade}</code> em <code>RequisitosMinimos::KEYS</code>, categoria "Views SQL" → "Versões".</li>
 <li v-click>Nos <code>Commands.php</code> (ou em <code>AbstractCommandsERP</code>), substituir o <code>FROM ViewX</code> literal por <code>{Entidade}Factory::create(...)->getSelectSql(...)</code>.</li>
 </ol>
-
-<div class="rule mt-8"></div>
-
-<p class="lead">Não criar classes de versão especulativamente — só quando existir mesmo uma divergência documentada.</p>
 
 <!--
 Cinco passos. Pasta, classe default, factory, chave de config, e trocar o FROM literal pelo mecanismo.
@@ -312,7 +309,7 @@ class: code-sm
 
 # `emailCliente` (G01.014)
 
-<p class="dim mt-1">A classe default não se toca — a revisão nova é uma classe nova</p>
+<p class="dim mt-1">A classe default fica intacta — a revisão nova é uma classe nova</p>
 
 ```php {1|3-8|10-13}
 class ViewClientes_v14 extends ViewClientes
@@ -432,7 +429,7 @@ layout: section
 
 <div class="rule"></div>
 
-<p class="lead">a partir de <code>common/interfaceERP/*/Commands.php</code></p>
+<p class="lead">na implementação genérica ou específica de cliente</p>
 
 ---
 layout: two-cols-header
@@ -446,42 +443,48 @@ class: code-sm
 ::left::
 
 <div class="pr-6 mt-4">
-<p class="code-label">Genérico</p>
+<p class="code-label">AbstractCommandsERP.php <span class="dim">(genérico, todos os clientes)</span></p>
 
 ```php
-use ...\Clientes\ViewClientesFactory;
+protected function getClientesSql(): string
+{
+    $versao = AppCache::getConfig(
+        'views_sql_viewclientes'
+    );
 
-$view = ViewClientesFactory::create(
-    $versao
-);
-$sql = $view->getSelectSql('isAtivo = 1');
-
-$linhas = $this->queryAll($sql);
+    return ViewClientesFactory::create($versao)
+        ->getSelectSql('isAtivo = 1');
+}
 ```
 
+<p class="mt-2 dim">Vive na classe base — herdado por quem não tem override.</p>
 </div>
 
 ::right::
 
 <div class="pl-8 mt-4">
-<p class="code-label accent">PEARLIZPLAS\Commands</p>
+<p class="code-label accent">PEARLIZPLAS\Commands.php <span class="dim">(override específico)</span></p>
 
 ```php
-$sql = ViewArmazensFactory::create(
-    AppCache::getConfig(
-        'views_sql_viewarmazens'
-    )
-)->getSelectSql('isAtivo = 1');
+protected function getArmazens(): array
+{
+    $sql = ViewArmazensFactory::create(
+        AppCache::getConfig(
+            'views_sql_viewarmazens'
+        )
+    )->getSelectSql('isAtivo = 1');
 
-return $this->fixEncoding(
-    $this->queryAll($sql)
-);
+    return $this->fixEncoding(
+        $this->queryAll($sql)
+    );
+}
 ```
 
+<p class="mt-2 dim">Só o extra do cliente (aqui, <code>fixEncoding</code>) muda.</p>
 </div>
 
 <!--
-Sempre o mesmo padrão: factory, versão configurada, getSelectSql, executar.
+Sempre o mesmo padrão: factory, versão configurada, getSelectSql. A diferença entre genérico e específico não está no mecanismo — está em onde o método vive: na classe base ou num override do cliente.
 -->
 
 ---
@@ -512,20 +515,29 @@ A versão vem do ConfigApp, por cliente. Vazio é default. Preenchido sem classe
 -->
 
 ---
+layout: two-cols-header
+---
 
 # Outros métodos úteis
 
-<ul class="plain-list mt-6">
+<div class="rule"></div>
+
+::left::
+
+<ul class="plain-list mt-4 pr-6">
 <li><code>getFieldsAsArray()</code> — array pronto para SQL, ex: <code>["id", "nomeArmazem", "0 AS usaLocalizacoes"]</code></li>
 <li><code>getFieldsAsSelectString($showColumns = [])</code> — a mesma lista como string; <code>$showColumns</code> filtra só as colunas pedidas</li>
 <li><code>getFieldsAsJsonElements($showColumns = [])</code> — formato <code>"chave": "valor"</code> para respostas <em>ajax</em></li>
+</ul>
+
+::right::
+
+<ul class="plain-list mt-4 pl-6">
 <li><code>getSelectSql($where = '', $showColumns = [])</code> — atalho <code>SELECT ... FROM ... [WHERE ...]</code> completo</li>
 <li><code>ViewNamesTrait</code> — só o <strong>nome</strong> da view já resolvido (ex: <code>viewClientesName()</code>), para <em>JOINs</em> e SQL montado à mão</li>
 </ul>
 
-<div class="rule mt-8"></div>
-
-<p class="lead"><strong>Usar sempre que possível</strong>, em vez de montar SQL à mão.</p>
+<p class="lead mt-6"><strong>Usar sempre que possível</strong>, em vez de montar SQL à mão.</p>
 
 <!--
 getSelectSql é o atalho a usar quase sempre.
@@ -547,12 +559,12 @@ layout: section
 
 # `test-views/index`
 
-<ul class="plain-list mt-2">
+<ul class="plain-list mt-1">
 <li>Descobre <strong>automaticamente</strong> qualquer pasta em <code>common/models/views/</code> com um <code>*Factory.php</code> — não é preciso registar nada.</li>
-<li>Para cada entidade, consulta o <code>INFORMATION_SCHEMA.COLUMNS</code> real da base de dados do cliente e compara com o que a versão configurada espera.</li>
+<li>Para cada entidade, consulta o <code>INFORMATION_SCHEMA.COLUMNS</code> real do cliente e compara com o que a versão configurada espera.</li>
 </ul>
 
-<div class="grid grid-cols-2 gap-2 mt-4">
+<div class="grid grid-cols-2 gap-2 mt-3">
   <div class="status-card status-ok">
     <p class="status-name">OK</p>
     <p class="status-desc">Todos os campos da versão existem na view real</p>
@@ -571,10 +583,10 @@ layout: section
   </div>
 </div>
 
-<p class="dim mt-3 pr-20">Primeiro sítio a consultar ao integrar um cliente novo ou suspeitar de uma view desatualizada. Hoje já são <strong>20 entidades</strong> versionadas.</p>
+<p class="dim mt-2 pr-20">Primeiro sítio a consultar ao integrar um cliente novo. Hoje já são <strong>20 entidades</strong> versionadas.</p>
 
 <!--
-A página de teste é o primeiro sítio a consultar. Descoberta automática, comparação real ao schema do cliente.
+A página de teste é o primeiro sítio a consultar. Descoberta automática, comparação real ao schema do cliente (demonstração com a página de teste).
 -->
 
 ---
@@ -603,8 +615,6 @@ Cinco passos, sempre os mesmos.
 layout: end
 class: text-center
 ---
-
-<p class="meta">Obrigado</p>
 
 # Perguntas?
 
