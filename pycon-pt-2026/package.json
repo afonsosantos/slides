@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "dev": "slidev slides.md",
-    "build": "slidev build slides.md --without-notes"
+    "build": "slidev build slides.md --without-notes",
+    "export:pdf": "slidev export slides.md --format pdf"
   },
   "type": "module",
   "devDependencies": {
