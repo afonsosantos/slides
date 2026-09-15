@@ -265,6 +265,69 @@ A factory só indica a classe default. Não é preciso registar o pacote nalgum 
 -->
 
 ---
+layout: two-cols-header
+class: code-sm
+---
+
+# View nova numa revisão posterior
+
+<p class="dim mt-1">Surge na v14 uma view nova: default vazia, campos na <code>_v14</code>.</p>
+
+::left::
+
+<div class="pr-2 mt-2">
+<p class="code-label">ViewLotes.php <span class="dim">· default vazia</span></p>
+
+```php
+class ViewLotes extends AbstractViewModelVersion
+{
+    protected function getAllFields(): array
+    { return []; }
+    protected function getMissingFieldDefaults(): array
+    { return []; }
+    protected function getFieldsInThisVersion(): array
+    { return []; }
+    protected function getRequiredFields(): array
+    { return []; }
+    public function getViewName(): string
+    { return "ViewLotes"; }
+    public function getVersionConfigKey(): string
+    { return "views_sql_viewlotes"; }
+}
+```
+</div>
+
+::right::
+
+<div class="pl-2 mt-2">
+<p class="code-label accent">ViewLotes_v14.php <span class="dim">· conteúdo real</span></p>
+
+```php
+class ViewLotes_v14 extends ViewLotes
+{
+    protected function getAllFields(): array
+    { return ['id', 'codigoLote', 'dataValidade']; }
+    protected function getFieldsInThisVersion(): array
+    { return $this->getAllFields(); }
+    protected function getRequiredFields(): array
+    { return ['id', 'codigoLote']; }
+    public function getViewName(): string
+    { return "ViewLotes_v14"; }
+}
+```
+</div>
+
+<style>
+.slidev-code { font-size: 12px !important; line-height: 17px !important; padding: 12px 14px !important; }
+.col-left { padding-right: 0.75rem; }
+.col-right { padding-left: 0.75rem; }
+</style>
+
+<!--
+Caso especial do pacote novo: a view só aparece a meio, na v14. A classe sem versão continua a existir, mas vazia — é a revisão inicial, e aí a view não existia. Todo o conteúdo vai para a ViewLotes_v14. A factory é igual à de qualquer pacote. Os clientes com a view configuram views_sql_viewlotes = 14.
+-->
+
+---
 class: code-sm
 ---
 
@@ -272,21 +335,25 @@ class: code-sm
 
 # O manual avança: `ViewClientes_v14`
 
-```php {all|1|3-6|7-10}
+```php {all|1|3-6|7-10|11-14}
 class ViewClientes_v14 extends ViewClientes // a default nunca muda
 {
     protected function getAllFields(): array // + emailCliente
     {
-        return [...parent::getAllFields(), 'emailCliente'];
+        return array_merge(parent::getAllFields(), ['emailCliente']);
     }
     protected function getFieldsInThisVersion(): array // - nifCliente → '' (default)
     {
         return array_values(array_diff($this->getAllFields(), ['nifCliente']));
     }
+    public function getViewName(): string // view física nova
+    {
+        return "ViewClientes_v14";
+    }
 }
 ```
 
-<div class="note-grid grid grid-cols-2 gap-6 mt-4">
+<div class="note-grid grid grid-cols-3 gap-6 mt-4">
   <div>
     <p class="meta">Acrescentar campo</p>
     <p class="dim">Adicionar em <code>getAllFields()</code></p>
@@ -294,6 +361,10 @@ class ViewClientes_v14 extends ViewClientes // a default nunca muda
   <div>
     <p class="meta accent">Remover campo</p>
     <p class="dim">Tirar de <code>getFieldsInThisVersion()</code></p>
+  </div>
+  <div>
+    <p class="meta">Nome da view</p>
+    <p class="dim">Sobrepor <code>getViewName()</code> sempre</p>
   </div>
 </div>
 
@@ -307,6 +378,7 @@ O Manual de Integração avança: a v14 traz emailCliente e deixa de ter nifClie
 
 <ul class="plain-list mt-6">
 <li>Nome da classe <strong>tem de ser</strong> <code>ViewClientes_v14</code> — a factory resolve-o automaticamente.</li>
+<li>O cliente não altera a view antiga: <code>ViewClientes</code> e <code>ViewClientes_v14</code> coexistem na BD. Uma <code>_v15</code> tem de sobrepor <code>getViewName()</code> outra vez.</li>
 <li><strong>Não mexer na factory nem na classe default.</strong></li>
 <li>Configurar <code>views_sql_viewclientes = 14</code> em ConfigApp, nos clientes que já têm a view v14.</li>
 <li>Restantes clientes → chave vazia → classe default, <strong>sem alterações</strong>.</li>
@@ -357,13 +429,14 @@ Descobre-se, depois de facto, que a view de um cliente não bate com nenhuma rev
 | Cenário | Quando usar | O que se cria |
 |---|---|---|
 | **Pacote novo** | A view ainda não existe neste mecanismo | `ViewClientes.php` + `ViewClientesFactory.php` |
+| **View nova a meio** | A view só surge numa revisão posterior (ex: v14) | `ViewLotes.php` (vazia) + `ViewLotes_v14.php` + factory |
 | **Nova revisão** | O Manual de Integração avança — a view ganha/perde colunas | `ViewClientes_v14.php` |
 | **Revisão antiga** | A view de um cliente não bate com nenhuma revisão mapeada | `ViewClientes_v10.php` |
 
 <p class="lead mt-8">Em todos os casos: a default e a factory ficam intactas.</p>
 
 <!--
-Três cenários distintos, mesma mecânica por baixo: uma classe por revisão e a configuração do cliente a escolher.
+Três cenários (mais a variante da view que surge a meio), mesma mecânica por baixo: uma classe por revisão e a configuração do cliente a escolher.
 -->
 
 ---
@@ -524,6 +597,7 @@ A página de teste é o primeiro sítio a consultar. Descoberta automática, com
       <li>Chave em <code>RequisitosMinimos::KEYS</code></li>
       <li><code>FROM</code> literal → factory</li>
     </ol>
+    <p class="dim mt-2">Surge na v14? Default vazia + <code>_v14.php</code> com os campos</p>
   </div>
   <div class="check-card">
     <p class="check-title">Nova revisão</p>
@@ -531,6 +605,7 @@ A página de teste é o primeiro sítio a consultar. Descoberta automática, com
       <li><code>View{Entidade}_v14.php</code></li>
       <li>Acrescentar em <code>getAllFields()</code></li>
       <li>Remover em <code>getFieldsInThisVersion()</code></li>
+      <li><code>getViewName()</code> → <code>_v14</code></li>
       <li><code>= 14</code> nos clientes atualizados</li>
     </ol>
   </div>
