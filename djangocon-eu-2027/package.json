@@ -1,7 +1,7 @@
 {
   "name": "djangocon-eu-2027-plugins-talk",
   "dependencies": {
-    "@slidev/cli": "^52.19.1",
+    "@slidev/cli": "^52.20.1",
     "@slidev/theme-default": "latest",
     "slidev-addon-second-screen": "^1.0.2"
   },
