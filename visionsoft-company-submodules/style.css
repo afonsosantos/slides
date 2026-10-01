@@ -299,6 +299,32 @@ html, body, #slide-content { background: var(--bg); }
 }
 .check-card ol li { line-height: 1.5; padding-top: 0.25rem; }
 
+/* numbered steps (next-steps slide) */
+.step { border-top: 2px solid var(--accent); padding-top: 0.9rem; }
+.step-num {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.slidev-layout .step p { margin: 0; }
+.slidev-layout .step .step-title { font-size: 1.2rem; font-weight: 700; margin: 0.3rem 0 0.5rem; }
+
+/* highlighted link to the ClickUp task */
+.slidev-layout a.task-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: none;
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  color: var(--fg);
+}
+.task-link .code-label { display: block; margin-bottom: 0.15rem; }
+.task-link .task-name { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+
 /* label + one-line note pairs under a code block */
 .slidev-layout .note-grid p { margin: 0; }
 .slidev-layout .note-grid .meta { margin-bottom: 0.5rem; }

@@ -652,6 +652,40 @@ Pearlizplas e MGR já estão em submódulo no branch. Falta resolver o build par
 -->
 
 ---
+
+# Próximos passos
+
+<div class="grid grid-cols-3 gap-8 mt-10">
+  <div class="step">
+    <span class="step-num">01</span>
+    <p class="step-title">Uma empresa por pessoa</p>
+    <p class="dim">Cada pessoa recebe a tarefa de migrar uma empresa para o submódulo <code>company_&lt;cliente&gt;</code>.</p>
+  </div>
+  <div class="step">
+    <span class="step-num">02</span>
+    <p class="step-title">Seguir o guia</p>
+    <p class="dim">Criar o submódulo, deploy, testes e rollback — passo a passo.</p>
+  </div>
+  <div class="step">
+    <span class="step-num">03</span>
+    <p class="step-title">Erros ou melhorias?</p>
+    <p class="dim">Deixar em <strong>comentário</strong> na tarefa, para o guia ficar sempre atualizado.</p>
+  </div>
+</div>
+
+<a href="https://app.clickup.com/t/12493t4jtke" target="_blank" class="task-link mt-10">
+  <span>
+    <span class="code-label">Guia · ClickUp</span>
+    <span class="task-name">Tarefas para migração</span>
+  </span>
+  <code>#12493t4jtke</code>
+</a>
+
+<!--
+A partir de agora, cada um fica com uma empresa para migrar. O guia passo a passo está na tarefa do ClickUp. Se encontrarem erros no guia ou algo que possa ser melhorado, deixem em comentário na tarefa.
+-->
+
+---
 layout: end
 class: text-center
 ---
