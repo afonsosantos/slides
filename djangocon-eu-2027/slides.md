@@ -31,7 +31,7 @@ fonts:
   <img src="/visionsoft-white.svg" class="logo-invert h-6 object-contain" alt="Visionsoft" />
 </div>
 
-<p class="fineprint absolute bottom-10 right-14">Not affiliated with pretix GmbH, euPago or Fact.pt.</p>
+<p class="fineprint absolute bottom-10 right-14">Not affiliated with pretix GmbH, euPago, Fact.pt or Moloni.</p>
 
 <!--
 Good morning. <br>Today I want to talk about contributing to open source. <br>Not the idea of it. <br>The actual work.
@@ -64,7 +64,7 @@ timing: 40s
   <p class="meta accent">What I maintain</p>
   <ul class="plain-list mt-3">
     <li><strong>pretix-eupago</strong> — payments</li>
-    <li><strong>pretix-factpt</strong> — invoicing</li>
+    <li><strong>pretix-pt-invoicing</strong> — invoicing</li>
   </ul>
   <div class="rule mt-8"></div>
   <p class="dim">Both on PyPI. Both running real events.</p>
@@ -251,6 +251,7 @@ pretix_eupago/
 ├── apps.py            # AppConfig + PretixPluginMeta
 ├── signals.py         # where you hook into pretix
 ├── payment.py         # your actual code
+├── views.py           # normal Django views
 ├── urls.py            # normal Django URLs
 ├── templates/
 └── locale/
@@ -479,7 +480,7 @@ timing: 730s
   <div>
     <p class="flag">🇵🇹</p>
     <p class="meta mt-2">Portugal</p>
-    <p class="mt-2 text-2xl">Multibanco</p>
+    <p class="mt-2 text-2xl">MB WAY</p>
   </div>
   <div>
     <p class="flag">🇦🇹</p>
@@ -631,7 +632,7 @@ timing: 1090s
 <div class="pl-4">
   <p class="meta accent">The fixes</p>
   <ul class="plain-list mt-2">
-    <li>Verify the HMAC signature</li>
+    <li>Verify the HMAC signature (or the API key, on v1)</li>
     <li>Re-check the identifier we stored ourselves</li>
     <li>Return early if already in a terminal state</li>
   </ul>
@@ -706,7 +707,7 @@ Second problem: invoices. <br>In Portugal a PDF is not enough. <br>The software 
 
 ---
 layout: fact
-timing: 1250s
+timing: 1240s
 ---
 
 <p class="big-number">0</p>
@@ -716,12 +717,12 @@ timing: 1250s
 <p class="meta mt-10">The best decision I made was not writing code</p>
 
 <!--
-Here is the decision I am most happy with. <br>Zero lines of tax law. <br>I did not build certified invoicing. <br>That is not my problem to solve. <br>I connected pretix to a company that already does it.
+Here is the decision I am most happy with. <br>Zero lines of tax law. <br>I did not build certified invoicing. <br>That is not my problem to solve. <br>I connected pretix to companies that already do it.
 -->
 
 ---
 layout: default
-timing: 1300s
+timing: 1280s
 ---
 
 # Know which part is yours
@@ -740,7 +741,7 @@ timing: 1300s
 <div>
   <p class="meta accent">Mine</p>
   <ul class="plain-list mt-2">
-    <li>The glue between pretix and a certified provider</li>
+    <li>The glue between pretix and certified providers</li>
     <li>Retries, errors, and a page to see them</li>
   </ul>
 </div>
@@ -756,12 +757,50 @@ They handle the law. I handle the glue. <br>Certification is not my problem. <br
 -->
 
 ---
+layout: default
+timing: 1345s
+---
+
+# A plugin with plugins
+
+<p class="text-lg dim mt-2">Not a payment method this time. pretix signals, a background task picks the provider.</p>
+
+<div class="flex items-stretch gap-4 mt-8">
+  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)">
+    <p class="meta">pretix</p>
+    <p class="mt-3 text-xl">Order paid</p>
+    <p class="mt-1 text-xl">Refund done</p>
+  </div>
+  <div class="self-center text-3xl dim">→</div>
+  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--accent-soft)">
+    <p class="meta accent">pretix-pt-invoicing</p>
+    <p class="mt-3 text-xl">Celery task</p>
+    <p class="mt-1 text-xl">Its own model</p>
+    <p class="mt-1 text-xl">Tracking dashboard</p>
+  </div>
+  <div class="self-center text-3xl dim">→</div>
+  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)">
+    <p class="meta">Providers</p>
+    <p class="mt-3 text-xl">Fact.pt</p>
+    <p class="mt-1 text-xl">Moloni</p>
+  </div>
+</div>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">Every provider fills in the same three methods: <strong>issue</strong>, <strong>credit</strong>, <strong>download</strong>.</p>
+
+<!--
+This plugin is not a payment method. A different shape. <br>pretix sends a signal when an order is paid or refunded. <br>I only start a background task. Never call a slow API during checkout. <br>Then I do the same trick pretix played on me. <br>The task calls a provider. Today: Fact.pt or Moloni. <br>Every provider does three things. Issue. Credit. Download. <br>Each one is a folder, and the plugin finds it. <br>Adding a provider does not touch the task code.
+-->
+
+---
 layout: two-cols-header
-timing: 1360s
+timing: 1400s
 class: code-sm
 ---
 
-# No provider class
+# Retry only when it is safe
 
 <div class="rule"></div>
 
@@ -770,14 +809,18 @@ class: code-sm
 <div class="pr-8">
 
 ```python
-@receiver(order_paid)
-def factpt_order_paid(sender, order, **kw):
-    # Enqueue only — a slow provider
-    # must never delay checkout.
-    generate_factpt_invoice.apply_async(
-        kwargs={"order_pk": order.pk,
-                "event_pk": sender.pk}
-    )
+try:
+    document = provider.issue(order, identifier_id)
+except ProviderError as e:
+    # bad NIF, bad token: retrying won't help
+    invoice.status = IssuedInvoice.STATUS_ERROR
+    ...
+    return
+except Exception as e:
+    # timeout: did the invoice land or not?
+    if provider.deduplicates_issuance:
+        raise self.retry(exc=e)
+    return      # leave it to a human
 ```
 
 </div>
@@ -785,47 +828,21 @@ def factpt_order_paid(sender, order, **kw):
 ::right::
 
 <div class="pl-4">
-  <p class="meta accent">A different shape</p>
-  <ul class="plain-list mt-3">
-    <li>One signal: <code>order_paid</code></li>
-    <li>One Celery task</li>
-    <li>One model of its own</li>
-  </ul>
+  <p class="meta">Fact.pt</p>
+  <p class="mt-2">Rejects a repeated <code>identifierId</code> → retry is safe</p>
+  <p class="meta accent mt-8">Moloni</p>
+  <p class="mt-2">No dedupe field → a timeout is ambiguous</p>
+  <div class="rule mt-8"></div>
+  <p class="dim">Two official invoices is worse than waiting.</p>
 </div>
 
 <!--
-This plugin has no payment provider. <br>It listens for one signal: order paid. <br>Then it starts a background task. <br>Never call a slow API during checkout.
--->
-
----
-layout: default
-timing: 1420s
-class: code-sm
----
-
-# Safe to run twice
-
-```python
-@app.task(bind=True, max_retries=3, default_retry_delay=120, acks_late=True)
-def generate_factpt_invoice(self, order_pk, event_pk=None):
-    invoice, _created = FactptInvoice.objects.get_or_create(
-        order=order,
-        identifier_id=identifier_id,          # idempotency key
-        defaults={"status": FactptInvoice.STATUS_PENDING},
-    )
-    if invoice.status == FactptInvoice.STATUS_SUCCESS:
-        return
-```
-
-<p class="lead mt-6">Same idea as the webhook. Retries are not the exception.</p>
-
-<!--
-Notice the identifier again. <br>The same idea as the webhook. <br>The task can run twice and nothing breaks. <br>With background jobs, retries are normal, not an accident.
+Same identifier idea as the webhook. <br>But here is the lesson. <br>Your idempotency key only helps if the other side respects it. <br>Fact.pt rejects a duplicate, so I retry. <br>Moloni does not, so after a timeout I stop. <br>A second official invoice is worse than waiting for a person.
 -->
 
 ---
 layout: two-cols-header
-timing: 1490s
+timing: 1440s
 ---
 
 # Assume it will fail
@@ -858,6 +875,45 @@ timing: 1490s
 
 <!--
 It will fail sometimes. <br>The provider goes down. Someone types a wrong tax number. <br>So I store every attempt in my own model. <br>And there is a page where the organiser can see errors and press retry. <br>That page is half the value.
+-->
+
+---
+layout: default
+timing: 1490s
+---
+
+# Two plugins, zero imports
+
+<p class="text-lg dim mt-2">What happens when an organiser refunds a payment in euPago's back office.</p>
+
+<div class="flex items-stretch gap-3 mt-8">
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--card)">
+    <p class="meta">euPago</p>
+    <p class="mt-3 text-lg">Webhook says <strong>Refund</strong></p>
+  </div>
+  <div class="self-center text-2xl dim">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)">
+    <p class="meta accent">pretix-eupago</p>
+    <p class="mt-3 text-lg">Records an external refund</p>
+  </div>
+  <div class="self-center text-2xl dim">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--card)">
+    <p class="meta">pretix</p>
+    <p class="mt-3 text-lg">Organiser confirms it</p>
+  </div>
+  <div class="self-center text-2xl dim">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)">
+    <p class="meta accent">pretix-pt-invoicing</p>
+    <p class="mt-3 text-lg">Issues the credit note</p>
+  </div>
+</div>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">Neither plugin knows the other exists. pretix is the contract.</p>
+
+<!--
+And the two plugins meet. <br>An organiser refunds a payment in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
 -->
 
 ---
@@ -1058,8 +1114,8 @@ timing: 1800s
   </div>
   <div>
     <p class="meta">Invoicing</p>
-    <img src="/qr-factpt.svg" class="qr mt-3" alt="QR code to github.com/afonsosantos/pretix-factpt" />
-    <p class="mt-2 text-sm dim">github.com/afonsosantos/<br>pretix-factpt</p>
+    <img src="/qr-pt-invoicing.svg" class="qr mt-3" alt="QR code to github.com/afonsosantos/pretix-pt-invoicing" />
+    <p class="mt-2 text-sm dim">github.com/afonsosantos/<br>pretix-pt-invoicing</p>
   </div>
   <div>
     <p class="meta">Contact</p>
