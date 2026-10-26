@@ -2,7 +2,7 @@
 theme: default
 title: Nobody else is going to write it.
 # light = backup theme for a washed-out projector; nothing else needs changing
-colorSchema: dark
+colorSchema: light
 layout: cover
 timer: countdown
 duration: 30min
@@ -90,7 +90,7 @@ timing: 60s
 <p class="lead mt-4" v-click>Keep it up if you could <strong>read its code</strong>.</p>
 
 <!--
-Quick one. Hands up if you bought a ticket for a conference this year. <br>Keep it up if you chose the ticketing platform. <br>Keep it up if you could read its code. <br>Look around.
+Quick one. Hands up if you bought a ticket for a conference this year. <br>[click] Keep it up if you chose the ticketing platform. <br>[click] Keep it up if you could read its code. <br>Look around.
 -->
 
 ---
@@ -247,7 +247,7 @@ timing: 240s
 </div>
 
 <!--
-Let me be honest about the reasons people give. <br>Give back. Good for your CV. Find an easy issue. <br>None of those kept me going. <br>Guilt does not write code. <br>Nobody hires you for a typo fix. <br>And it is not your itch, so you stop scratching. <br>Nothing was pushing you.
+Let me be honest about the reasons people give. <br>Give back. Good for your CV. Find an easy issue. <br>[click] None of those kept me going. <br>Guilt does not write code. <br>Nobody hires you for a typo fix. <br>And it is not your itch, so you stop scratching. <br>[click] Nothing was pushing you.
 -->
 
 ---
@@ -466,7 +466,7 @@ timing: 605s
 </div>
 
 <!--
-And this is not only Portugal. <br>Austria, you have E P S. Netherlands, iDEAL. Poland, BLIK. <br>Hands up if your country has one of these. <br>Keep it up if your favourite tool supports it. <br>See? Yours is probably missing too.
+And this is not only Portugal. <br>[click] Austria, you have E P S. [click] Netherlands, iDEAL. [click] Poland, BLIK. <br>[click] Hands up if your country has one of these. <br>Keep it up if your favourite tool supports it. <br>See? Yours is probably missing too.
 -->
 
 ---
@@ -512,7 +512,7 @@ timing: 640s
 </div>
 
 <!--
-Step one, checkout. <br>A payment method is one class. You fill in the methods you need. Everything else has a default. <br>The buyer types a phone number. That is a form field. <br>They confirm, I render one sentence. <br>They place the order. I make one API call, their phone buzzes, and the payment is pending. <br>Then they wait. <br>Multibanco needs no input from the buyer, so it skips the first box.
+Step one, checkout. <br>A payment method is one class. You fill in the methods you need. Everything else has a default. <br>The buyer types a phone number. That is a form field. <br>[click] They confirm, I render one sentence. <br>[click] They place the order. I make one API call, their phone buzzes, and the payment is pending. <br>[click] Then they wait. <br>[click] Multibanco needs no input from the buyer, so it skips the first box.
 -->
 
 ---
@@ -670,7 +670,7 @@ timing: 845s
 </div>
 
 <!--
-The webhook can land before the buyer's page has even reloaded. The pending page just reads the state, so it does not matter. <br>Paid can arrive after the buyer gave up and switched method. I confirm anyway. The money is real. <br>A cancel can arrive after a paid. pretix's own fail method ignores that. <br>And a refund can arrive before the payment itself. Excuse me? <br>I answer four-oh-nine, and euPago sends it again later. <br>Two copies at the same moment? Row locks. The second one finds the work done. <br>Never trust the order of events. Read the state.
+[click] The webhook can land before the buyer's page has even reloaded. The pending page just reads the state, so it does not matter. <br>[click] Paid can arrive after the buyer gave up and switched method. I confirm anyway. The money is real. <br>[click] A cancel can arrive after a paid. pretix's own fail method ignores that. <br>[click] And a refund can arrive before the payment itself. Excuse me? <br>I answer four-oh-nine, and euPago sends it again later. <br>Two copies at the same moment? Row locks. The second one finds the work done. <br>Never trust the order of events. Read the state.
 -->
 
 ---
@@ -737,7 +737,7 @@ timing: 960s
 <p class="meta mt-8" v-click>Knowing which part is yours is a contributing skill</p>
 
 <!--
-Guess. How many lines of Portuguese tax law are in my plugin? <br>Shout a number. <br>Zero. <br>I did not build certified invoicing. That is not my problem to solve. <br>I connected pretix to companies that already do it. They handle the law. I handle the glue. <br>Making the problem smaller is a skill.
+Guess. How many lines of Portuguese tax law are in my plugin? <br>Shout a number. <br>[click] Zero. <br>I did not build certified invoicing. That is not my problem to solve. <br>[click] I connected pretix to companies that already do it. They handle the law. I handle the glue. <br>[click] Making the problem smaller is a skill.
 -->
 
 ---
@@ -776,7 +776,7 @@ timing: 1000s
 </div>
 
 <!--
-Remember the signal? Plugin two was listening. <br>It does not call anyone. It enqueues a Celery task, on commit. Otherwise the worker can load the order before the payment commits, see it unpaid, and skip it. <br>The task claims one row under a lock: pending. A duplicate task finds it taken. Never call a tax API during checkout. <br>The task picks the provider the organiser chose. Fact.pt or Moloni. <br>Same trick pretix played on me: each provider is a folder with three methods. Issue, credit, download. <br>The invoice is issued, the row says issued, the buyer gets an email.
+Remember the signal? Plugin two was listening. <br>[click] It does not call anyone. It enqueues a Celery task, on commit. Otherwise the worker can load the order before the payment commits, see it unpaid, and skip it. <br>The task claims one row under a lock: pending. A duplicate task finds it taken. Never call a tax API during checkout. <br>[click] The task picks the provider the organiser chose. Fact.pt or Moloni. <br>[click] Same trick pretix played on me: each provider is a folder with three methods. Issue, credit, download. <br>The invoice is issued, the row says issued, the buyer gets an email.
 -->
 
 ---
@@ -871,7 +871,7 @@ timing: 1110s
 </div>
 
 <!--
-Last step. Months later the buyer cannot come, and the organiser refunds in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. Only for a full refund: the providers credit whole documents, so a partial refund is a button for a human. <br>The payment plugin owns the money. The invoicing plugin owns the credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
+Last step. Months later the buyer cannot come, and the organiser refunds in euPago's back office. <br>[click] euPago calls my webhook. I record the refund in pretix. <br>[click] The organiser confirms it. <br>[click] The invoicing plugin sees the refund is done, and issues a credit note. Only for a full refund: the providers credit whole documents, so a partial refund is a button for a human. <br>The payment plugin owns the money. The invoicing plugin owns the credit note. <br>[click] Neither plugin imports the other. <br>pretix is the contract between them.
 -->
 
 ---
@@ -916,7 +916,7 @@ timing: 1180s
 </div>
 
 <!--
-Guess: how many plugins on the pretix Marketplace? Shout. <br>About one hundred and seventy. Official and community, free and paid. Mine is one of them. <br>Publishing is the easy part. Follow the naming convention. Upload to PyPI from CI, with trusted publishing. <br>Then list it on the Marketplace. That is where people who host pretix go to look. PyPI alone has no audience.
+Guess: how many plugins on the pretix Marketplace? Shout. <br>[click] About one hundred and seventy. [click] Official and community, free and paid. Mine is one of them. <br>[click] Publishing is the easy part. Follow the naming convention. Upload to PyPI from CI, with trusted publishing. <br>Then list it on the Marketplace. That is where people who host pretix go to look. PyPI alone has no audience.
 -->
 
 ---
@@ -1030,7 +1030,7 @@ timing: 1380s
 </div>
 
 <!--
-Thirty seconds. Turn to the person next to you and tell them one thing you worked around last month. Go. <br>... <br>That thing is your gap, if you worked around it more than once, if your country needs it, if you copied it between projects. <br>If everybody needs it, talk to the maintainers first. <br>If it is only your country or your workflow, write a plugin. <br>You already know the problem. That is the advantage.
+Thirty seconds. Turn to the person next to you and tell them one thing you worked around last month. Go. <br>... <br>[click] That thing is your gap, if you worked around it more than once, if your country needs it, if you copied it between projects. <br>[click] If everybody needs it, talk to the maintainers first. <br>If it is only your country or your workflow, write a plugin. <br>[click] You already know the problem. That is the advantage.
 -->
 
 ---
