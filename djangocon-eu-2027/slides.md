@@ -1,7 +1,8 @@
 ---
 theme: default
 title: Nobody else is going to write it.
-colorSchema: light
+# light = backup theme for a washed-out projector; nothing else needs changing
+colorSchema: dark
 layout: cover
 timer: countdown
 duration: 30min
@@ -240,9 +241,10 @@ timing: 240s
 
 </div>
 
-<div class="rule mt-10"></div>
-
-<p class="lead" v-click>Nothing was pushing you. So nothing kept you going.</p>
+<div v-click>
+  <div class="rule mt-10"></div>
+  <p class="lead">Nothing was pushing you. So nothing kept you going.</p>
+</div>
 
 <!--
 Let me be honest about the reasons people give. <br>Give back. Good for your CV. Find an easy issue. <br>None of those kept me going. <br>Guilt does not write code. <br>Nobody hires you for a typo fix. <br>And it is not your itch, so you stop scratching. <br>Nothing was pushing you.
@@ -458,9 +460,10 @@ timing: 605s
   </div>
 </div>
 
-<div class="rule mt-10"></div>
-
-<p class="ask" v-click><span class="emoji">🙋</span> Hands up if your country has one. Keep it up if your favourite tool supports it.</p>
+<div v-click>
+  <div class="rule mt-10"></div>
+  <p class="ask"><span class="emoji">🙋</span> Hands up if your country has one. Keep it up if your favourite tool supports it.</p>
+</div>
 
 <!--
 And this is not only Portugal. <br>Austria, you have E P S. Netherlands, iDEAL. Poland, BLIK. <br>Hands up if your country has one of these. <br>Keep it up if your favourite tool supports it. <br>See? Yours is probably missing too.
@@ -503,9 +506,10 @@ timing: 640s
   </div>
 </div>
 
-<div class="rule mt-6"></div>
-
-<p class="lead" v-click="4">Everything you skip has a default. Multibanco skips box 1 entirely.</p>
+<div v-click="4">
+  <div class="rule mt-6"></div>
+  <p class="lead">Everything you skip has a default. Multibanco skips box 1 entirely.</p>
+</div>
 
 <!--
 Step one, checkout. <br>A payment method is one class. You fill in the methods you need. Everything else has a default. <br>The buyer types a phone number. That is a form field. <br>They confirm, I render one sentence. <br>They place the order. I make one API call, their phone buzzes, and the payment is pending. <br>Then they wait. <br>Multibanco needs no input from the buyer, so it skips the first box.
@@ -583,17 +587,21 @@ class: code-sm
 ```python
 class EupagoWebhookView(View):
     def post(self, request):
-        payment = self._lookup_payment(request)   # our identifier, our signature check
-        payment.confirm()                         # pretix: marks paid, emails, frees quota
+        payment = self._lookup_payment(identifier)   # ORDER-PK, must match what we stored
+        if not _verify_hmac(request.body, signature, secret):
+            return HttpResponseBadRequest()          # HMAC, keyed per event
+        payment.confirm()                            # pretix: row lock, marks paid, emails
         return HttpResponse("OK")
 ```
+
+<p class="text-sm dim mt-3">Trimmed. The real view also decrypts, checks the payment's state, and answers <code>503</code> on a lock timeout so euPago retries.</p>
 
 <div class="rule mt-6"></div>
 
 <p class="lead">One call. pretix does the rest, and fires <code>order_paid</code> for whoever is listening.</p>
 
 <!--
-Step three. The buyer approves, and euPago calls my URL. <br>A normal Django view. I find the payment, check it is really euPago, and call confirm. <br>pretix marks the order paid, sends the ticket, frees the quota. <br>And it fires a signal: order paid. Remember that signal. Someone is listening.
+Step three. The buyer approves, and euPago calls my URL. <br>A normal Django view. I find the payment by the identifier I stored myself. I check the signature, with a key per event. Then I call confirm. <br>Confirm takes a row lock. If the same Paid arrives twice, the second one does nothing. <br>pretix marks the order paid, sends the ticket, frees the quota. <br>And it fires a signal: order paid. Remember that signal. Someone is listening.
 -->
 
 ---
@@ -662,7 +670,7 @@ timing: 845s
 </div>
 
 <!--
-The webhook can land before the buyer's page has even reloaded. The pending page just reads the state, so it does not matter. <br>Paid can arrive after the buyer gave up and switched method. I confirm anyway. The money is real. <br>A cancel can arrive after a paid. pretix's own fail method ignores that. <br>And a refund can arrive before the payment itself. Excuse me? <br>I answer four-oh-nine, and euPago sends it again later. <br>Never trust the order of events. Read the state.
+The webhook can land before the buyer's page has even reloaded. The pending page just reads the state, so it does not matter. <br>Paid can arrive after the buyer gave up and switched method. I confirm anyway. The money is real. <br>A cancel can arrive after a paid. pretix's own fail method ignores that. <br>And a refund can arrive before the payment itself. Excuse me? <br>I answer four-oh-nine, and euPago sends it again later. <br>Two copies at the same moment? Row locks. The second one finds the work done. <br>Never trust the order of events. Read the state.
 -->
 
 ---
@@ -751,8 +759,8 @@ timing: 1000s
   <div class="self-center text-3xl dim" v-click="1">→</div>
   <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--accent-soft)" v-click="1">
     <p class="meta accent">pretix-pt-invoicing</p>
-    <p class="mt-3 text-xl">Enqueues a Celery task</p>
-    <p class="mt-1 text-xl">Writes one row: pending</p>
+    <p class="mt-3 text-xl">Enqueues a Celery task, on commit</p>
+    <p class="mt-1 text-xl">The task claims one row: pending</p>
   </div>
   <div class="self-center text-3xl dim" v-click="2">→</div>
   <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)" v-click="2">
@@ -762,12 +770,13 @@ timing: 1000s
   </div>
 </div>
 
-<div class="rule mt-6"></div>
-
-<p class="lead" v-click="3">Each provider is a folder with three methods: <strong>issue</strong>, <strong>credit</strong>, <strong>download</strong>.</p>
+<div v-click="3">
+  <div class="rule mt-6"></div>
+  <p class="lead">Each provider is a folder with three methods: <strong>issue</strong>, <strong>credit</strong>, <strong>download</strong>.</p>
+</div>
 
 <!--
-Remember the signal? Plugin two was listening. <br>It does not call anyone. It enqueues a Celery task and writes one row: pending. Never call a tax API during checkout. <br>The task picks the provider the organiser chose. Fact.pt or Moloni. <br>Same trick pretix played on me: each provider is a folder with three methods. Issue, credit, download. <br>The invoice is issued, the row says issued, the buyer gets an email.
+Remember the signal? Plugin two was listening. <br>It does not call anyone. It enqueues a Celery task, on commit. Otherwise the worker can load the order before the payment commits, see it unpaid, and skip it. <br>The task claims one row under a lock: pending. A duplicate task finds it taken. Never call a tax API during checkout. <br>The task picks the provider the organiser chose. Fact.pt or Moloni. <br>Same trick pretix played on me: each provider is a folder with three methods. Issue, credit, download. <br>The invoice is issued, the row says issued, the buyer gets an email.
 -->
 
 ---
@@ -820,7 +829,7 @@ timing: 1065s
 </div>
 
 <!--
-The provider goes down. Someone types a wrong tax number. A request times out and you do not know if the invoice exists. <br>So that row stores every attempt and every error. <br>There is a page where the organiser sees it and presses retry. That page is half the value of the plugin. <br>And I only retry automatically when the provider rejects duplicates. <br>Two official invoices is worse than waiting for a human.
+The provider goes down. Someone types a wrong tax number. A request times out and you do not know if the invoice exists. <br>So that row stores every attempt and every error. <br>There is a page where the organiser sees it and presses retry. That page is half the value of the plugin. <br>And I only retry automatically when the provider rejects duplicates. <br>A rejection is not a timeout. A rejection means fix the data. A timeout means you do not know. <br>If the provider cannot dedupe, the error says so: check in the provider before you press retry. <br>Two official invoices is worse than waiting for a human.
 -->
 
 ---
@@ -852,16 +861,17 @@ timing: 1110s
   <div class="self-center text-2xl dim" v-click="3">→</div>
   <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)" v-click="3">
     <p class="meta accent">pretix-pt-invoicing</p>
-    <p class="mt-3 text-lg">Issues the credit note</p>
+    <p class="mt-3 text-lg">Credit note, once fully refunded</p>
   </div>
 </div>
 
-<div class="rule mt-6"></div>
-
-<p class="lead" v-click="4">Neither plugin knows the other exists. pretix is the contract.</p>
+<div v-click="4">
+  <div class="rule mt-6"></div>
+  <p class="lead">Neither plugin knows the other exists. pretix is the contract.</p>
+</div>
 
 <!--
-Last step. Months later the buyer cannot come, and the organiser refunds in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
+Last step. Months later the buyer cannot come, and the organiser refunds in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. Only for a full refund: the providers credit whole documents, so a partial refund is a button for a human. <br>The payment plugin owns the money. The invoicing plugin owns the credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
 -->
 
 ---
@@ -1014,9 +1024,10 @@ timing: 1380s
 
 </div>
 
-<div class="rule mt-8"></div>
-
-<p class="lead" v-click>Your gap is already scoped, already motivated, already tested — by you.</p>
+<div v-click>
+  <div class="rule mt-8"></div>
+  <p class="lead">Your gap is already scoped, already motivated, already tested — by you.</p>
+</div>
 
 <!--
 Thirty seconds. Turn to the person next to you and tell them one thing you worked around last month. Go. <br>... <br>That thing is your gap, if you worked around it more than once, if your country needs it, if you copied it between projects. <br>If everybody needs it, talk to the maintainers first. <br>If it is only your country or your workflow, write a plugin. <br>You already know the problem. That is the advantage.

@@ -18,4 +18,10 @@ bun run dev    # start dev server
 bun run build  # build static site to dist/
 ```
 
+## Light theme
+
+The deck is dark by default. If the projector washes it out, set `colorSchema: light`
+in the frontmatter at the top of `slides.md`; the dev server picks it up live. The
+dark colours are one `html.dark` block in `style.css`.
+
 Built with [Slidev](https://sli.dev).
