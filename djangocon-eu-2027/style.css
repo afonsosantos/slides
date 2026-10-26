@@ -175,8 +175,6 @@ html, body, #slide-content { background: var(--bg); }
   z-index: 100;
 }
 
-.deck-footer.on-section { color: rgba(255, 255, 255, 0.7); }
-
 /* ---- layout tweaks ---- */
 
 .slidev-layout.fact,
@@ -259,6 +257,109 @@ html, body, #slide-content { background: var(--bg); }
 
 /* theme-default's cover wrapper stretches instead of centring under grid alignment */
 .slidev-layout.cover > div { align-self: center; }
+
+/* ---- follow-one-order trail (components/OrderTrail.vue) ---- */
+
+.order-trail {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.2rem 0 1.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.order-trail li {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.35em 0.8em 0.35em 0.5em;
+  border-radius: 4px;
+  background: rgba(22, 24, 28, 0.05);
+  color: var(--fg-dim);
+  opacity: 0.45;
+}
+
+.order-trail li .n {
+  display: inline-grid;
+  place-items: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 999px;
+  background: rgba(22, 24, 28, 0.1);
+  font-size: 0.9em;
+  line-height: 1;
+  letter-spacing: 0;   /* the strip's tracking would push the glyph off-centre */
+}
+
+/* audience prompt: hands up, shout out, guess */
+.ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: var(--accent-2);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.ask .emoji {
+  font-family: 'Noto Color Emoji', sans-serif;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.slidev-layout.statement .ask { font-size: 1.25rem; }
+
+.order-trail li.done { opacity: 0.85; }
+.order-trail li.done .n { background: var(--accent-soft); color: var(--accent); }
+
+.order-trail li.active {
+  opacity: 1;
+  background: var(--accent);
+  color: #fff;
+}
+.order-trail li.active .n { background: rgba(255, 255, 255, 0.22); color: #fff; }
+
+/* ---- full-bleed meme beat: cat on the right, one line on the left ---- */
+
+.slidev-layout.meme {
+  background: #000;
+  color: #fff;
+  padding: 0;
+}
+
+.meme-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: auto;
+}
+
+.meme-text {
+  position: absolute;
+  left: 3.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15rem;
+}
+
+.meme-text .giant-word {
+  font-size: 4rem;
+  color: #fff;
+}
+
+.meme-text .lead { color: rgba(255, 255, 255, 0.72); }
+.meme-text .rule { background: rgba(255, 255, 255, 0.55); }
+
+.deck-footer.on-dark { color: rgba(255, 255, 255, 0.7); }
 
 /* country marker above a payment method */
 .flag {

@@ -6,6 +6,7 @@ layout: cover
 timer: countdown
 duration: 30min
 routerMode: hash
+transition: slide-left
 addons:
   - slidev-addon-second-screen
 fonts:
@@ -39,7 +40,7 @@ Good morning. <br>Today I want to talk about contributing to open source. <br>No
 
 ---
 layout: two-cols-header
-timing: 40s
+timing: 30s
 ---
 
 # Who am I
@@ -51,11 +52,10 @@ timing: 40s
 <div class="pr-10">
   <p class="meta">Role</p>
   <p class="mt-2 text-2xl">Full Stack Developer</p>
+  <img src="/visionsoft-white.svg" class="logo-invert h-6 object-contain mt-2" alt="Visionsoft" />
 
-  <p class="meta mt-8">Based in</p>
+  <p class="meta" style="margin-top: 3rem">Based in</p>
   <p class="mt-2 text-2xl">Leiria, Portugal</p>
-
-  <img src="/visionsoft-white.svg" class="logo-invert h-7 object-contain mt-10" alt="Visionsoft" />
 </div>
 
 ::right::
@@ -66,85 +66,109 @@ timing: 40s
     <li><strong>pretix-eupago</strong> — payments</li>
     <li><strong>pretix-pt-invoicing</strong> — invoicing</li>
   </ul>
-  <div class="rule mt-8"></div>
-  <p class="dim">Both on PyPI. Both running real events.</p>
+  <p class="dim mt-2">Both on PyPI. Both running real events.</p>
+
+  <p class="meta mt-8">Also</p>
+  <p class="mt-2 text-2xl">Conference organiser</p>
+  <p class="dim text-sm">PyCon Portugal · DjangoCon Europe 2027</p>
 </div>
 
 <!--
-I am a full stack developer at Visionsoft, in Portugal. <br>I wrote two plugins for pretix. <br>Both are on PyPI. <br>Both run real events today.
--->
-
----
-layout: quote
-timing: 80s
----
-
-# "Find a project you like, and look for a good first issue."
-
-<p class="lead mt-8">Good advice. Wrong direction.</p>
-
-<!--
-Everyone gives this advice. <br>Find a project. Look for an easy issue. <br>It sounds right. <br>I think the direction is wrong.
--->
-
----
-layout: default
-timing: 120s
----
-
-# Why that rarely works
-
-<div class="grid grid-cols-2 gap-10 mt-10">
-
-<div>
-  <p class="meta">What you are doing</p>
-  <ul class="plain-list mt-2">
-    <li>Shopping for a problem</li>
-    <li>Someone else's problem</li>
-    <li>On someone else's schedule</li>
-  </ul>
-</div>
-
-<div>
-  <p class="meta accent">What happens</p>
-  <ul class="plain-list mt-2">
-    <li>It gets boring</li>
-    <li>The review takes three weeks</li>
-    <li>You stop</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="rule mt-10"></div>
-
-<p class="lead">Nothing was pushing you. So nothing kept you going.</p>
-
-<!--
-You go looking for a project that needs help. <br>That is shopping for a problem. <br>It is somebody else's problem. <br>Then it gets boring, and you stop. <br>Nothing was pushing you.
+I am a full stack developer at Visionsoft, in Portugal. <br>I also help organise conferences. That matters for this story. <br>I wrote two plugins for pretix. <br>Both are on PyPI. <br>Both run real events today.
 -->
 
 ---
 layout: statement
-timing: 150s
+timing: 60s
 ---
 
-<p class="giant-word">BLOCKED.</p>
+<p class="ask"><span class="emoji">🙋</span> Hands up if you bought a ticket for a conference this year.</p>
 
-<p class="lead mt-4">Wait until something stops you.</p>
+<p class="lead mt-10" v-click>Keep it up if you <strong>chose</strong> the ticketing platform.</p>
+
+<p class="lead mt-4" v-click>Keep it up if you could <strong>read its code</strong>.</p>
 
 <!--
-The good contribution starts differently. <br>You want to do something. <br>And the software will not let you. <br>That is the moment. <br>Wait for it.
+Quick one. Hands up if you bought a ticket for a conference this year. <br>Keep it up if you chose the ticketing platform. <br>Keep it up if you could read its code. <br>Look around.
 -->
 
 ---
 layout: default
-timing: 210s
+timing: 90s
 ---
 
-# What stopped me
+# Ticketing has a default
 
-<p class="text-lg dim mt-4">I wanted to run a conference without renting closed-source ticketing. pretix was the best fit — almost.</p>
+<p class="text-lg dim mt-4">Everyone here has bought a ticket on a closed platform. Nobody chose it.</p>
+
+<div class="grid grid-cols-2 gap-10 mt-8">
+
+<div>
+  <p class="meta">What most events run on</p>
+  <ul class="plain-list mt-2">
+    <li>Closed-source SaaS</li>
+    <li>Pay per ticket, forever</li>
+    <li>Your data, their servers</li>
+  </ul>
+</div>
+
+<div>
+  <p class="meta accent">What you never get</p>
+  <ul class="plain-list mt-2">
+    <li>Self-hosting</li>
+    <li>Code you can read, let alone extend</li>
+    <li>A plugin ecosystem you control</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">The open-source alternative has been sitting there the whole time.</p>
+
+<!--
+Ticketing has a default. <br>Everyone here has bought a ticket on a closed platform, and nobody chose it. <br>You pay per ticket, forever. Your data lives on their servers. <br>You cannot read the code, never mind extend it. <br>And the open-source alternative was there the whole time.
+-->
+
+---
+layout: statement
+timing: 110s
+---
+
+<p class="giant-word">RENTING.</p>
+
+<p class="lead mt-4">By default.</p>
+
+<!--
+Renting. <br>By default. <br>That is the habit I want you to notice.
+-->
+
+---
+layout: statement
+timing: 130s
+---
+
+<img src="/pretix-white.svg" class="logo-invert h-12 mx-auto mb-6 object-contain" alt="pretix" />
+
+# Enter <span class="accent">pretix</span>
+
+<p class="lead mt-2">As good. Often better. And free.</p>
+
+<p class="meta mt-6">Django · Self-hostable · AGPL · Plugin-driven · Used across Europe</p>
+
+<!--
+pretix is ticketing software. A Django project you can host yourself. <br>As good as the paid platforms. In some ways better. <br>And the important part for today: it is built to be extended from outside. <br>You never fork it.
+-->
+
+---
+layout: default
+timing: 170s
+---
+
+# I hit a wall
+
+<p class="text-lg dim mt-4">I wanted to run a conference without renting. pretix was the best fit — almost.</p>
 
 <div class="grid grid-cols-2 gap-10 mt-10">
 
@@ -176,7 +200,7 @@ I wanted to run a conference. <br>I did not want to rent a closed platform. <br>
 
 ---
 layout: center
-timing: 240s
+timing: 215s
 ---
 
 # Not a bug. <span class="accent">A plugin nobody wrote.</span>
@@ -188,8 +212,58 @@ This is important. <br>It was not broken. <br>Nobody had written that plugin yet
 -->
 
 ---
+layout: default
+timing: 240s
+---
+
+# Why contribute, honestly
+
+<div class="grid grid-cols-2 gap-10 mt-10">
+
+<div>
+  <p class="meta">The reasons you are given</p>
+  <ul class="plain-list mt-2">
+    <li>Give something back</li>
+    <li>It looks good on your CV</li>
+    <li>Find a good first issue</li>
+  </ul>
+</div>
+
+<div v-click>
+  <p class="meta accent">What actually happens</p>
+  <ul class="plain-list mt-2">
+    <li>Guilt does not ship code</li>
+    <li>Nobody hires for a typo fix</li>
+    <li>Not your itch. You stop scratching</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="rule mt-10"></div>
+
+<p class="lead" v-click>Nothing was pushing you. So nothing kept you going.</p>
+
+<!--
+Let me be honest about the reasons people give. <br>Give back. Good for your CV. Find an easy issue. <br>None of those kept me going. <br>Guilt does not write code. <br>Nobody hires you for a typo fix. <br>And it is not your itch, so you stop scratching. <br>Nothing was pushing you.
+-->
+
+---
+layout: statement
+timing: 300s
+---
+
+<p class="giant-word">BLOCKED.</p>
+
+<p class="lead mt-4">You are not looking for a project that needs help.<br>You are looking for the thing that stopped you.</p>
+
+<!--
+The good contribution starts differently. <br>You want to do something. <br>And the software will not let you. <br>You are not looking for a project that needs help. <br>You are looking for the thing that stopped you. <br>That is the moment.
+-->
+
+---
 layout: section
-timing: 250s
+timing: 335s
 ---
 
 <p class="meta">Part 01</p>
@@ -199,47 +273,12 @@ timing: 250s
 <div class="rule"></div>
 
 <!--
-First: what a pretix plugin actually is.
--->
-
----
-layout: two-cols-header
-timing: 300s
----
-
-# pretix, in one slide
-
-<div class="rule"></div>
-
-::left::
-
-<div class="pr-10">
-  <p class="meta">What it is</p>
-  <ul class="plain-list mt-2">
-    <li>Ticketing for conferences and events</li>
-    <li>A Django project you can self-host</li>
-    <li>AGPL, ~10 years old, used across Europe</li>
-  </ul>
-</div>
-
-::right::
-
-<div class="pl-4">
-  <p class="meta accent">Why it matters here</p>
-  <ul class="plain-list mt-2">
-    <li>Built to be extended from outside</li>
-    <li>Payments, exports, checkout, emails — pluggable</li>
-    <li>You never fork it</li>
-  </ul>
-</div>
-
-<!--
-pretix is ticketing software. <br>It is a Django project. <br>You can host it yourself. <br>Most important: it is designed to be extended from outside. <br>You never need to fork it.
+First: what a pretix plugin actually is. Briefly.
 -->
 
 ---
 layout: default
-timing: 360s
+timing: 350s
 ---
 
 # A plugin is a Django app
@@ -266,111 +305,30 @@ A plugin is just a Django app. <br>There is a cookiecutter to start. <br>You alr
 
 ---
 layout: two-cols-header
-timing: 430s
+timing: 420s
 class: code-sm
 ---
 
-# The metadata
+# How pretix finds you, and how you answer
 
 <div class="rule"></div>
 
 ::left::
 
 <div class="pr-8">
-
-```python
-class PluginApp(PluginConfig):
-    name = "pretix_eupago"
-
-    class PretixPluginMeta:
-        name = _("euPago Payments")
-        author = "Afonso Santos"
-        version = __version__
-        category = "PAYMENT"
-        compatibility = "pretix>=4.0.0"
-
-    def ready(self):
-        from . import signals  # NOQA
-```
-
-</div>
-
-::right::
-
-<div class="pl-4">
-  <p class="meta accent">Notice</p>
-  <ul class="plain-list mt-3">
-    <li>A normal Django <code>AppConfig</code></li>
-    <li>One nested class pretix reads</li>
-    <li>You declare which versions you support</li>
-  </ul>
-</div>
-
-<!--
-This is real code from my plugin. <br>It is a normal Django AppConfig. <br>The nested class tells pretix what this plugin is. <br>Category payment. <br>And which pretix versions it works with.
--->
-
----
-layout: default
-timing: 490s
----
-
-# How pretix finds you
+  <p class="meta">pyproject.toml</p>
 
 ```toml
 [project.entry-points."pretix.plugin"]
 pretix_eupago = "pretix_eupago:PluginApp"
 ```
 
-<div class="grid grid-cols-2 gap-10 mt-10">
-
-<div>
-  <p class="meta">What this is</p>
-  <ul class="plain-list mt-2">
-    <li>A setuptools entry point</li>
-    <li>Scanned by pretix at startup</li>
-  </ul>
-</div>
-
-<div>
-  <p class="meta accent">What you never do</p>
-  <ul class="plain-list mt-2">
-    <li>Touch <code>INSTALLED_APPS</code></li>
-    <li>Patch the host project</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="rule mt-10"></div>
-
-<p class="lead"><code>pip install</code>, restart, tick a box in the event settings.</p>
-
-<!--
-This is how pretix discovers the plugin. <br>One entry point in pyproject. <br>The user installs with pip and restarts. <br>Nobody edits settings files. <br>Nobody forks anything.
--->
-
----
-layout: two-cols-header
-timing: 560s
-class: code-sm
----
-
-# Where you hook in
-
-<div class="rule"></div>
-
-::left::
-
-<div class="pr-8">
-  <p class="meta">pretix_eupago/signals.py</p>
+  <p class="meta mt-6">pretix_eupago/signals.py</p>
 
 ```python
 @receiver(register_payment_providers)
 def register_payment_provider(sender, **kw):
-    from .payment import (
-        EupagoMBWAY, EupagoMultibanco,
-    )
+    from .payment import EupagoMBWAY, EupagoMultibanco
     return [EupagoMultibanco, EupagoMBWAY]
 ```
 
@@ -379,23 +337,22 @@ def register_payment_provider(sender, **kw):
 ::right::
 
 <div class="pl-4">
-  <p class="meta accent">Django signals. That is the whole mechanism.</p>
+  <p class="meta accent">That is the whole mechanism</p>
   <ul class="plain-list mt-3">
-    <li><code>register_payment_providers</code> <span class="dim">— payments</span></li>
-    <li><code>order_paid</code> <span class="dim">— money landed</span></li>
-    <li><code>register_data_exporters</code> <span class="dim">— reports</span></li>
-    <li><code>nav_event</code> <span class="dim">— backend pages</span></li>
-    <li class="dim">…and many more</li>
+    <li>An entry point, scanned at startup</li>
+    <li>Django signals: payments, exports, emails, backend pages</li>
+    <li>Never touch <code>INSTALLED_APPS</code>. Never fork</li>
   </ul>
+  <p class="dim mt-4"><code>pip install</code>, restart, tick a box.</p>
 </div>
 
 <!--
-And this is how you add something. <br>A Django signal receiver. <br>pretix asks: who provides payment methods? <br>My plugin answers. <br>That is the whole mechanism.
+Two pieces. <br>One entry point in pyproject. pretix scans it at startup. <br>And Django signals. pretix asks: who provides payment methods? My plugin answers. <br>That is the whole mechanism. <br>The user installs with pip and restarts. Nobody edits settings. Nobody forks.
 -->
 
 ---
 layout: center
-timing: 620s
+timing: 500s
 ---
 
 # The rest is just Django
@@ -415,29 +372,31 @@ Everything else is normal Django. <br>Templates. Forms. Models. Views. Permissio
 
 ---
 layout: section
-timing: 630s
+timing: 540s
 ---
 
 <p class="meta">Part 02</p>
 
-# Plugin one: payments
+# Follow one order
 
 <div class="rule"></div>
 
+<p class="lead">From "place order" to a legal invoice, through both plugins.</p>
+
 <!--
-Now the first plugin. Payments.
+Now let's follow one order through both plugins. <br>Someone buys a ticket to a conference. <br>We go from "place order" all the way to a legal invoice.
 -->
 
 ---
 layout: default
-timing: 700s
+timing: 560s
 ---
 
-# Two methods you probably never used
+# First, the buyer picks how to pay
 
-<p class="text-lg dim mt-4">Neither of them is a card. Both of them are how Portugal pays.</p>
+<p class="text-lg dim mt-2">Neither option is a card. Both are how Portugal pays.</p>
 
-<div class="grid grid-cols-2 gap-10 mt-10">
+<div class="grid grid-cols-2 gap-10 mt-8">
 
 <div>
   <p class="meta">Multibanco</p>
@@ -459,17 +418,17 @@ timing: 700s
 
 </div>
 
-<div class="rule mt-10"></div>
+<div class="rule mt-8"></div>
 
 <p class="lead">In Portugal these are not extras. People expect them.</p>
 
 <!--
-Two payment methods you may not know. <br>Multibanco gives you a reference number. <br>You pay at a cash machine or in your bank app. <br>MB WAY uses your phone number. <br>In Portugal, these are not extras. People expect them.
+The buyer picks how to pay. <br>Multibanco gives you a reference number. You pay at a cash machine or in your bank app. <br>MB WAY uses your phone number. Your bank app buzzes, you confirm. <br>In Portugal, these are not extras. People expect them.
 -->
 
 ---
 layout: fact
-timing: 730s
+timing: 605s
 ---
 
 <p class="big-number">4</p>
@@ -482,207 +441,258 @@ timing: 730s
     <p class="meta mt-2">Portugal</p>
     <p class="mt-2 text-2xl">MB WAY</p>
   </div>
-  <div>
+  <div v-click>
     <p class="flag">🇦🇹</p>
     <p class="meta mt-2">Austria</p>
     <p class="mt-2 text-2xl">EPS</p>
   </div>
-  <div>
+  <div v-click>
     <p class="flag">🇳🇱</p>
     <p class="meta mt-2">Netherlands</p>
     <p class="mt-2 text-2xl">iDEAL</p>
   </div>
-  <div>
+  <div v-click>
     <p class="flag">🇵🇱</p>
     <p class="meta mt-2">Poland</p>
     <p class="mt-2 text-2xl">BLIK</p>
   </div>
 </div>
 
-<div class="rule mt-12"></div>
+<div class="rule mt-10"></div>
 
-<p class="lead">Every country has its own. <strong>Yours is probably missing.</strong></p>
+<p class="ask" v-click><span class="emoji">🙋</span> Hands up if your country has one. Keep it up if your favourite tool supports it.</p>
 
 <!--
-And this is not only Portugal. <br>Austria has E P S. <br>The Netherlands has iDEAL. <br>Poland has BLIK. <br>Every country here has one. <br>Yours is probably missing too.
+And this is not only Portugal. <br>Austria, you have E P S. Netherlands, iDEAL. Poland, BLIK. <br>Hands up if your country has one of these. <br>Keep it up if your favourite tool supports it. <br>See? Yours is probably missing too.
 -->
 
 ---
 layout: default
-timing: 800s
+timing: 640s
 ---
 
-# The contract
+# Checkout
 
-<p class="text-lg dim mt-2">Subclass <code>BasePaymentProvider</code> and fill in what applies.</p>
+<OrderTrail :step="1" />
 
-```python
-class EupagoMultibanco(BasePaymentProvider):
-    identifier = "eupago_multibanco"
-    public_name = _("Multibanco")
+<p class="text-lg dim">One class, <code>BasePaymentProvider</code>. Every box is a method on it. pretix owns the pages in between.</p>
 
-    def settings_form_fields(self): ...      # organiser config
-    def checkout_confirm_render(self): ...   # what the buyer sees
-    def execute_payment(self, request, payment): ...
-    def payment_pending_render(self): ...    # "waiting for payment"
-    def payment_control_render(self): ...    # what staff see
-```
+<div class="flex items-stretch gap-3 mt-6">
+  <div class="flex-1 min-w-0 rounded-lg px-3 py-4" style="background: var(--card)">
+    <p class="meta">1 · Pick</p>
+    <p class="mt-3 text-xs"><code>payment_form_fields</code></p>
+    <p class="mt-2 dim">Type your phone number</p>
+  </div>
+  <div class="self-center text-2xl dim" v-click="1">→</div>
+  <div class="flex-1 min-w-0 rounded-lg px-3 py-4" style="background: var(--card)" v-click="1">
+    <p class="meta">2 · Confirm</p>
+    <p class="mt-3 text-xs"><code>checkout_confirm_render</code></p>
+    <p class="mt-2 dim">"We will ping 912 345 678"</p>
+  </div>
+  <div class="self-center text-2xl dim" v-click="2">→</div>
+  <div class="flex-1 min-w-0 rounded-lg px-3 py-4" style="background: var(--accent-soft)" v-click="2">
+    <p class="meta accent">3 · Place order</p>
+    <p class="mt-3 text-xs"><code>execute_payment</code></p>
+    <p class="mt-2 dim">One API call. Phone buzzes</p>
+  </div>
+  <div class="self-center text-2xl dim" v-click="3">→</div>
+  <div class="flex-1 min-w-0 rounded-lg px-3 py-4" style="background: var(--card)" v-click="3">
+    <p class="meta">4 · Wait</p>
+    <p class="mt-3 text-xs"><code>payment_pending_render</code></p>
+    <p class="mt-2 dim">"Go on, approve it"</p>
+  </div>
+</div>
 
-<p class="lead mt-6">Sensible defaults for everything you skip.</p>
+<div class="rule mt-6"></div>
+
+<p class="lead" v-click="4">Everything you skip has a default. Multibanco skips box 1 entirely.</p>
 
 <!--
-For a payment method you subclass one class. <br>You give it an identifier and a name. <br>Then you fill in the parts you need. <br>Everything you skip has a default. <br>You do not implement fifty methods.
+Step one, checkout. <br>A payment method is one class. You fill in the methods you need. Everything else has a default. <br>The buyer types a phone number. That is a form field. <br>They confirm, I render one sentence. <br>They place the order. I make one API call, their phone buzzes, and the payment is pending. <br>Then they wait. <br>Multibanco needs no input from the buyer, so it skips the first box.
 -->
 
 ---
 layout: default
-timing: 880s
+timing: 700s
+class: meme
+---
+
+<img src="/http-cat-102.jpg" class="meme-img" alt="HTTP 102 Processing, illustrated by a cat" />
+
+<div class="meme-text">
+  <p class="giant-word">LATER.</p>
+  <div class="rule"></div>
+  <p class="lead">The buyer pays in an hour. Or on Thursday.</p>
+</div>
+
+<!--
+This is the hard part of payment plugins. <br>With a card, you know immediately. <br>With Multibanco, the person pays later. In an hour. Or on Thursday. <br>Your code finished running long ago.
+-->
+
+---
+layout: default
+timing: 730s
+---
+
+# Waiting
+
+<OrderTrail :step="2" />
+
+<div class="grid grid-cols-2 gap-10 mt-2">
+
+<div>
+  <p class="meta">Meanwhile, in pretix</p>
+  <ul class="plain-list mt-2">
+    <li>The order page shows the reference</li>
+    <li>The reference goes out by email</li>
+    <li>Unpaid for too long? pretix expires the order</li>
+  </ul>
+</div>
+
+<div>
+  <p class="meta accent">Meanwhile, in my plugin</p>
+  <ul class="plain-list mt-2">
+    <li>Nothing. It is not running</li>
+    <li>No polling, no cron, no state of its own</li>
+    <li>Just one URL, waiting</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="rule mt-8"></div>
+
+<p class="lead">The host owns the state machine. Let it.</p>
+
+<!--
+While the buyer is away, pretix does the waiting. <br>The order page shows the reference. It goes out by email. <br>If nobody pays, pretix expires the order and frees the ticket. <br>My plugin does nothing. It is not running. No polling, no cron. <br>Just one URL, waiting.
+-->
+
+---
+layout: default
+timing: 770s
 class: code-sm
 ---
 
-# Doing the thing
+# Paid
 
-```python
-def execute_payment(self, request, payment: OrderPayment):
-    identifier = f"{payment.order.code}-{payment.pk}"
+<OrderTrail :step="3" />
 
-    data = requests.post(MULTIBANCO_URL[self._env()], json={
-        "valor": float(payment.amount),
-        "id": identifier,
-    }, headers={"ApiKey": self._api_key}, timeout=30).json()
-
-    payment.info = json.dumps({
-        "referencia": data["referencia"],
-        "entidade": data["entidade"],
-        "identifier": identifier,
-    })
-    payment.state = OrderPayment.PAYMENT_STATE_PENDING
-    payment.save(update_fields=["info", "state"])
-```
-
-<p class="lead mt-5">We asked for a reference. We did <strong>not</strong> get paid.</p>
-
-<!--
-Here is the real method, shortened. <br>We call the payment provider. <br>We get back a reference number. <br>We save it on the payment. <br>And we set the state to pending. <br>Nobody has paid yet.
--->
-
----
-layout: statement
-timing: 920s
----
-
-<p class="giant-word">LATER.</p>
-
-<p class="lead mt-4">The customer pays hours or days after checkout.</p>
-
-<!--
-This is the hard part of payment plugins. <br>With a card, you know immediately. <br>With Multibanco, the person pays later. <br>Maybe tomorrow. <br>Your code has already finished running.
--->
-
----
-layout: default
-timing: 1010s
-class: code-sm
----
-
-# So the money arrives at a URL
+<p class="text-lg dim">The provider calls that URL. A normal Django view.</p>
 
 ```python
 class EupagoWebhookView(View):
-
-    def _confirm_payment(self, payment: OrderPayment):
-        if payment.state in (
-            OrderPayment.PAYMENT_STATE_CONFIRMED,
-            OrderPayment.PAYMENT_STATE_CANCELED,
-            OrderPayment.PAYMENT_STATE_REFUNDED,
-        ):
-            return          # already done — webhooks repeat
-
-        payment.confirm()   # pretix: marks paid, emails, frees quota
+    def post(self, request):
+        payment = self._lookup_payment(request)   # our identifier, our signature check
+        payment.confirm()                         # pretix: marks paid, emails, frees quota
+        return HttpResponse("OK")
 ```
 
-<p class="lead mt-6">One call. The host owns the state machine — let it.</p>
+<div class="rule mt-6"></div>
+
+<p class="lead">One call. pretix does the rest, and fires <code>order_paid</code> for whoever is listening.</p>
 
 <!--
-So the provider calls a URL on your server. <br>A normal Django view. <br>You find the payment and you call confirm. <br>pretix does the rest. <br>It marks the order paid and sends the email. <br>Do not do that yourself.
+Step three. The buyer approves, and euPago calls my URL. <br>A normal Django view. I find the payment, check it is really euPago, and call confirm. <br>pretix marks the order paid, sends the ticket, frees the quota. <br>And it fires a signal: order paid. Remember that signal. Someone is listening.
+-->
+
+---
+layout: default
+timing: 810s
+class: meme
+---
+
+<img src="/http-cat-200.jpg" class="meme-img" alt="HTTP 200 OK, illustrated by a cat" />
+
+<div class="meme-text">
+  <p class="giant-word">PAID.</p>
+  <div class="rule"></div>
+  <p class="lead">Usually.</p>
+</div>
+
+<!--
+Paid. <br>Usually.
+-->
+
+---
+layout: default
+timing: 825s
+class: meme
+---
+
+<img src="/http-cat-409.jpg" class="meme-img" alt="HTTP 409 Conflict, illustrated by a cat" />
+
+<div class="meme-text">
+  <p class="giant-word">NOTHING ARRIVES IN ORDER.</p>
+  <div class="rule"></div>
+  <p class="lead">Webhooks repeat, race, and show up early.</p>
+</div>
+
+<!--
+Because nothing arrives in order. <br>Webhooks repeat. They race the buyer's browser. They show up before they should.
 -->
 
 ---
 layout: two-cols-header
-timing: 1090s
+timing: 845s
 ---
 
-# What I got wrong first
+# Things that actually showed up
 
-<div class="rule"></div>
+<OrderTrail :step="3" />
+
+<p class="lead">Never trust the order of events. Read the state.</p>
 
 ::left::
 
 <div class="pr-10">
-  <p class="meta">The assumptions</p>
-  <ul class="plain-list mt-2">
-    <li>The request is who it says it is</li>
-    <li>It arrives exactly once</li>
-    <li>It arrives after the customer returns</li>
+  <ul class="plain-list">
+    <li v-click="1"><strong>Paid</strong> before the buyer's page reloaded<br><span class="dim">Fine. The page reads <code>payment.state</code></span></li>
+    <li v-click="2"><strong>Paid</strong> after the buyer switched method<br><span class="dim">Confirm anyway. The money is real</span></li>
   </ul>
 </div>
 
 ::right::
 
 <div class="pl-4">
-  <p class="meta accent">The fixes</p>
-  <ul class="plain-list mt-2">
-    <li>Verify the HMAC signature (or the API key, on v1)</li>
-    <li>Re-check the identifier we stored ourselves</li>
-    <li>Return early if already in a terminal state</li>
+  <ul class="plain-list">
+    <li v-click="3"><strong>Cancel</strong> after Paid<br><span class="dim">pretix ignores it. Thanks, pretix</span></li>
+    <li v-click="4"><strong>Refund</strong> before Paid<br><span class="dim">Excuse me? <code>409</code>. euPago retries later</span></li>
   </ul>
 </div>
 
 <!--
-I got three things wrong. <br>I trusted the request. <br>I assumed it comes once. <br>I assumed it comes after the customer returns. <br>All three are wrong. <br>Check the signature. Check your own identifier. And make it safe to call twice.
+The webhook can land before the buyer's page has even reloaded. The pending page just reads the state, so it does not matter. <br>Paid can arrive after the buyer gave up and switched method. I confirm anyway. The money is real. <br>A cancel can arrive after a paid. pretix's own fail method ignores that. <br>And a refund can arrive before the payment itself. Excuse me? <br>I answer four-oh-nine, and euPago sends it again later. <br>Never trust the order of events. Read the state.
 -->
 
 ---
 layout: statement
-timing: 1120s
+timing: 885s
 ---
 
 <p class="lead">A webhook is a public endpoint</p>
 
-# with your customers' <span class="accent">money</span> behind it.
+# with your customers' <span class="accent">money</span> <span class="flag" style="font-size: 0.9em">💸</span> behind it.
+
+<p class="text-xl dim mt-8">Verify the signature · Check the identifier you stored yourself · Make it safe to call twice</p>
 
 <!--
-Remember this. <br>A webhook is a public URL. <br>Anyone can call it. <br>And there is money behind it.
--->
-
----
-layout: section
-timing: 1130s
----
-
-<p class="meta">Part 03</p>
-
-# Plugin two: invoicing
-
-<div class="rule"></div>
-
-<!--
-Second plugin. Invoices. A very different shape.
+Remember this. <br>A webhook is a public URL. Anyone can call it. And there is money behind it. <br>I got three things wrong at first. I trusted the request. I assumed it comes once. I assumed it comes in order. <br>Check the signature. Check your own identifier. And make it safe to call twice.
 -->
 
 ---
 layout: two-cols-header
-timing: 1190s
+timing: 915s
 ---
 
-# Portugal does not accept a PDF
+# Invoiced. Not so fast.
 
-<div class="rule"></div>
+<OrderTrail :step="4" />
 
 ::left::
 
 <div class="pr-10">
-  <p class="meta">A legal invoice needs</p>
+  <p class="meta">A legal invoice in Portugal needs</p>
   <ul class="plain-list mt-2">
     <li>State-certified invoicing software</li>
     <li>An ATCUD code and a QR code</li>
@@ -702,154 +712,90 @@ timing: 1190s
 </div>
 
 <!--
-Second problem: invoices. <br>In Portugal a PDF is not enough. <br>The software must be certified by the state. <br>Every invoice needs a special code and must be reported. <br>The rules change every year.
+The order is paid. Now it needs an invoice. <br>In Portugal a PDF is not enough. <br>The software must be certified by the state. Every invoice needs a special code and must be reported. <br>The rules change every year. Get it wrong and it is a legal problem, not a bug.
 -->
 
 ---
 layout: fact
-timing: 1240s
+timing: 960s
 ---
 
-<p class="big-number">0</p>
+<p class="ask"><span class="emoji">🤔</span> Guess: how many lines of Portuguese tax law are in my plugin?</p>
 
-<p class="lead mt-6">lines of tax law in my plugin.</p>
+<p class="big-number mt-8" v-click>0</p>
 
-<p class="meta mt-10">The best decision I made was not writing code</p>
+<p class="text-xl dim mt-6" v-click>Certified providers handle the law. I handle the glue.</p>
+
+<p class="meta mt-8" v-click>Knowing which part is yours is a contributing skill</p>
 
 <!--
-Here is the decision I am most happy with. <br>Zero lines of tax law. <br>I did not build certified invoicing. <br>That is not my problem to solve. <br>I connected pretix to companies that already do it.
+Guess. How many lines of Portuguese tax law are in my plugin? <br>Shout a number. <br>Zero. <br>I did not build certified invoicing. That is not my problem to solve. <br>I connected pretix to companies that already do it. They handle the law. I handle the glue. <br>Making the problem smaller is a skill.
 -->
 
 ---
 layout: default
-timing: 1280s
+timing: 1000s
 ---
 
-# Know which part is yours
+# Invoiced
 
-<div class="grid grid-cols-2 gap-10 mt-10">
+<OrderTrail :step="4" />
 
-<div>
-  <p class="meta">Not mine</p>
-  <ul class="plain-list mt-2">
-    <li>Software certification</li>
-    <li>ATCUD generation</li>
-    <li>Talking to the tax authority</li>
-  </ul>
-</div>
+<p class="text-lg dim">Remember <code>order_paid</code>? Plugin two was listening. It never calls a tax API during checkout.</p>
 
-<div>
-  <p class="meta accent">Mine</p>
-  <ul class="plain-list mt-2">
-    <li>The glue between pretix and certified providers</li>
-    <li>Retries, errors, and a page to see them</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="rule mt-10"></div>
-
-<p class="lead">Scoping the problem down is a contributing skill.</p>
-
-<!--
-They handle the law. I handle the glue. <br>Certification is not my problem. <br>My part is small: connect the two, and handle failures. <br>Making the problem smaller is a skill.
--->
-
----
-layout: default
-timing: 1345s
----
-
-# A plugin with plugins
-
-<p class="text-lg dim mt-2">Not a payment method this time. pretix signals, a background task picks the provider.</p>
-
-<div class="flex items-stretch gap-4 mt-8">
+<div class="flex items-stretch gap-4 mt-6">
   <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)">
     <p class="meta">pretix</p>
-    <p class="mt-3 text-xl">Order paid</p>
-    <p class="mt-1 text-xl">Refund done</p>
+    <p class="mt-3 text-xl">Fires <code>order_paid</code></p>
   </div>
-  <div class="self-center text-3xl dim">→</div>
-  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--accent-soft)">
+  <div class="self-center text-3xl dim" v-click="1">→</div>
+  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--accent-soft)" v-click="1">
     <p class="meta accent">pretix-pt-invoicing</p>
-    <p class="mt-3 text-xl">Celery task</p>
-    <p class="mt-1 text-xl">Its own model</p>
-    <p class="mt-1 text-xl">Tracking dashboard</p>
+    <p class="mt-3 text-xl">Enqueues a Celery task</p>
+    <p class="mt-1 text-xl">Writes one row: pending</p>
   </div>
-  <div class="self-center text-3xl dim">→</div>
-  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)">
-    <p class="meta">Providers</p>
-    <p class="mt-3 text-xl">Fact.pt</p>
-    <p class="mt-1 text-xl">Moloni</p>
+  <div class="self-center text-3xl dim" v-click="2">→</div>
+  <div class="flex-1 rounded-lg px-5 py-4" style="background: var(--card)" v-click="2">
+    <p class="meta">Fact.pt or Moloni</p>
+    <p class="mt-3 text-xl">Issues the invoice</p>
+    <p class="mt-1 text-xl">Row: issued. Email sent</p>
   </div>
 </div>
 
-<div class="rule mt-8"></div>
+<div class="rule mt-6"></div>
 
-<p class="lead">Every provider fills in the same three methods: <strong>issue</strong>, <strong>credit</strong>, <strong>download</strong>.</p>
+<p class="lead" v-click="3">Each provider is a folder with three methods: <strong>issue</strong>, <strong>credit</strong>, <strong>download</strong>.</p>
 
 <!--
-This plugin is not a payment method. A different shape. <br>pretix sends a signal when an order is paid or refunded. <br>I only start a background task. Never call a slow API during checkout. <br>Then I do the same trick pretix played on me. <br>The task calls a provider. Today: Fact.pt or Moloni. <br>Every provider does three things. Issue. Credit. Download. <br>Each one is a folder, and the plugin finds it. <br>Adding a provider does not touch the task code.
+Remember the signal? Plugin two was listening. <br>It does not call anyone. It enqueues a Celery task and writes one row: pending. Never call a tax API during checkout. <br>The task picks the provider the organiser chose. Fact.pt or Moloni. <br>Same trick pretix played on me: each provider is a folder with three methods. Issue, credit, download. <br>The invoice is issued, the row says issued, the buyer gets an email.
+-->
+
+---
+layout: default
+timing: 1050s
+class: meme
+---
+
+<img src="/http-cat-503.jpg" class="meme-img" alt="HTTP 503 Service Unavailable, illustrated by a cat" />
+
+<div class="meme-text">
+  <p class="giant-word">ASSUME IT WILL FAIL.</p>
+  <div class="rule"></div>
+  <p class="lead">The tax provider is down. On launch day. Obviously.</p>
+</div>
+
+<!--
+And assume it will fail. <br>The provider goes down. On launch day. Obviously.
 -->
 
 ---
 layout: two-cols-header
-timing: 1400s
-class: code-sm
+timing: 1065s
 ---
 
-# Retry only when it is safe
+# When it fails
 
-<div class="rule"></div>
-
-::left::
-
-<div class="pr-8">
-
-```python
-try:
-    document = provider.issue(order, identifier_id)
-except ProviderError as e:
-    # bad NIF, bad token: retrying won't help
-    invoice.status = IssuedInvoice.STATUS_ERROR
-    ...
-    return
-except Exception as e:
-    # timeout: did the invoice land or not?
-    if provider.deduplicates_issuance:
-        raise self.retry(exc=e)
-    return      # leave it to a human
-```
-
-</div>
-
-::right::
-
-<div class="pl-4">
-  <p class="meta">Fact.pt</p>
-  <p class="mt-2">Rejects a repeated <code>identifierId</code> → retry is safe</p>
-  <p class="meta accent mt-8">Moloni</p>
-  <p class="mt-2">No dedupe field → a timeout is ambiguous</p>
-  <div class="rule mt-8"></div>
-  <p class="dim">Two official invoices is worse than waiting.</p>
-</div>
-
-<!--
-Same identifier idea as the webhook. <br>But here is the lesson. <br>Your idempotency key only helps if the other side respects it. <br>Fact.pt rejects a duplicate, so I retry. <br>Moloni does not, so after a timeout I stop. <br>A second official invoice is worse than waiting for a person.
--->
-
----
-layout: two-cols-header
-timing: 1440s
----
-
-# Assume it will fail
-
-<div class="rule"></div>
-
-<p class="lead">That control-panel page is half the value of the plugin.</p>
+<OrderTrail :step="4" />
 
 ::left::
 
@@ -858,7 +804,7 @@ timing: 1440s
   <ul class="plain-list mt-2">
     <li>The provider is down</li>
     <li>A customer typed a bad tax number</li>
-    <li>The API changed its response shape</li>
+    <li>A timeout. Did the invoice land or not?</li>
   </ul>
 </div>
 
@@ -867,61 +813,63 @@ timing: 1440s
 <div class="pl-4">
   <p class="meta accent">So the plugin ships with</p>
   <ul class="plain-list mt-2">
-    <li>Its own model, storing the error</li>
-    <li>A page in the control panel</li>
-    <li>A retry button for the organiser</li>
+    <li>That row, storing every attempt and error</li>
+    <li>A control-panel page with a retry button</li>
+    <li>Retries only where the provider dedupes. Two invoices is worse than none</li>
   </ul>
 </div>
 
 <!--
-It will fail sometimes. <br>The provider goes down. Someone types a wrong tax number. <br>So I store every attempt in my own model. <br>And there is a page where the organiser can see errors and press retry. <br>That page is half the value.
+The provider goes down. Someone types a wrong tax number. A request times out and you do not know if the invoice exists. <br>So that row stores every attempt and every error. <br>There is a page where the organiser sees it and presses retry. That page is half the value of the plugin. <br>And I only retry automatically when the provider rejects duplicates. <br>Two official invoices is worse than waiting for a human.
 -->
 
 ---
 layout: default
-timing: 1490s
+timing: 1110s
 ---
 
-# Two plugins, zero imports
+# Refunded
 
-<p class="text-lg dim mt-2">What happens when an organiser refunds a payment in euPago's back office.</p>
+<OrderTrail :step="5" />
 
-<div class="flex items-stretch gap-3 mt-8">
+<p class="text-lg dim">Months later, the buyer cannot come. The organiser refunds in euPago's back office.</p>
+
+<div class="flex items-stretch gap-3 mt-6">
   <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--card)">
     <p class="meta">euPago</p>
     <p class="mt-3 text-lg">Webhook says <strong>Refund</strong></p>
   </div>
-  <div class="self-center text-2xl dim">→</div>
-  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)">
+  <div class="self-center text-2xl dim" v-click="1">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)" v-click="1">
     <p class="meta accent">pretix-eupago</p>
     <p class="mt-3 text-lg">Records an external refund</p>
   </div>
-  <div class="self-center text-2xl dim">→</div>
-  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--card)">
+  <div class="self-center text-2xl dim" v-click="2">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--card)" v-click="2">
     <p class="meta">pretix</p>
     <p class="mt-3 text-lg">Organiser confirms it</p>
   </div>
-  <div class="self-center text-2xl dim">→</div>
-  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)">
+  <div class="self-center text-2xl dim" v-click="3">→</div>
+  <div class="flex-1 rounded-lg px-4 py-4" style="background: var(--accent-soft)" v-click="3">
     <p class="meta accent">pretix-pt-invoicing</p>
     <p class="mt-3 text-lg">Issues the credit note</p>
   </div>
 </div>
 
-<div class="rule mt-8"></div>
+<div class="rule mt-6"></div>
 
-<p class="lead">Neither plugin knows the other exists. pretix is the contract.</p>
+<p class="lead" v-click="4">Neither plugin knows the other exists. pretix is the contract.</p>
 
 <!--
-And the two plugins meet. <br>An organiser refunds a payment in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
+Last step. Months later the buyer cannot come, and the organiser refunds in euPago's back office. <br>euPago calls my webhook. I record the refund in pretix. <br>The organiser confirms it. <br>The invoicing plugin sees the refund is done, and issues a credit note. <br>Neither plugin imports the other. <br>pretix is the contract between them.
 -->
 
 ---
 layout: section
-timing: 1500s
+timing: 1160s
 ---
 
-<p class="meta">Part 04</p>
+<p class="meta">Part 03</p>
 
 # After you ship
 
@@ -932,59 +880,38 @@ Now: what happens after the code works.
 -->
 
 ---
-layout: default
-timing: 1560s
----
-
-# Publishing is the easy part
-
-<div class="grid grid-cols-2 gap-10 mt-10">
-
-<div>
-  <p class="meta">Package</p>
-  <ul class="plain-list mt-2">
-    <li>Name it <code>pretix-yourthing</code></li>
-    <li>Declare <code>compatibility</code> honestly</li>
-    <li>Pick a licence on day one</li>
-  </ul>
-</div>
-
-<div>
-  <p class="meta accent">Publish</p>
-  <ul class="plain-list mt-2">
-    <li>Trusted publishing from CI, no tokens</li>
-    <li>Tag the release, write the changelog</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="rule mt-10"></div>
-
-<p class="lead"><code>pip install pretix-eupago</code> — anyone in Portugal, from that moment on.</p>
-
-<!--
-Publishing is simple. <br>Follow the naming convention. <br>Say which pretix versions you support. <br>Choose a licence early. <br>Then upload to PyPI from your CI. <br>After that, anyone can install it.
--->
-
----
 layout: fact
-timing: 1610s
+timing: 1180s
 ---
 
-<p class="big-number">~170</p>
+<p class="ask"><span class="emoji">🤔</span> Guess: how many plugins are on the pretix Marketplace?</p>
 
-<p class="lead mt-6">plugins on the pretix Marketplace.</p>
+<p class="big-number mt-8" v-click>~170</p>
 
-<p class="meta mt-10">Official and third-party · free and paid · <span class="accent">euPago is one of them</span></p>
+<p class="lead mt-4" v-click>Official and community, free and paid. euPago is one of them.</p>
+
+<div class="grid grid-cols-3 gap-8 mt-8 text-left" v-click>
+  <div>
+    <p class="meta">Name it</p>
+    <p class="mt-2"><code>pretix-yourthing</code></p>
+  </div>
+  <div>
+    <p class="meta">Publish it</p>
+    <p class="mt-2">Trusted publishing from CI. No tokens.</p>
+  </div>
+  <div>
+    <p class="meta">List it</p>
+    <p class="mt-2">PyPI alone has no audience.</p>
+  </div>
+</div>
 
 <!--
-pretix has a marketplace. <br>About one hundred and seventy plugins. <br>Official ones and community ones. <br>This is where people who host pretix go to look. <br>My plugin is listed there now. <br>PyPI alone has no audience.
+Guess: how many plugins on the pretix Marketplace? Shout. <br>About one hundred and seventy. Official and community, free and paid. Mine is one of them. <br>Publishing is the easy part. Follow the naming convention. Upload to PyPI from CI, with trusted publishing. <br>Then list it on the Marketplace. That is where people who host pretix go to look. PyPI alone has no audience.
 -->
 
 ---
 layout: default
-timing: 1660s
+timing: 1240s
 ---
 
 # You are not the first
@@ -1016,12 +943,12 @@ timing: 1660s
 <p class="lead">None of this belongs in the core product. All of it exists.</p>
 
 <!--
-Look at what other people built. <br>More payment methods. Company logins. Bank imports. <br>Room sharing for attendees. Train tickets. <br>None of this is in the core product. <br>Every one is a person who got blocked and kept going.
+Look at what other people built. <br>More payment methods. Company logins. Train tickets. <br>Room sharing for attendees. <br>None of this is in the core product. <br>Every one is a person who got blocked and kept going.
 -->
 
 ---
 layout: two-cols-header
-timing: 1730s
+timing: 1300s
 ---
 
 # The unglamorous part
@@ -1058,26 +985,28 @@ Be honest about the cost. <br>pretix releases a new version, you test again. <br
 
 ---
 layout: default
-timing: 1780s
+timing: 1380s
 ---
 
 # Find your own gap
 
-<div class="grid grid-cols-2 gap-10 mt-10">
+<p class="ask mt-2"><span class="emoji">📣</span> Thirty seconds. Tell the person next to you what you worked around last month.</p>
 
-<div>
-  <p class="meta">Ask yourself</p>
+<div class="grid grid-cols-2 gap-10 mt-8">
+
+<div v-click>
+  <p class="meta">That thing is your gap if</p>
   <ul class="plain-list mt-2">
-    <li>What did I work around last month?</li>
-    <li>What does my country need that the tool ignores?</li>
-    <li>What did I copy between two projects?</li>
+    <li>You worked around it more than once</li>
+    <li>The tool ignores what your country needs</li>
+    <li>You copied it between two projects</li>
   </ul>
 </div>
 
-<div>
+<div v-click>
   <p class="meta accent">Upstream or plugin?</p>
   <ul class="plain-list mt-2">
-    <li>Everyone needs it → open an issue upstream</li>
+    <li>Everyone needs it → an issue upstream</li>
     <li>One country, one integration → plugin</li>
     <li>When in doubt, ask before you build</li>
   </ul>
@@ -1085,17 +1014,32 @@ timing: 1780s
 
 </div>
 
-<div class="rule mt-10"></div>
+<div class="rule mt-8"></div>
 
-<p class="lead">The gap that blocked you is already scoped, already motivated, already tested — by you.</p>
+<p class="lead" v-click>Your gap is already scoped, already motivated, already tested — by you.</p>
 
 <!--
-So: find your own gap. <br>What did you work around last month? <br>What does your country need that the tool ignores? <br>If everybody needs it, talk to the maintainers first. <br>If it is only your country or your workflow, write a plugin. <br>You already know the problem. That is the advantage.
+Thirty seconds. Turn to the person next to you and tell them one thing you worked around last month. Go. <br>... <br>That thing is your gap, if you worked around it more than once, if your country needs it, if you copied it between projects. <br>If everybody needs it, talk to the maintainers first. <br>If it is only your country or your workflow, write a plugin. <br>You already know the problem. That is the advantage.
+-->
+
+---
+layout: statement
+timing: 1460s
+---
+
+<p class="lead">Two plugins later, the conference runs on pretix.</p>
+
+# Change the <span class="accent">default.</span>
+
+<p class="lead mt-6">If closed SaaS still wins by default, that is on us. Not on the software.</p>
+
+<!--
+Two plugins later, the conference runs on pretix. <br>The gap was never the software's fault. <br>If renting still wins by default, that is on us. <br>Change the default. One event at a time.
 -->
 
 ---
 layout: cover
-timing: 1800s
+timing: 1520s
 ---
 
 <p class="meta">Thanks for listening</p>
