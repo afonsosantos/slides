@@ -376,3 +376,47 @@ html, body, #slide-content { background: var(--bg); }
   color: var(--fg-dim);
   margin-top: 1.4rem;
 }
+
+/* guias passo a passo (components/Trilho.vue): mini-mapa no topo */
+.slidev-layout ol.trilho {
+  display: flex;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0 0 1.6rem !important;
+  padding: 0 !important;
+}
+.slidev-layout ol.trilho li {
+  flex: 1;
+  margin: 0;
+  padding: 0.35rem 0 0;
+  border-top: 3px solid var(--rule);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.slidev-layout ol.trilho li.feito { border-top-color: rgba(31, 78, 133, 0.35); }
+.slidev-layout ol.trilho li.atual { border-top-color: var(--accent); color: var(--accent); }
+.trilho-num { margin-right: 0.35rem; font-variant-numeric: tabular-nums; }
+
+/* onde se faz o passo, por baixo do título */
+.slidev-layout .onde {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  margin: -0.4rem 0 1.2rem;
+}
+
+/* resultado esperado no fim de um passo */
+.slidev-layout .resultado {
+  font-size: 1.15rem;
+  margin-top: 1.4rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #0f7652;
+}
+
+/* resumo de um guia: tabela de consulta rápida */
+.resumo table { font-size: 0.9rem; }
+.resumo td, .resumo th { padding: 0.32rem 0.6rem !important; }
+.resumo td:first-child { color: var(--accent); font-weight: 700; width: 2rem; }
+.resumo td:nth-child(2) { color: var(--fg-dim); white-space: nowrap; }

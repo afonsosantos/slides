@@ -36,7 +36,7 @@ Três partes. A do meio fazemos juntos: no fim da apresentação todos têm o pr
 
 # Agenda
 
-<div class="grid grid-cols-3 gap-8 mt-12">
+<div class="grid grid-cols-4 gap-8 mt-12">
   <div class="step">
     <span class="step-num">01</span>
     <p class="step-title">O que mudou</p>
@@ -50,12 +50,17 @@ Três partes. A do meio fazemos juntos: no fim da apresentação todos têm o pr
   <div class="step">
     <span class="step-num">03</span>
     <p class="step-title">Instalar num cliente</p>
-    <p class="dim">Submódulo, deploy, testes e rollback</p>
+    <p class="dim">Guia em 9 passos, do pacote aos testes</p>
+  </div>
+  <div class="step">
+    <span class="step-num">04</span>
+    <p class="step-title">Atualizar um cliente</p>
+    <p class="dim">Updates no teu PC e no Builder</p>
   </div>
 </div>
 
 <!--
-Primeiro o contexto, rápido. Depois abrem o terminal e seguimos os passos juntos. No fim, o guia para cada cliente.
+Primeiro o contexto, rápido. Depois abrem o terminal e seguimos os passos juntos. No fim, o guia para cada cliente e para as versões seguintes.
 -->
 
 ---
@@ -180,7 +185,7 @@ O erro mais comum do PHP 8 é ler um índice de algo que é null. Em dev queremo
 <div class="grid grid-cols-3 gap-4 mt-8 text-center">
   <div class="status-card status-ok"><p class="status-name">Development</p><p class="status-desc">debug + faixa verde</p></div>
   <div class="status-card status-warn"><p class="status-name">QA</p><p class="status-desc">igual a prod + faixa laranja</p></div>
-  <div class="status-card" style="border-color: var(--rule)"><p class="status-name">Production</p><p class="status-desc">sem faixa</p></div>
+  <div class="status-card" style="border-color: var(--rule)"><p class="status-name">Production</p><p class="status-desc">sem faixa · com debug</p></div>
 </div>
 
 <!--
@@ -531,10 +536,12 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
 
 # No dia a dia
 
-<div class="grid grid-cols-2 gap-x-10 gap-y-6 mt-8">
+<div class="note-grid grid grid-cols-2 gap-x-10 gap-y-6 mt-8">
   <div><p class="code-label">Mudar de cliente</p><p><code>php yii company/switch</code></p></div>
   <div><p class="code-label">Depois de um pull</p><p><code>git submodule update --init</code></p></div>
   <div><p class="code-label">Mudou o composer.lock</p><p><code>composer install</code></p></div>
+  <div><p class="code-label">Nova versão da Administração</p><p><code>composer update vsoft/yii2-administration</code></p></div>
+  <div><p class="code-label">Correr os testes</p><p><code>composer test:common:unit</code></p></div>
   <div><p class="code-label">Migrações novas</p><p><code>php yii migrate</code></p></div>
   <div><p class="code-label">Valores antigos</p><p><code>php yii cache/flush cache</code></p></div>
   <div><p class="code-label">Alterou phpGrid</p><p>subir <code>PhpGridManager::$version</code></p></div>
@@ -543,7 +550,7 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
 </div>
 
 <!--
-Oito situações. Os ficheiros locais nunca vão para o git. A estrutura das tabelas fica em cache uma hora: coluna nova criada à mão só aparece depois do flush. As permissões ficam em cache 5 minutos e limpam-se sozinhas quando são alteradas pelo ecrã; SQL à mão nas tabelas de permissões precisa do flush ou de esperar.
+Dez situações. Os ficheiros locais nunca vão para o git. O composer install instala o que está no composer.lock; a Administração está em dev-main, por isso uma versão nova dela só entra com o composer update do pacote, e o composer.lock alterado vai para o git. A estrutura das tabelas fica em cache uma hora: coluna nova criada à mão só aparece depois do flush. As permissões ficam em cache 5 minutos e limpam-se sozinhas quando são alteradas pelo ecrã; SQL à mão nas tabelas de permissões precisa do flush ou de esperar.
 -->
 
 ---
@@ -556,15 +563,261 @@ layout: center
 
 <div class="rule"></div>
 
-<p class="lead">A · Submódulo &nbsp;·&nbsp; B · Deploy &nbsp;·&nbsp; C · Testes &nbsp;·&nbsp; D · Rollback</p>
+<p class="lead">Primeira instalação e migração para o 8.5 · 9 passos</p>
 
 <!--
-Este é o guia da tarefa Tarefas para migração no ClickUp. Os 17 clientes atuais já têm submódulo; a parte A é para clientes novos.
+Este é o guia da tarefa Tarefas para migração no ClickUp. Primeiro o resumo, que serve de consulta rápida; depois um slide por passo. No fim, o que fazer se correr mal e como criar um cliente novo.
+-->
+
+---
+class: resumo
+---
+
+<p class="passo-num">Instalar · Resumo</p>
+
+# Instalar num cliente
+
+| | Onde | O que fazer |
+|---|---|---|
+| 1 | PC | `task pacote CLIENTE=omelro MODULOS=fruits` |
+| 2 | Servidor | Backup da BD · PHP 8.5 instalado |
+| 3 | Servidor | Renomear a pasta para `vsoft-antigo` · extrair o zip com o nome antigo |
+| 4 | Servidor | `common\config\db.php`: servidor, BD, user e pass |
+| 5 | Servidor | `php yii migrate` |
+| 6 | Servidor | `php yii company/migrate-uploads --de=C:\www\vsoft-antigo` |
+| 7 | Servidor | `php yii cache/flush cache` |
+| 8 | Administração | Valores do `ConfigVSoft.php` antigo → Configurações projeto |
+| 9 | Browser | Testar: login, barra do debug, imagens, PDFs, ERP, etiquetas |
+
+<p class="dim text-sm mt-3">Os passos 5 a 7 correm-se na pasta da aplicação. Antes da primeira vez: instalar o Task (slide seguinte).</p>
+
+<!--
+Este slide é o guia de bolso: com prática, chega. Os slides seguintes são um por passo, com o que deve aparecer no fim de cada um.
+-->
+
+---
+class: big-code
+---
+
+<p class="passo-num">Antes de começar · Só uma vez · No teu PC</p>
+
+# Instalar o Task
+
+```powershell
+winget install Task.Task
+```
+
+<p class="resultado">Num PowerShell novo, <code>task --version</code> mostra a versão.</p>
+
+<p class="hint">Também é preciso o 7-Zip: quem não o tiver, <code>winget install 7zip.7zip</code>.</p>
+
+<!--
+O Task corre as tarefas do Taskfile.yml do projeto (task pacote, task update). O 7-Zip faz o zip; é encontrado no PATH ou na pasta normal de instalação (C:\Program Files\7-Zip).
+-->
+
+---
+class: big-code
+---
+
+<Trilho guia="instalar" :passo="1" />
+
+# Criar o pacote
+
+<p class="onde">No teu PC, na pasta do projeto</p>
+
+```powershell
+task pacote CLIENTE=omelro MODULOS=fruits
+```
+
+<p class="resultado">Acaba com <code>Pacote pronto: …\dist\VSoftIndustry-omelro-v….zip</code></p>
+
+<p class="hint">Sem módulos: <code>MODULOS=core</code>. Sem <code>CLIENTE</code>, mostra a lista de clientes.</p>
+
+<!--
+Demora uns 3 minutos. Leva tudo: código, vendor, config de produção, debug e só os módulos do cliente. Só vai o que tem commit. Sem MODULOS vão todos os módulos. O Builder faz o mesmo zip: Gerar build completo (parte 04).
 -->
 
 ---
 
-<p class="passo-num">A · Criar o submódulo (cliente novo)</p>
+<Trilho guia="instalar" :passo="2" />
+
+# Preparar o servidor
+
+<p class="onde">No servidor</p>
+
+<ul class="checklist text-xl">
+<li>Backup da <strong>base de dados</strong></li>
+<li>PHP <strong>8.5</strong> instalado (como na parte 02)</li>
+</ul>
+
+<p class="resultado">A pasta atual fica onde está: é o backup do código e dos uploads.</p>
+
+<!--
+O php da linha de comandos também tem de ser o 8.5 (php -v). No Apache: mod_rewrite e AllowOverride FileInfo, senão as imagens e os documentos antigos deixam de abrir. O Apache tem de poder escrever em company_*/uploads.
+-->
+
+---
+
+<Trilho guia="instalar" :passo="3" />
+
+# Extrair o pacote
+
+<p class="onde">No servidor</p>
+
+<ol class="text-xl">
+<li>Renomear a pasta atual para <code>vsoft-antigo</code></li>
+<li>Extrair o zip para uma pasta com <strong>o nome antigo</strong></li>
+</ol>
+
+<p class="resultado">Ficam duas pastas: <code>vsoft-antigo</code> e a nova, com o nome de sempre.</p>
+
+<!--
+O mesmo nome: o Apache e o cron.bat continuam a funcionar. Da pasta antiga não se copia nada à mão: nem o main-local.php (ligava o gii, que já não existe: a aplicação vai abaixo) nem o db2.php (passou para o params.php do submódulo). Os uploads vêm no passo 6.
+-->
+
+---
+
+<Trilho guia="instalar" :passo="4" />
+
+# Ligar à base de dados
+
+<p class="onde">No servidor, na pasta nova: <code>common\config\db.php</code></p>
+
+<ul class="checklist text-xl">
+<li>Servidor e base de dados</li>
+<li>Utilizador e password</li>
+</ul>
+
+<p class="resultado">Os valores estão no <code>db.php</code> do <code>vsoft-antigo</code>: copiar só esses, não o ficheiro.</p>
+
+<!--
+O resto da configuração já vem no pacote. O db.php novo tem o schemaCache: copiar o antigo por cima perdia-o.
+-->
+
+---
+class: big-code
+---
+
+<Trilho guia="instalar" :passo="5" />
+
+# Migrar a base de dados
+
+<p class="onde">No servidor, na pasta nova</p>
+
+```powershell
+php yii migrate
+```
+
+<p class="resultado">Pergunta se aplica: responder <strong>yes</strong>. Acaba com <code>Migrated up successfully.</code></p>
+
+<!--
+Antes disto, o backup da BD do passo 2: a partir daqui o rollback precisa dele.
+-->
+
+---
+class: big-code
+---
+
+<Trilho guia="instalar" :passo="6" />
+
+# Trazer os uploads
+
+<p class="onde">No servidor, na pasta nova</p>
+
+```powershell
+php yii company/migrate-uploads --de=C:\www\vsoft-antigo
+```
+
+<p class="resultado">Acaba com <strong>Erros: 0</strong>. A pasta antiga fica intacta.</p>
+
+<!--
+Copia os web\uploads do backend, frontend e picking da instalação antiga para a pasta do cliente (company_<cliente>\uploads). Nunca substitui ficheiros: os "já existe" são o mesmo caminho em duas apps, rever à mão se houver.
+-->
+
+---
+class: big-code
+---
+
+<Trilho guia="instalar" :passo="7" />
+
+# Limpar a cache
+
+<p class="onde">No servidor, na pasta nova</p>
+
+```powershell
+php yii cache/flush cache
+```
+
+<p class="resultado">Pergunta se limpa: responder <strong>yes</strong>.</p>
+
+---
+class: text-sm
+---
+
+<Trilho guia="instalar" :passo="8" />
+
+# Configuração antiga → Administração
+
+<p class="onde">Na Administração → <em>Configurações projeto</em> → Backend</p>
+
+| `ConfigVSoft.php` antigo | Na Administração |
+|---|---|
+| `caminhoLayoutsEtiquetas` | Etiquetas · Caminho dos layouts das etiquetas |
+| `caminhoFicheiroImpressaoEtiqueta` | Etiquetas · Caminho do ficheiro de impressão |
+| `timezone` | Gerais · Timezone da aplicação |
+
+<p class="hint">O ficheiro antigo: <code>vsoft-antigo\common\components\ConfigVSoft.php</code></p>
+
+<p class="resultado">Gravar. Em <em>Gerais</em>, rever também o tamanho máximo dos anexos.</p>
+
+<!--
+O ConfigVSoft.php já não existe: o resto dele (empresa, BD do ERP, integrações) passou para o submódulo do cliente e já vem no pacote. Copiar os valores do ficheiro antigo, sem mudar nada: os caminhos de rede das etiquetas são diferentes em cada cliente. O anexos_tamanho_maximo_mb (default 10 MB) passou a valer para todos os uploads.
+-->
+
+---
+
+<Trilho guia="instalar" :passo="9" />
+
+# Testar
+
+<p class="onde">No browser</p>
+
+<ul class="checklist grid grid-cols-2 gap-x-10 text-lg">
+<li><strong>Login</strong>: logótipo, cores e a <strong>barra do debug</strong> em baixo</li>
+<li><strong>Imagens antigas</strong>: máquina, ficha técnica, utilizador</li>
+<li><strong>Uploads</strong>: imagem, documento, PDF de receção</li>
+<li><strong>PDFs</strong>: ficha técnica, OP, ensaio, packing list</li>
+<li><strong>ERP</strong>: ler e enviar um documento</li>
+<li><strong>Etiquetas</strong>: imprimir uma de produto</li>
+</ul>
+
+<p class="resultado">Tudo bem? Está instalado. Algo falha? Slide seguinte.</p>
+
+<!--
+A barra do debug vem ligada no pacote: no backend e no picking para todos, no frontend só no próprio servidor (para não tapar o ecrã dos terminais). Sem gii em produção. Se faltar a barra, o pacote não veio do task pacote nem do Builder. Imagens antigas: no backend e no kiosk. Uploads: confirmar que a thumbnail da máquina é criada. No fim do dia, ver o php85_offset_null.log.
+-->
+
+---
+
+<p class="passo-num">Instalar · Se correr mal</p>
+
+# Se correr mal
+
+<ol class="mt-6 text-lg">
+<li>O PHP anterior no Apache</li>
+<li>Renomear: <code>vsoft</code> → <code>vsoft-novo</code>, <code>vsoft-antigo</code> → <code>vsoft</code></li>
+<li>Repor a BD, se as migrações já correram</li>
+</ol>
+
+<p class="lead mt-10">Por isso os backups não são opcionais.</p>
+
+<!--
+A pasta antiga ficou intacta, com os uploads e a config de antes. Só ficam de fora os uploads feitos depois do deploy: estão em vsoft-novo\company_cliente\uploads, e copiam-se à mão para o web\uploads da app certa na antiga.
+-->
+
+---
+
+<p class="passo-num">Cliente novo · Só programadores</p>
 
 # Um repositório por cliente
 
@@ -576,6 +829,8 @@ Este é o guia da tarefa Tarefas para migração no ClickUp. Os 17 clientes atua
 <li>No core: <code>git submodule add &lt;url&gt; company_&lt;cliente&gt;</code></li>
 </ol>
 
+<p class="hint">Os 17 clientes atuais já têm o seu. Isto é só para um cliente novo.</p>
+
 <!--
 O README do template tem a estrutura e os comandos git. Procurar referências antigas aos namespaces, por exemplo common\etiquetas\config\CLIENTE\GestaoEtiquetas. Os logótipos vêm sempre da instalação em produção, não do repositório.
 -->
@@ -584,7 +839,7 @@ O README do template tem a estrutura e os comandos git. Procurar referências an
 class: code-sm
 ---
 
-<p class="passo-num">A · params.php</p>
+<p class="passo-num">Cliente novo · params.php</p>
 
 # A configuração do cliente
 
@@ -608,103 +863,220 @@ if (YII_ENV_DEV && is_file(__DIR__ . '/params-local.php')) {  // overrides de de
 return $params;
 ```
 
-<p class="dim text-sm mt-2">Cliente novo: o template já traz o bloco do <code>params-local.php</code> e o <code>.gitignore</code>.</p>
+<p class="dim text-sm mt-2">O template já traz o bloco do <code>params-local.php</code> e o <code>.gitignore</code>.</p>
 
 <!--
 Um ficheiro com os valores de produção. O comentário de cada chave diz de onde vinha o valor antigo. O bloco do fim é o dos overrides de dev que vimos na parte 1: copiem-no tal como está.
 -->
 
 ---
+layout: center
+---
 
-<p class="passo-num">B · Deploy · antes</p>
+<p class="meta">Parte 04</p>
 
-# Preparar
+# Atualizar um cliente
+
+<div class="rule"></div>
+
+<p class="lead">As versões seguintes · 5 passos · no teu PC ou no Builder</p>
+
+<!--
+Depois da migração, as versões seguintes. Duas maneiras de fazer o mesmo zip: à mão no vosso PC, ou no Builder, que corre as mesmas tasks.
+-->
+
+---
+
+<p class="passo-num">Atualizar · Antes</p>
+
+# Update ou pacote completo?
 
 <div class="grid grid-cols-2 gap-8 mt-6">
 <div>
-<p class="code-label">Backups</p>
+<p class="code-label">Update</p>
+<p class="dim text-sm">Só o que mudou · uns MB</p>
 <ul class="checklist">
-<li>Base de dados</li>
-<li><code>*/web/uploads/</code></li>
-<li><code>common/config/*-local.php</code>, <code>db*.php</code></li>
+<li>Uma versão nova normal</li>
+<li>Vai <strong>por cima</strong> da instalação</li>
 </ul>
 </div>
 <div>
-<p class="code-label accent">Servidor</p>
+<p class="code-label accent">Pacote completo</p>
+<p class="dim text-sm">Tudo · ~110 MB · é a parte 03</p>
 <ul class="checklist">
-<li>PHP <strong>8.5</strong> + php.ini do passo 0</li>
-<li><code>mod_rewrite</code> + <code>AllowOverride FileInfo</code></li>
-<li>Escrita em <code>company_*/uploads/</code></li>
+<li>Primeira instalação e a <strong>migração para o 8.5</strong></li>
+<li>Bibliotecas novas (<code>composer.lock</code> mudou)</li>
+<li>O cliente passa a ter um módulo novo</li>
 </ul>
 </div>
 </div>
 
+<p class="hint mt-6">Na dúvida: pacote completo. Funciona sempre.</p>
+
 <!--
-O PHP 8.5 é uma mudança no servidor: tem de estar instalado antes de copiar o projeto. Sem mod_rewrite as imagens e os documentos antigos deixam de abrir.
+O update leva só os ficheiros do git que mudaram, incluindo os da pasta do cliente. Não leva o vendor nem a config: por isso as bibliotecas novas e os módulos novos precisam do pacote completo. O Builder avisa quando o composer.lock mudou.
+-->
+
+---
+class: resumo
+---
+
+<p class="passo-num">Atualizar · Resumo</p>
+
+# Atualizar um cliente
+
+| | Onde | O que fazer |
+|---|---|---|
+| 1 | PC | `task update CLIENTE=omelro DE=3.7.261023.01 MODULOS=fruits` |
+| 2 | Servidor | Backup da BD e da pasta da aplicação |
+| 3 | Servidor | Extrair o zip por cima, a substituir · apagar o que vier no `apagar.txt` |
+| 4 | Servidor | `php yii migrate` |
+| 5 | Servidor | `php yii cache/flush cache` · testar o login e o que a versão mudou |
+
+<p class="dim text-sm mt-3"><code>DE</code> = a versão que o cliente tem, no menu do backend. No Builder, o passo 1 é <em>Gerar update</em>.</p>
+
+<!--
+O guia de bolso do update. Os slides seguintes são um por passo.
 -->
 
 ---
 class: big-code
 ---
 
-<p class="passo-num">B · Deploy</p>
+<Trilho guia="atualizar" :passo="1" />
 
-# Instalar
+# Criar o update
+
+<p class="onde">No teu PC, na pasta do projeto</p>
 
 ```powershell
-php init --env=Production
-php yii company/switch <cliente>
+task update CLIENTE=omelro DE=3.7.261023.01 MODULOS=fruits
+```
+
+<p class="resultado">Acaba com o zip em <code>dist\VSoftIndustry-omelro-v3.7.261023.01-to-v….zip</code></p>
+
+<p class="hint"><code>DE</code> = a versão do cliente (menu do backend) · vai até à última. Os módulos: os do pacote.</p>
+
+<!--
+Vai buscar as versões novas ao GitHub sozinho. Para outra versão de destino: PARA=3.7.261027.01. Só vai o que está na tag. Os ficheiros apagados entre as duas versões não vão: no Builder ficam listados no apagar.txt, à mão não.
+-->
+
+---
+
+<Trilho guia="atualizar" :passo="2" />
+
+# Backup
+
+<p class="onde">No servidor</p>
+
+<ul class="checklist text-xl">
+<li>Base de dados</li>
+<li>Uma cópia da pasta da aplicação</li>
+</ul>
+
+<p class="resultado">Se correr mal: repor a cópia e a BD.</p>
+
+---
+
+<Trilho guia="atualizar" :passo="3" />
+
+# Extrair por cima
+
+<p class="onde">No servidor</p>
+
+<ol class="text-xl">
+<li>Extrair o zip <strong>para a pasta da aplicação</strong>, a substituir os ficheiros</li>
+<li>Veio um <code>apagar.txt</code>? Apagar os ficheiros da lista</li>
+</ol>
+
+<p class="resultado">Não se renomeia nada, e não há config a preencher.</p>
+
+<!--
+O update não traz db.php nem os *-local.php: os que lá estão continuam.
+-->
+
+---
+class: big-code
+---
+
+<Trilho guia="atualizar" :passo="4" />
+
+# Migrar a base de dados
+
+<p class="onde">No servidor, na pasta da aplicação</p>
+
+```powershell
 php yii migrate
-php yii company/migrate-uploads
+```
+
+<p class="resultado">Responder <strong>yes</strong>. Acaba com <code>Migrated up successfully.</code> (ou "No new migrations")</p>
+
+---
+class: big-code
+---
+
+<Trilho guia="atualizar" :passo="5" />
+
+# Limpar a cache e testar
+
+<p class="onde">No servidor, na pasta da aplicação</p>
+
+```powershell
 php yii cache/flush cache
 ```
 
-<ul class="checklist hint">
-<li><code>db.php</code> → BD</li>
-<li><code>migrate-uploads</code> termina com <strong>Erros: 0</strong> · rever os "já existe"</li>
-<li>Administração: <code>ConfigVSoft</code> → <em>Etiquetas</em> · <code>anexos_tamanho_maximo_mb</code></li>
-</ul>
-
-<!--
-No cliente não há git: o build do projeto com o company ainda está em curso, por isso o código é copiado. Num servidor de testes, --env=QA. O migrate-uploads nunca substitui ficheiros; os que já existem ficam na origem para rever à mão. O tamanho máximo dos anexos (default 10 MB) passou a valer para todos os uploads.
--->
+<p class="resultado">Testar o login e o que a versão mudou. Se veio do Builder: <em>Confirmar aplicado</em>.</p>
 
 ---
 
-<p class="passo-num">C · Testes</p>
+<p class="passo-num">Builder · Só uma vez</p>
 
-# Depois do deploy
+# Configurar o Builder
 
-<div class="grid grid-cols-3 gap-4 mt-6">
-  <div class="check-card"><p class="check-title">Login</p><p class="dim text-sm">Logótipo, fundo, cores, 404</p></div>
-  <div class="check-card"><p class="check-title">Imagens antigas</p><p class="dim text-sm">Máquina, ficha técnica, utilizador</p></div>
-  <div class="check-card"><p class="check-title">Uploads</p><p class="dim text-sm">Imagem, documento, PDF de receção</p></div>
-  <div class="check-card"><p class="check-title">PDFs</p><p class="dim text-sm">Ficha técnica, OP, ensaio, packing list</p></div>
-  <div class="check-card"><p class="check-title">ERP</p><p class="dim text-sm">Ler (db2) e enviar um documento</p></div>
-  <div class="check-card"><p class="check-title">Etiquetas</p><p class="dim text-sm">Imprimir uma etiqueta de produto</p></div>
+<div class="grid grid-cols-2 gap-8 mt-6">
+<div>
+<ol>
+<li><strong>Configurações</strong>: organização GitHub + token → <em>Testar ligação</em></li>
+<li><strong>Novo projeto</strong>: repositório <code>vsoft-plastics</code> → <em>Clonar</em></li>
+<li><strong>Novo cliente</strong> e associar ao projeto</li>
+<li>Na linha do cliente, <strong>⋮ → Pasta company</strong> e <strong>⋮ → Pacotes</strong></li>
+</ol>
+</div>
+<div>
+
+| Cliente | Pacotes |
+|---|---|
+| omelro | core + fruits |
+| beiragel | core + beiragel |
+| os outros | core |
+
+<p class="hint mt-2">Sem pacotes escolhidos = <strong>todos</strong> os módulos.</p>
+
+</div>
 </div>
 
 <!--
-Imagens antigas: no backend e no kiosk. Uploads: confirmar que a thumbnail da máquina é criada. PDFs: ficha técnica com imagem no backend e no frontend. No fim do dia, ver o php85_offset_null.log.
+O token tem de ler o vsoft-plastics e os repositórios vsoft-industry-company-*: é com ele que o Builder vai buscar a pasta do cliente. A pasta company aparece sozinha se o nome do cliente bater certo com uma pasta livre. Os pacotes são os mesmos do MODULOS do task pacote.
 -->
 
 ---
 
-<p class="passo-num">D · Rollback</p>
+<p class="passo-num">Builder · Em vez do passo 1</p>
 
-# Se correr mal
+# Gerar no Builder
 
 <ol class="mt-6 text-lg">
-<li><code>php yii company/revert-uploads</code> <span class="dim">(ainda com o código novo)</span></li>
-<li>Repor o código anterior e o PHP anterior no Apache</li>
-<li>Repor <code>db2.php</code> e <code>main-local.php</code> do backup</li>
-<li>Repor a BD, se as migrações já correram</li>
+<li><em>Atualizar clone</em> (traz as versões novas)</li>
+<li>Na linha do cliente: <strong>Gerar update</strong> (ou <strong>▼ → Gerar build completo</strong>, o pacote da parte 03)</li>
+<li><strong>De</strong> já vem com a versão do cliente · <strong>Para</strong> = a nova → <strong>Gerar</strong></li>
+<li>Descarregar o zip (e o <code>apagar.txt</code>, se houver)</li>
+<li>Depois de instalar: <strong>Confirmar aplicado</strong></li>
 </ol>
 
-<p class="lead mt-10">Por isso os backups não são opcionais.</p>
+<p class="hint mt-6">O Builder corre as mesmas tasks: o zip é igual ao do teu PC.</p>
 
 <!--
-O revert-uploads devolve cada ficheiro à pasta de onde veio, a partir do registo que o migrate-uploads deixou. Em alternativa, copiar company_cliente/uploads para backend/web/uploads com a mesma estrutura.
+O Builder não sabe se o zip foi instalado: até Confirmar aplicado fica por validar, e a versão do cliente não muda. Na pré-visualização do update vêem-se os ficheiros que mudam, os apagados e o aviso de composer.lock mudou (aí, build completo). O Para também pode ser um commit de uma branch, para testar algo sem tag.
 -->
 
 ---
@@ -714,8 +1086,8 @@ O revert-uploads devolve cada ficheiro à pasta de onde veio, a partir do regist
 <div class="grid grid-cols-3 gap-8 mt-10">
   <div class="step">
     <span class="step-num">01</span>
-    <p class="step-title">Build para clientes</p>
-    <p class="dim">Projeto + company sem git no servidor</p>
+    <p class="step-title">Clientes no Builder</p>
+    <p class="dim">Pasta company e pacotes de cada cliente</p>
   </div>
   <div class="step">
     <span class="step-num">02</span>
@@ -738,7 +1110,7 @@ O revert-uploads devolve cada ficheiro à pasta de onde veio, a partir do regist
 </a>
 
 <!--
-Fica a faltar o build para os clientes, limpar as redes de segurança do PHP 8 e tirar o auth.json do repositório. Se encontrarem um passo errado, comentem na tarefa.
+Fica a faltar associar no Builder a pasta company e os pacotes de cada cliente (os updates já levam as alterações da pasta company), limpar as redes de segurança do PHP 8 e tirar o auth.json do repositório. Se encontrarem um passo errado, comentem na tarefa.
 -->
 
 ---
