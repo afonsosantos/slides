@@ -654,3 +654,5 @@ html.dark .logo-invert { filter: invert(1) hue-rotate(180deg); }
 .resumo td, .resumo th { padding: 0.32rem 0.6rem !important; }
 .resumo td:first-child { color: var(--accent); font-weight: 700; width: 2rem; }
 .resumo td:nth-child(2) { color: var(--fg-dim); white-space: nowrap; }
+/* linhas por click: as que ainda não apareceram não desenham a régua */
+.slidev-layout.resumo tr.slidev-vclick-hidden { border-color: transparent; }

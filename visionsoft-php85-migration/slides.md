@@ -607,20 +607,30 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
 # No dia a dia
 
 <div class="note-grid grid grid-cols-2 gap-x-10 gap-y-6 mt-8">
-  <div><p class="code-label">Mudar de cliente</p><p><code>php yii company/switch</code></p></div>
-  <div><p class="code-label">Depois de um pull</p><p><code>git submodule update --init</code></p></div>
-  <div><p class="code-label">Mudou o composer.lock</p><p><code>composer install</code></p></div>
-  <div><p class="code-label">Nova versão da Administração</p><p><code>composer update vsoft/yii2-administration</code></p></div>
-  <div><p class="code-label">Correr os testes</p><p><code>composer test:common:unit</code></p></div>
-  <div><p class="code-label">Migrações novas</p><p><code>php yii migrate</code></p></div>
-  <div><p class="code-label">Valores antigos</p><p><code>php yii cache/flush cache</code></p></div>
-  <div><p class="code-label">Alterou phpGrid</p><p>subir <code>PhpGridManager::$version</code></p></div>
-  <div><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Tabelas alteradas fora do migrate</p><p><code>php yii cache/flush cache</code></p></div>
-  <div><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Permissões alteradas por SQL</p><p><code>php yii cache/flush cache</code> (ou 5 min)</p></div>
+  <div v-click><p class="code-label">Mudar de cliente</p><p><code>php yii company/switch</code></p></div>
+  <div v-click><p class="code-label">Depois de um pull</p><p><code>git submodule update --init</code></p></div>
+  <div v-click><p class="code-label">Mudou o composer.lock</p><p><code>composer install</code></p></div>
+  <div v-click><p class="code-label">Nova versão da Administração</p><p><code>composer update vsoft/yii2-administration</code></p></div>
+  <div v-click><p class="code-label">Correr os testes</p><p><code>composer test:common:unit</code></p></div>
+  <div v-click><p class="code-label">Migrações novas</p><p><code>php yii migrate</code></p></div>
+  <div v-click><p class="code-label">Valores antigos</p><p><code>php yii cache/flush cache</code></p></div>
+  <div v-click><p class="code-label">Alterou phpGrid</p><p>subir <code>PhpGridManager::$version</code></p></div>
+  <div v-click><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Tabelas alteradas fora do migrate</p><p><code>php yii cache/flush cache</code></p></div>
+  <div v-click><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Permissões alteradas por SQL</p><p><code>php yii cache/flush cache</code> (ou 5 min)</p></div>
 </div>
 
 <!--
-Dez situações. Os ficheiros locais nunca vão para o git. O composer install instala o que está no composer.lock; a Administração está em dev-main, por isso uma versão nova dela só entra com o composer update do pacote, e o composer.lock alterado vai para o git. A estrutura das tabelas fica em cache uma hora: coluna nova criada à mão só aparece depois do flush. As permissões ficam em cache 5 minutos e limpam-se sozinhas quando são alteradas pelo ecrã; SQL à mão nas tabelas de permissões precisa do flush ou de esperar.
+Dez situações, uma por click. Os ficheiros locais nunca vão para o git.
+[click] Mudar de cliente: o switch reescreve o bootstrap-local.php e limpa a cache.
+[click] Depois de um pull: os submódulos não vêm sozinhos.
+[click] O composer install instala o que está no composer.lock.
+[click] A Administração está em dev-main: uma versão nova só entra com o composer update do pacote, e o composer.lock alterado vai para o git.
+[click] Os testes: poucos, mas correm.
+[click] Migrações novas, como sempre.
+[click] Valores antigos: cache.
+[click] phpGrid: subir a versão para o browser ir buscar o ficheiro novo.
+[click] A estrutura das tabelas fica em cache uma hora: coluna nova criada à mão só aparece depois do flush.
+[click] As permissões ficam em cache 5 minutos e limpam-se sozinhas quando são alteradas pelo ecrã; SQL à mão nas tabelas de permissões precisa do flush ou de esperar.
 -->
 
 ---
@@ -647,22 +657,35 @@ class: resumo
 
 # Instalar num cliente
 
-| | Onde | O que fazer |
-|---|---|---|
-| 1 | PC | `task pacote CLIENTE=omelro MODULOS=fruits` |
-| 2 | Servidor | Backup da BD · PHP 8.5 instalado |
-| 3 | Servidor | Renomear a pasta para `vsoft-antigo` · extrair o zip com o nome antigo |
-| 4 | Servidor | `common\config\db.php`: servidor, BD, user e pass |
-| 5 | Servidor | `php yii migrate` |
-| 6 | Servidor | `php yii company/migrate-uploads --de=C:\www\vsoft-antigo` |
-| 7 | Servidor | `php yii cache/flush cache` |
-| 8 | Administração | Valores do `ConfigVSoft.php` antigo → Configurações projeto |
-| 9 | Browser | Testar: login, barra do debug, imagens, PDFs, ERP, etiquetas |
+<table>
+<thead><tr><th></th><th>Onde</th><th>O que fazer</th></tr></thead>
+<tbody>
+<tr v-click><td>1</td><td>PC</td><td><code>task pacote CLIENTE=omelro MODULOS=fruits</code></td></tr>
+<tr v-click><td>2</td><td>Servidor</td><td>Backup da BD · PHP 8.5 instalado</td></tr>
+<tr v-click><td>3</td><td>Servidor</td><td>Renomear a pasta para <code>vsoft-antigo</code> · extrair o zip com o nome antigo</td></tr>
+<tr v-click><td>4</td><td>Servidor</td><td><code>common\config\db.php</code>: servidor, BD, user e pass</td></tr>
+<tr v-click><td>5</td><td>Servidor</td><td><code>php yii migrate</code></td></tr>
+<tr v-click><td>6</td><td>Servidor</td><td><code>php yii company/migrate-uploads --de=C:\www\vsoft-antigo</code></td></tr>
+<tr v-click><td>7</td><td>Servidor</td><td><code>php yii cache/flush cache</code></td></tr>
+<tr v-click><td>8</td><td>Administração</td><td>Valores do <code>ConfigVSoft.php</code> antigo → Configurações projeto</td></tr>
+<tr v-click><td>9</td><td>Browser</td><td>Testar: login, barra do debug, imagens, PDFs, ERP, etiquetas</td></tr>
+</tbody>
+</table>
 
-<p class="dim text-sm mt-3">Os passos 5 a 7 correm-se na pasta da aplicação. Antes da primeira vez: instalar o Task (slide seguinte).</p>
+<p v-click class="dim text-sm mt-3">Os passos 5 a 7 correm-se na pasta da aplicação. Antes da primeira vez: instalar o Task (slide seguinte).</p>
 
 <!--
-Este slide é o guia de bolso: com prática, chega. Os slides seguintes são um por passo, com o que deve aparecer no fim de cada um.
+Este slide é o guia de bolso: com prática, chega. Um passo por click; os slides seguintes são um por passo, com o que deve aparecer no fim de cada um.
+[click] O pacote faz-se no PC.
+[click] No servidor, antes de tocar em nada: backup e PHP 8.5.
+[click] A pasta antiga fica de lado, a nova leva o nome de sempre.
+[click] A ligação à BD.
+[click] Migrar.
+[click] Trazer os uploads da pasta antiga.
+[click] Limpar a cache.
+[click] O que era do ConfigVSoft passa para a Administração.
+[click] Testar no browser.
+[click] Os passos 5 a 7 são na pasta da aplicação; o Task instala-se uma vez.
 -->
 
 ---
