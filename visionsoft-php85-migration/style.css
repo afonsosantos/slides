@@ -1,5 +1,7 @@
 /* Migração para PHP 8.5 — Visionsoft, formação interna.
-   Light, restrained: one grotesk, one accent (Visionsoft blue), flat surfaces. */
+   Restrained: one grotesk, one accent (Visionsoft blue), flat surfaces.
+   Dark by default (`colorSchema` in slides.md); the dark tokens are the one `html.dark` block below,
+   the light ones are in :root. */
 
 :root {
   --bg: #fbfbfc;
@@ -10,6 +12,17 @@
   --accent: #1f4e85;
   --accent-2: #b45309;
   --accent-soft: rgba(31, 78, 133, 0.1);
+  --accent-faded: rgba(31, 78, 133, 0.35);
+  --meta-bg: rgba(20, 24, 31, 0.05);
+  --ok: #0f7652;
+  --ok-line: rgba(15, 118, 82, 0.3);
+  --ok-soft: rgba(15, 118, 82, 0.08);
+  --warn: #b45309;
+  --warn-line: rgba(180, 83, 9, 0.3);
+  --warn-soft: rgba(180, 83, 9, 0.08);
+  --danger: #b91c1c;
+  --danger-line: rgba(185, 28, 28, 0.3);
+  --danger-soft: rgba(185, 28, 28, 0.08);
 
   --slidev-theme-primary: var(--accent);
   --slidev-code-font-size: 15px;
@@ -20,7 +33,37 @@
   --slidev-code-foreground: var(--fg);
 }
 
+/* dark tokens: flip `colorSchema` in slides.md frontmatter to switch */
+html.dark {
+  --bg: #0e1218;
+  --card: #182030;
+  --fg: #eef2f7;
+  --fg-dim: #9ba6b6;
+  --rule: rgba(238, 242, 247, 0.14);
+  --accent: #7fb0ea;
+  --accent-2: #f2a64f;
+  --accent-soft: rgba(127, 176, 234, 0.22);
+  --accent-faded: rgba(127, 176, 234, 0.4);
+  --meta-bg: rgba(238, 242, 247, 0.08);
+  --ok: #3ccf95;
+  --ok-line: rgba(60, 207, 149, 0.35);
+  --ok-soft: rgba(60, 207, 149, 0.1);
+  --warn: #f5b454;
+  --warn-line: rgba(245, 180, 84, 0.35);
+  --warn-soft: rgba(245, 180, 84, 0.1);
+  --danger: #f87171;
+  --danger-line: rgba(248, 113, 113, 0.35);
+  --danger-soft: rgba(248, 113, 113, 0.1);
+
+  /* Slidev redefines these under html.dark, so repeat them here or code blocks go neutral grey */
+  --slidev-code-background: var(--card);
+  --slidev-code-foreground: var(--fg);
+}
+
 html, body, #slide-content { background: var(--bg); }
+
+/* the logo ships with dark text and brand blue; invert for dark, then rotate the hue so the blue stays blue */
+html.dark .logo-invert { filter: invert(1) hue-rotate(180deg); }
 
 /* ---- base ---- */
 
@@ -116,7 +159,7 @@ html, body, #slide-content { background: var(--bg); }
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--fg-dim);
-  background: rgba(20, 24, 31, 0.05);
+  background: var(--meta-bg);
   border-radius: 4px;
   padding: 0.3em 0.7em;
 }
@@ -193,7 +236,7 @@ html, body, #slide-content { background: var(--bg); }
 
 .slidev-layout.end .meta {
   color: var(--fg-dim) !important;
-  background: rgba(20, 24, 31, 0.05) !important;
+  background: var(--meta-bg) !important;
 }
 
 .slidev-layout.quote blockquote,
@@ -292,7 +335,8 @@ html, body, #slide-content { background: var(--bg); }
   border-radius: 8px;
   padding: 0.9rem 1rem;
 }
-.check-card .check-title {
+.slidev-layout .check-card p { margin: 0; }
+.slidev-layout .check-card .check-title {
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.4rem;
@@ -337,16 +381,20 @@ html, body, #slide-content { background: var(--bg); }
 }
 .status-card .status-name { font-weight: 700; font-size: 0.95rem; }
 .status-card .status-desc { font-size: 0.8rem; color: var(--fg-dim); margin-top: 0.15rem; line-height: 1.35; }
-.status-ok { border-color: rgba(15, 118, 82, 0.3); background: rgba(15, 118, 82, 0.08); }
-.status-ok .status-name { color: #0f7652; }
-.status-warn { border-color: rgba(180, 83, 9, 0.3); background: rgba(180, 83, 9, 0.08); }
-.status-warn .status-name { color: #b45309; }
-.status-danger { border-color: rgba(185, 28, 28, 0.3); background: rgba(185, 28, 28, 0.08); }
-.status-danger .status-name { color: #b91c1c; }
+.status-ok { border-color: var(--ok-line); background: var(--ok-soft); }
+.status-ok .status-name { color: var(--ok); }
+.status-warn { border-color: var(--warn-line); background: var(--warn-soft); }
+.status-warn .status-name { color: var(--warn); }
+.status-danger { border-color: var(--danger-line); background: var(--danger-soft); }
+.status-danger .status-name { color: var(--danger); }
 
-/* checklists: caixa vazia em vez do ponto */
-.slidev-layout ul.checklist li { line-height: 1.45; padding-top: 0.3rem; padding-bottom: 0.3rem; }
-.slidev-layout ul.checklist li::before {
+/* convenção do deck (slide "Como ler este deck"):
+   caixa = a recordar e a fazer; exclamação = a evitar ou não fazer.
+   `ul.checklist` / `ul.avoid` para a lista toda, `li.avoid` para misturar numa checklist. */
+.slidev-layout ul.checklist li,
+.slidev-layout ul.avoid li { line-height: 1.45; padding-top: 0.3rem; padding-bottom: 0.3rem; }
+.slidev-layout ul.checklist li::before,
+.slidev-layout ul.avoid li::before {
   content: '';
   width: 0.85em;
   height: 0.85em;
@@ -355,7 +403,32 @@ html, body, #slide-content { background: var(--bg); }
   border: 2px solid var(--accent);
   border-radius: 3px;
 }
-.checklist .dim { font-size: 0.85em; }
+.slidev-layout ul.avoid li::before,
+.slidev-layout ul.checklist li.avoid::before {
+  content: '!';
+  border-color: var(--danger);
+  color: var(--danger);
+  font-weight: 700;
+  line-height: 0.85em;
+  text-align: center;
+}
+.checklist .dim, .avoid .dim { font-size: 0.85em; }
+
+/* "evitar, mas…": a mesma exclamação, em linha, à frente de uma etiqueta */
+.avoid-tag { color: var(--danger); margin-right: 0.35em; }
+.avoid-tag::before {
+  content: '!';
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.4em;
+  border: 2px solid var(--danger);
+  border-radius: 3px;
+  line-height: 1.1em;
+  text-align: center;
+  font-weight: 700;
+  vertical-align: -0.1em;
+}
 
 /* slides de passo a passo: um comando grande, para toda a sala copiar */
 .big-code .slidev-code {
@@ -373,6 +446,7 @@ html, body, #slide-content { background: var(--bg); }
 }
 .slidev-layout .hint {
   font-size: 1.15rem;
+  line-height: 2;
   color: var(--fg-dim);
   margin-top: 1.4rem;
 }
@@ -395,7 +469,7 @@ html, body, #slide-content { background: var(--bg); }
   color: var(--fg-dim);
   white-space: nowrap;
 }
-.slidev-layout ol.trilho li.feito { border-top-color: rgba(31, 78, 133, 0.35); }
+.slidev-layout ol.trilho li.feito { border-top-color: var(--accent-faded); }
 .slidev-layout ol.trilho li.atual { border-top-color: var(--accent); color: var(--accent); }
 .trilho-num { margin-right: 0.35rem; font-variant-numeric: tabular-nums; }
 
@@ -410,9 +484,169 @@ html, body, #slide-content { background: var(--bg); }
 /* resultado esperado no fim de um passo */
 .slidev-layout .resultado {
   font-size: 1.15rem;
+  line-height: 2;
   margin-top: 1.4rem;
   padding-left: 0.9rem;
-  border-left: 3px solid #0f7652;
+  border-left: 3px solid var(--ok);
+}
+
+/* meme (slide Verificar): Success Kid (public/meme-testes.jpg) com legendas em Impact */
+.meme {
+  width: 255px;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  background: url('/meme-testes.jpg') center / cover no-repeat;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  transform: rotate(3deg);
+}
+.slidev-layout .meme p {
+  margin: 0;
+  font-family: Impact, 'Arial Black', 'Helvetica Neue', sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 10px #000;
+}
+
+/* pastas no servidor (slide Extrair o pacote): diagrama animado por clicks */
+.pastas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--card);
+}
+.slidev-layout .pastas p { margin: 0; }
+.slidev-layout .pastas-raiz {
+  font-family: var(--slidev-code-font-family);
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+  margin-bottom: 0.2rem !important;
+}
+.pasta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  transition: opacity 0.4s, transform 0.4s, border-color 0.4s;
+}
+.pasta-icon {
+  grid-row: 1 / 3;
+  position: relative;
+  width: 40px;
+  height: 30px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: var(--accent-2);
+}
+.pasta-icon::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 18px;
+  height: 8px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent-2);
+}
+.pasta-nome {
+  font-family: var(--slidev-code-font-family);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--fg);
+  transition: color 0.4s;
+}
+.pasta-tag { font-size: 0.78rem; color: var(--fg-dim); }
+.pasta.antiga { opacity: 0.55; }
+.pasta.antiga .pasta-icon, .pasta.antiga .pasta-icon::before { background: var(--fg-dim); }
+.pasta.nova {
+  border-color: var(--ok-line);
+  opacity: 0;
+  transform: translateY(10px);
+}
+.pasta.nova.visivel { opacity: 1; transform: none; }
+.pasta.nova .pasta-nome { color: var(--ok); }
+.slidev-layout .pastas-legenda {
+  font-size: 0.95rem;
+  color: var(--fg-dim);
+  margin-top: 0.3rem !important;
+}
+.slidev-layout ol li.passo-ativo { color: var(--accent); }
+.slidev-layout ol li.passo-ativo code { color: inherit; }
+
+/* passos com título + detalhe (slide Um repositório por cliente) */
+.slidev-layout ol.passos { margin: 0; padding-left: 1.6rem; }
+.slidev-layout ol.passos li { margin: 0 0 0.6rem; padding-left: 0.3rem; line-height: 1.4; }
+.slidev-layout ol.passos li::marker { color: var(--accent); font-weight: 700; }
+.slidev-layout ol.passos li > strong { display: block; font-size: 1.05rem; font-weight: 700; box-shadow: none; }
+.slidev-layout ol.passos li > span { display: block; font-size: 0.9rem; color: var(--fg-dim); }
+.slidev-layout ol.passos li > span code { font-size: 0.85em; }
+
+/* árvore de um repositório de cliente */
+.arvore {
+  padding: 0.9rem 1.1rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--card);
+  font-family: var(--slidev-code-font-family);
+}
+.slidev-layout .arvore p, .slidev-layout .arvore ul { margin: 0; }
+.slidev-layout .arvore-raiz {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding-bottom: 0.55rem;
+  margin-bottom: 0.35rem !important;
+  border-bottom: 1px solid var(--rule);
+}
+.slidev-layout .arvore ul { list-style: none; padding: 0; }
+.slidev-layout .arvore li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.22rem 0;
+  text-indent: 0;
+  font-size: 0.84rem;
+  color: var(--fg);
+  line-height: 1.3;
+}
+.slidev-layout .arvore li span {
+  margin-left: auto;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.72rem;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.slidev-layout .arvore li::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--accent-2);
+  clip-path: polygon(0 0, 42% 0, 52% 22%, 100% 22%, 100% 100%, 0 100%);
+}
+.slidev-layout .arvore li.ficheiro-ico::before {
+  width: 11px;
+  height: 13px;
+  background: var(--fg-dim);
+  clip-path: polygon(0 0, 65% 0, 100% 30%, 100% 100%, 0 100%);
 }
 
 /* resumo de um guia: tabela de consulta rápida */

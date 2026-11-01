@@ -1,0 +1,13 @@
+<head>
+  <!--
+    colorSchema is "auto" so the dark/light toggle exists (nav bar or key "d",
+    presenter view included). "auto" follows the OS, so the first time the deck
+    opens in a browser we seed the stored choice to dark. Runs before the app
+    bundle, which is what makes it stick. Skipped for exports (?print=...),
+    which stay light.
+  -->
+  <script>
+    if (!location.search.includes('print') && localStorage.getItem('slidev-color-schema') === null)
+      localStorage.setItem('slidev-color-schema', 'dark')
+  </script>
+</head>

@@ -1,7 +1,9 @@
 ---
 theme: default
 title: Migração para PHP 8.5
-colorSchema: light
+# auto = toggle in the nav bar / key "d" (also in presenter view). index.html
+# seeds dark on first load in a browser; exports stay light.
+colorSchema: auto
 layout: cover
 routerMode: hash
 addons:
@@ -19,13 +21,13 @@ fonts:
 
 <div class="rule"></div>
 
-<p class="lead">O que mudou, configurar localmente (todos ao mesmo tempo) e instalar num cliente.</p>
+<p class="lead">Adeus <code>vendor</code> no git, olá composer. E no fim, PHP 8.5 em todos os PCs.</p>
 
 <p class="meta mt-10">VSoft Industry · <code>feat/upgrade-php-8.5</code></p>
-<p class="meta-sub mt-2">Afonso Santos · 29/10/2026</p>
+<p class="meta-sub mt-2">Afonso Santos · Guilherme Camacho · Gabriel Neves · Ivo Vicente · 29/10/2026</p>
 
 <div class="absolute bottom-10 left-14 flex items-center gap-6">
-  <img src="/logo.svg" class="h-8 object-contain" alt="Visionsoft" />
+  <img src="/logo.svg" class="logo-invert h-8 object-contain" alt="Visionsoft" />
 </div>
 
 <!--
@@ -44,8 +46,8 @@ Três partes. A do meio fazemos juntos: no fim da apresentação todos têm o pr
   </div>
   <div class="step">
     <span class="step-num">02</span>
-    <p class="step-title">Configurar localmente</p>
-    <p class="dim">Passo a passo, <strong>todos ao mesmo tempo</strong></p>
+    <p class="step-title">O projeto no teu PC</p>
+    <p class="dim">Clonar e pôr a correr, <strong>todos ao mesmo tempo</strong></p>
   </div>
   <div class="step">
     <span class="step-num">03</span>
@@ -61,6 +63,31 @@ Três partes. A do meio fazemos juntos: no fim da apresentação todos têm o pr
 
 <!--
 Primeiro o contexto, rápido. Depois abrem o terminal e seguimos os passos juntos. No fim, o guia para cada cliente e para as versões seguintes.
+-->
+
+---
+
+# Como ler este deck
+
+<div class="grid grid-cols-2 gap-10 mt-10">
+<div>
+<p class="code-label">Caixa</p>
+<ul class="checklist text-xl">
+<li>Algo a <strong>recordar e a fazer</strong></li>
+</ul>
+<p class="dim mt-3">Pré-requisitos, passos e verificações. No fim de cada guia, está tudo feito.</p>
+</div>
+<div>
+<p class="code-label accent">Exclamação</p>
+<ul class="avoid text-xl">
+<li>Algo a <strong>evitar ou a não fazer</strong></li>
+</ul>
+<p class="dim mt-3">Atalhos que parecem inofensivos e custam caro a desfazer.</p>
+</div>
+</div>
+
+<!--
+Duas marcas ao longo do deck: a caixa é para fazer, a exclamação é para não fazer. Quando virem a exclamação, é porque alguém já se queimou com aquilo.
 -->
 
 ---
@@ -121,6 +148,58 @@ class: text-sm
 
 <!--
 Tudo subiu de uma vez. O Yii 2.0.55 porque o 2.0.50 ainda tinha avisos de segurança críticos. O composer está fixado à plataforma 8.5.12.
+-->
+
+---
+
+# Composer: como funciona
+
+<div class="grid grid-cols-3 gap-4 mt-6">
+  <div class="check-card">
+    <p class="check-title"><code>composer.json</code></p>
+    <p class="dim text-sm">O que o projeto <strong>pede</strong>: os pacotes e a versão mínima de cada um. Muda raramente.</p>
+  </div>
+  <div class="check-card">
+    <p class="check-title"><code>composer.lock</code></p>
+    <p class="dim text-sm">O que ficou <strong>instalado</strong>: a versão exata de cada pacote. Vai para o git.</p>
+  </div>
+  <div class="check-card">
+    <p class="check-title"><code>vendor/</code></p>
+    <p class="dim text-sm">As bibliotecas em si. <strong>Fora do git</strong>: cada máquina gera a sua com <code>composer install</code>.</p>
+  </div>
+</div>
+
+<ul class="checklist mt-8">
+<li>O <code>composer.lock</code> garante que todos têm <strong>as mesmas versões</strong>: vai sempre no commit</li>
+<li class="avoid">Nunca editar ficheiros em <code>vendor/</code>: o próximo <code>composer install</code> apaga a alteração</li>
+<li>Nos clientes não há composer: o pacote do Builder <strong>já leva o <code>vendor/</code></strong></li>
+</ul>
+
+<!--
+Nunca usámos o composer neste projeto porque o vendor estava no git. A ideia é simples: o json é a lista de compras, o lock é o talão com o que se comprou, o vendor é o saco. O saco não vai para o git; o talão vai, para toda a gente instalar exatamente o mesmo. E como o saco é descartável, mexer dentro dele não serve de nada.
+-->
+
+---
+class: text-sm
+---
+
+# Composer no dia a dia
+
+| Quando | Comando | O que faz |
+|---|---|---|
+| Clonei · o `composer.lock` mudou num pull | `composer install` | Instala **exatamente** o que está no lock. Não muda o git. |
+| Quero a versão nova de um pacote | `composer update <pacote>` | Só esse pacote · lock reescrito → **commit** |
+| Preciso de uma biblioteca nova | `composer require picqer/php-barcode-generator` | Junta ao json e instala · lock reescrito → **commit** |
+| Deixámos de usar uma biblioteca | `composer remove <pacote>` | O contrário do `require` |
+| Que versão está instalada? | `composer show yiisoft/yii2` | Versão, descrição e do que depende |
+| Há versões novas? | `composer outdated` | Lista o que tem versão mais recente |
+
+<ul class="avoid mt-4">
+<li><code>composer update</code> <strong>sem nome</strong> atualiza tudo de uma vez e pode partir coisas: só de propósito, num branch próprio</li>
+</ul>
+
+<!--
+Na prática, 90% das vezes é só composer install depois de um pull. Os três que reescrevem o lock vão no mesmo commit do código que precisa deles. O update sem nome puxa versões novas de tudo: foi o que fizemos na migração, de propósito, e deu trabalho.
 -->
 
 ---
@@ -200,13 +279,13 @@ class: text-sm
 
 | O quê | Onde |
 |---|---|
-| BD do VSoft | `common/config/db.php` |
+| BD do VSoft Industry | `common/config/db.php` |
 | Cliente ativo | `common/config/bootstrap-local.php` |
 | ERP (`db2` + API), URLs, logótipos, flags | `company_<cliente>/params.php` |
 | O mesmo, só na tua máquina (ERP de teste) | `company_<cliente>/params-local.php` |
 | Timezone, tamanho dos anexos, etiquetas | **Administração › Configurações projeto** |
 
-<div class="check-card mt-8">
+<div class="check-card mt-6">
   <p class="check-title">O F3 já não existe → Administração</p>
   <p class="dim">App à parte em <code>/administration/web</code>, com login próprio (SQLite).</p>
   <p class="mt-2"><code>php yii administrador/guardar &lt;user&gt; &lt;pass&gt;</code></p>
@@ -217,59 +296,16 @@ O ConfigVSoft desapareceu: o que era do cliente foi para o params.php do submód
 -->
 
 ---
-class: code-sm
----
-
-# Overrides em dev: <code>params-local.php</code>
-
-<div class="grid grid-cols-2 gap-8 mt-6">
-<div>
-<p class="code-label">company_frigosto/params-local.php</p>
-
-```php
-<?php
-// só as chaves a mudar; o resto vem do params.php
-return [
-    'integrations' => [
-        'erp-to-vsoft' => [
-            'dsn' => 'sqlsrv:Server=localhost\ERP;'
-                . 'Database=bd_teste',
-            'username' => 'sa',
-            'password' => '...',
-        ],
-        'vsoft-to-erp' => [
-            'baseURL' => 'http://localhost:81/api/',
-        ],
-    ],
-];
-```
-</div>
-<div>
-<ul class="checklist">
-<li>Criado <strong>à mão</strong>, ao lado do <code>params.php</code></li>
-<li>Fora do git (<code>.gitignore</code> do submódulo)</li>
-<li>Só em <strong>Development</strong>: em QA/prod é ignorado</li>
-<li>Merge recursivo (<code>ArrayHelper::merge</code>)</li>
-</ul>
-<p class="dim text-sm mt-4">Para apontar ao ERP de teste sem mexer no <code>params.php</code> do cliente.</p>
-</div>
-</div>
-
-<!--
-Antes, para testar contra um ERP de teste, mudava-se o params.php e havia o risco de ir para o git com as credenciais erradas. Agora o params.php fica igual ao de produção e cada um põe por cima, na sua máquina, só as chaves que muda. O merge é recursivo: não é preciso repetir o class, o charset, etc. Só é lido com YII_ENV_DEV, por isso mesmo que o ficheiro vá parar a um servidor não tem efeito.
--->
-
----
 layout: center
 ---
 
 <p class="meta">Parte 02</p>
 
-# Configurar localmente
+# O projeto no teu PC
 
 <div class="rule"></div>
 
-<p class="lead">Abram o terminal. Vamos fazer isto juntos.</p>
+<p class="lead">Clonar o VSoft Industry e pô-lo a correr em PHP 8.5 na tua máquina.<br>Abram o terminal: fazemos isto juntos.</p>
 
 <!--
 A partir daqui, um passo por slide. Esperamos que todos acabem cada passo antes de avançar.
@@ -298,7 +334,7 @@ A partir daqui, um passo por slide. Esperamos que todos acabem cada passo antes 
 output_buffering = On
 upload_max_filesize = 200M
 post_max_size = 200M
-memory_limit = 4G
+memory_limit = 2G
 date.timezone = "Europe/Lisbon"
 extension=zip
 ```
@@ -381,6 +417,7 @@ Se aparecer Permission denied (publickey), o login do passo 2 não registou a ch
 <li><strong>Push</strong> de todo o trabalho por enviar</li>
 <li>Copiar <code>common/config/db.php</code> <strong>para fora</strong> do projeto (tem os dados da BD)</li>
 <li>Apagar a pasta do projeto</li>
+<li class="avoid">Não fazer <code>pull</code> do projeto antigo: é clone novo (o <code>vendor/</code> saiu do git, há 17 submódulos)</li>
 </ul>
 
 <!--
@@ -418,32 +455,59 @@ class: big-code
 
 ```powershell
 composer install
-php init --env=Development --overwrite=All
+php init
 ```
 
-<p class="hint">O <code>php init</code> cria o <code>db.php</code>, o <code>bootstrap-local.php</code> e os <code>*-local.php</code>.</p>
+<p class="hint">O <code>php init</code> pergunta o ambiente: escolher <strong>Development</strong> e confirmar com <code>yes</code>.<br>Cria o <code>db.php</code>, o <code>bootstrap-local.php</code> e os <code>*-local.php</code>.</p>
 
 <!--
 O composer vai buscar o yii2-administration, que é privado; o auth.json do repositório trata do acesso.
 -->
 
 ---
+
+<p class="passo-num">Passo 7 / 9 · Cliente · à mão</p>
+
+# Escolher o cliente
+
+<p class="code-label mt-2">common\config\bootstrap-local.php · criado pelo php init</p>
+
+```php
+<?php
+// Submódulo do cliente ativo nesta instalação
+Yii::setAlias('@company', dirname(__DIR__, 2) . '/company_CLIENTE');
+```
+
+<ul class="checklist text-xl mt-6">
+<li>Substituir <code>company_CLIENTE</code> pelo cliente, por exemplo <code>company_frigosto</code></li>
+<li>Guardar</li>
+</ul>
+
+<p class="hint">É só isto que diz à aplicação qual dos 17 <code>company_*</code> usar.</p>
+
+<!--
+Um ficheiro com uma linha: o alias @company aponta para a pasta do cliente. Mudar o nome, guardar, e é outro cliente. Mas há maneira mais fácil: slide seguinte.
+-->
+
+---
 class: big-code
 ---
 
-<p class="passo-num">Passo 7 / 9 · Cliente</p>
+<p class="passo-num">Passo 7 / 9 · Cliente · mais fácil</p>
 
-# Escolher o cliente
+# …ou com um comando
 
 ```powershell
 php yii company
 php yii company/switch frigosto
 ```
 
+<p class="resultado">No browser, o login do backend mostra o <strong>logótipo e as imagens do cliente</strong>.</p>
+
 <p class="hint">O primeiro lista os clientes (<code>*</code> = ativo). Sem nome, o <code>switch</code> lista-os e pergunta qual ativar.</p>
 
 <!--
-O switch escreve o bootstrap-local.php por nós; não é preciso editá-lo à mão. Para mudar de cliente mais tarde, é o mesmo comando.
+O switch escreve o bootstrap-local.php por nós e limpa a cache (permissões, schema e AppCache eram do cliente anterior); não é preciso editá-lo à mão. Para mudar de cliente mais tarde, é o mesmo comando. Abram o backend: o login já tem o logótipo e as imagens do cliente escolhido.
 -->
 
 ---
@@ -464,14 +528,14 @@ return [
     'username' => '',
     'password' => '',
     'charset' => 'utf8',
-    'enableSchemaCache' => true,
-    'schemaCacheDuration' => 3600,
-    'schemaCache' => 'cache',
-    'attributes' => ['FormatDecimals' => true],
+    // schemaCache, attributes: ficam como estão
 ];
 ```
 
-<p class="hint">Servidor, BD, utilizador e password: <strong>da cópia do passo 4</strong>.</p>
+<ul class="checklist mt-3">
+<li>Servidor, BD, utilizador e password: <strong>da cópia do passo 4</strong></li>
+<li class="avoid">Não copiar o ficheiro do passo 4 por cima: o novo tem o <code>schemaCache</code></li>
+</ul>
 
 <!--
 Só mudam as três linhas destacadas. O schemaCache é novo: a estrutura das tabelas fica em cache uma hora, por isso não copiem o db.php antigo por cima, só os dados da ligação.
@@ -509,8 +573,14 @@ As migrações correm na BD do passo 8. A conta da Administração fica numa bas
 <li><code>composer test:common:unit</code> passa</li>
 </ul>
 
+<div class="meme absolute right-14 top-32">
+  <p>10 anos sem um único teste</p>
+  <p>Agora temos testes</p>
+</div>
+<Arrow x1="470" y1="318" x2="650" y2="295" color="#7fb0ea" width="3" />
+
 <!--
-Quem tiver tudo verde, ajuda o colega do lado.
+Quem tiver tudo verde, ajuda o colega do lado. E sim, o projeto tem testes: são poucos, mas correm, e a partir de agora cada correção pode trazer o seu.
 -->
 
 ---
@@ -521,7 +591,7 @@ class: text-sm
 
 | Erro | Solução |
 |---|---|
-| `Falta common/config/bootstrap-local.php` | `php init --env=Development` |
+| `Falta common/config/bootstrap-local.php` | `php init` → Development |
 | `O @company ... não existe` | `php yii company/switch` · `git submodule update --init` |
 | `Permission denied (publickey)` | Repetir o passo 2 |
 | Erros de sintaxe no composer | O terminal usa o PHP 7.2 → PATH |
@@ -545,8 +615,8 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
   <div><p class="code-label">Migrações novas</p><p><code>php yii migrate</code></p></div>
   <div><p class="code-label">Valores antigos</p><p><code>php yii cache/flush cache</code></p></div>
   <div><p class="code-label">Alterou phpGrid</p><p>subir <code>PhpGridManager::$version</code></p></div>
-  <div><p class="code-label">Tabelas alteradas fora do migrate</p><p><code>php yii cache/flush cache</code></p></div>
-  <div><p class="code-label">Permissões alteradas por SQL</p><p><code>php yii cache/flush cache</code> (ou 5 min)</p></div>
+  <div><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Tabelas alteradas fora do migrate</p><p><code>php yii cache/flush cache</code></p></div>
+  <div><p class="code-label"><span class="avoid-tag">Evitar, mas…</span> Permissões alteradas por SQL</p><p><code>php yii cache/flush cache</code> (ou 5 min)</p></div>
 </div>
 
 <!--
@@ -657,6 +727,8 @@ O php da linha de comandos também tem de ser o 8.5 (php -v). No Apache: mod_rew
 -->
 
 ---
+clicks: 2
+---
 
 <Trilho guia="instalar" :passo="3" />
 
@@ -664,15 +736,40 @@ O php da linha de comandos também tem de ser o 8.5 (php -v). No Apache: mod_rew
 
 <p class="onde">No servidor</p>
 
+<div class="grid grid-cols-[1fr_300px] gap-10 items-start">
+<div>
+
 <ol class="text-xl">
-<li>Renomear a pasta atual para <code>vsoft-antigo</code></li>
-<li>Extrair o zip para uma pasta com <strong>o nome antigo</strong></li>
+<li :class="{ 'passo-ativo': $clicks === 1 }">Renomear a pasta atual para <code>vsoft-antigo</code></li>
+<li :class="{ 'passo-ativo': $clicks === 2 }">Extrair o zip para uma pasta com <strong>o nome antigo</strong></li>
 </ol>
+
+<ul class="avoid text-lg mt-4">
+<li>Não copiar nada à mão da pasta antiga: nem <code class="whitespace-nowrap">main-local.php</code> nem <code>db2.php</code></li>
+</ul>
 
 <p class="resultado">Ficam duas pastas: <code>vsoft-antigo</code> e a nova, com o nome de sempre.</p>
 
+</div>
+<div class="pastas">
+<p class="pastas-raiz">C:\www</p>
+<div class="pasta" :class="{ antiga: $clicks >= 1 }">
+  <span class="pasta-icon"></span>
+  <span class="pasta-nome">{{ $clicks >= 1 ? 'vsoft-antigo' : 'vsoft' }}</span>
+  <span class="pasta-tag">{{ $clicks >= 1 ? 'backup' : 'PHP 7.2 · a correr' }}</span>
+</div>
+<div class="pasta nova" :class="{ visivel: $clicks >= 2 }">
+  <span class="pasta-icon"></span>
+  <span class="pasta-nome">vsoft</span>
+  <span class="pasta-tag">PHP 8.5 · do zip</span>
+</div>
+<p class="pastas-legenda">{{ ['A pasta de sempre', 'Fica de lado, sem apagar', 'O Apache não nota a diferença'][$clicks] }}</p>
+</div>
+</div>
+
 <!--
-O mesmo nome: o Apache e o cron.bat continuam a funcionar. Da pasta antiga não se copia nada à mão: nem o main-local.php (ligava o gii, que já não existe: a aplicação vai abaixo) nem o db2.php (passou para o params.php do submódulo). Os uploads vêm no passo 6.
+[click] Renomear primeiro: a pasta antiga fica de lado como backup, não se apaga.
+[click] O zip é extraído com o nome de sempre: o Apache e o cron.bat continuam a funcionar. Da pasta antiga não se copia nada à mão: nem o main-local.php (ligava o gii, que já não existe: a aplicação vai abaixo) nem o db2.php (passou para o params.php do submódulo). Os uploads vêm no passo 6.
 -->
 
 ---
@@ -686,9 +783,10 @@ O mesmo nome: o Apache e o cron.bat continuam a funcionar. Da pasta antiga não 
 <ul class="checklist text-xl">
 <li>Servidor e base de dados</li>
 <li>Utilizador e password</li>
+<li class="avoid">Não copiar o <code>db.php</code> antigo por cima: perde o <code>schemaCache</code></li>
 </ul>
 
-<p class="resultado">Os valores estão no <code>db.php</code> do <code>vsoft-antigo</code>: copiar só esses, não o ficheiro.</p>
+<p class="resultado">Os valores estão no <code>db.php</code> do <code>vsoft-antigo</code>.</p>
 
 <!--
 O resto da configuração já vem no pacote. O db.php novo tem o schemaCache: copiar o antigo por cima perdia-o.
@@ -821,15 +919,33 @@ A pasta antiga ficou intacta, com os uploads e a config de antes. Só ficam de f
 
 # Um repositório por cliente
 
-<ol class="mt-4">
-<li><em>Use this template</em> no GitHub → repositório <strong>privado</strong> <code>vsoft-industry-company-{cliente}</code></li>
-<li>Mover do core: <code>interfaceERP/</code>, <code>etiquetas/</code>, fórmula própria → <code>strategies/</code></li>
-<li>Namespaces: <code>company\interfaceERP</code> · <code>company\etiquetas</code> · <code>company\strategies</code></li>
-<li>Logótipos <strong>da produção</strong> em <code>assets/</code> · cores em <code>assets/styles.css</code></li>
-<li>No core: <code>git submodule add &lt;url&gt; company_&lt;cliente&gt;</code></li>
+<div class="grid grid-cols-[1fr_340px] gap-12 items-start mt-2">
+<div>
+
+<ol class="passos">
+<li><strong>Criar o repositório</strong><span><em>Use this template</em> no GitHub, privado, com o nome <code>vsoft-industry-company-{cliente}</code></span></li>
+<li><strong>Mover o código do cliente</strong><span><code>interfaceERP/</code>, <code>etiquetas/</code> e a fórmula própria, se tiver, para <code>strategies/</code></span></li>
+<li><strong>Trocar os namespaces</strong><span>Passam a começar por <code>company\</code></span></li>
+<li><strong>Logótipos e cores</strong><span>Logótipos <strong>da produção</strong>, nunca do repositório antigo</span></li>
+<li><strong>Ligar ao core</strong><span><code>git submodule add &lt;url&gt; company_&lt;cliente&gt;</code></span></li>
 </ol>
 
-<p class="hint">Os 17 clientes atuais já têm o seu. Isto é só para um cliente novo.</p>
+</div>
+<div class="arvore">
+<p class="arvore-raiz">vsoft-industry-company-{cliente}</p>
+<ul>
+<li class="pasta-ico">interfaceERP/ <span>ler e enviar ao ERP</span></li>
+<li class="pasta-ico">etiquetas/ <span>layouts das etiquetas</span></li>
+<li class="pasta-ico">strategies/ <span>fórmula própria</span></li>
+<li class="pasta-ico">advancedQueryManager/ <span>queries do cliente</span></li>
+<li class="pasta-ico">assets/ <span>logótipos · styles.css</span></li>
+<li class="pasta-ico">uploads/ <span>fora do git</span></li>
+<li class="ficheiro-ico">params.php <span>a configuração</span></li>
+</ul>
+</div>
+</div>
+
+<p class="hint" style="margin-top:.5rem;line-height:1.5">Os 17 clientes atuais já têm o seu. Isto é só para um cliente novo.</p>
 
 <!--
 O README do template tem a estrutura e os comandos git. Procurar referências antigas aos namespaces, por exemplo common\etiquetas\config\CLIENTE\GestaoEtiquetas. Os logótipos vêm sempre da instalação em produção, não do repositório.
@@ -866,7 +982,50 @@ return $params;
 <p class="dim text-sm mt-2">O template já traz o bloco do <code>params-local.php</code> e o <code>.gitignore</code>.</p>
 
 <!--
-Um ficheiro com os valores de produção. O comentário de cada chave diz de onde vinha o valor antigo. O bloco do fim é o dos overrides de dev que vimos na parte 1: copiem-no tal como está.
+Um ficheiro com os valores de produção. O comentário de cada chave diz de onde vinha o valor antigo. O bloco do fim é o dos overrides de dev, que é o slide seguinte: copiem-no tal como está.
+-->
+
+---
+class: code-sm
+---
+
+<p class="passo-num">Cliente · params-local.php</p>
+
+# Overrides em dev: <code>params-local.php</code>
+
+<div class="grid grid-cols-2 gap-8 mt-6">
+<div>
+<p class="code-label">company_frigosto/params-local.php</p>
+
+```php
+return [
+    'integrations' => [
+        'erp-to-vsoft' => [
+            'dsn' => 'sqlsrv:Server=localhost\ERP;'
+                . 'Database=bd_teste',
+            'username' => 'sa',
+            'password' => '...',
+        ],
+        'vsoft-to-erp' => [
+            'baseURL' => 'http://localhost:81/api/',
+        ],
+    ],
+];
+```
+</div>
+<div>
+<ul class="checklist">
+<li>Criar <strong>à mão</strong>, ao lado do <code>params.php</code>, só com as chaves a mudar</li>
+<li>Fora do git (<code>.gitignore</code> do submódulo)</li>
+<li>Só em <strong>Development</strong>: em QA/prod é ignorado</li>
+<li class="avoid">Não mexer no <code>params.php</code> para testar: acaba no git com credenciais erradas</li>
+</ul>
+<p class="dim text-sm mt-4">Merge recursivo (<code>ArrayHelper::merge</code>): o resto vem do <code>params.php</code>.</p>
+</div>
+</div>
+
+<!--
+Antes, para testar contra um ERP de teste, mudava-se o params.php e havia o risco de ir para o git com as credenciais erradas. Agora o params.php fica igual ao de produção e cada um põe por cima, na sua máquina, só as chaves que muda. O merge é recursivo: não é preciso repetir o class, o charset, etc. Só é lido com YII_ENV_DEV, por isso mesmo que o ficheiro vá parar a um servidor não tem efeito.
 -->
 
 ---
@@ -895,7 +1054,7 @@ Depois da migração, as versões seguintes. Duas maneiras de fazer o mesmo zip:
 <div>
 <p class="code-label">Update</p>
 <p class="dim text-sm">Só o que mudou · uns MB</p>
-<ul class="checklist">
+<ul>
 <li>Uma versão nova normal</li>
 <li>Vai <strong>por cima</strong> da instalação</li>
 </ul>
@@ -903,7 +1062,7 @@ Depois da migração, as versões seguintes. Duas maneiras de fazer o mesmo zip:
 <div>
 <p class="code-label accent">Pacote completo</p>
 <p class="dim text-sm">Tudo · ~110 MB · é a parte 03</p>
-<ul class="checklist">
+<ul>
 <li>Primeira instalação e a <strong>migração para o 8.5</strong></li>
 <li>Bibliotecas novas (<code>composer.lock</code> mudou)</li>
 <li>O cliente passa a ter um módulo novo</li>
@@ -1083,7 +1242,7 @@ O Builder não sabe se o zip foi instalado: até Confirmar aplicado fica por val
 
 # A seguir
 
-<div class="grid grid-cols-3 gap-8 mt-10">
+<div class="grid grid-cols-2 gap-8 mt-10">
   <div class="step">
     <span class="step-num">01</span>
     <p class="step-title">Clientes no Builder</p>
@@ -1093,11 +1252,6 @@ O Builder não sabe se o zip foi instalado: até Confirmar aplicado fica por val
     <span class="step-num">02</span>
     <p class="step-title">Limpar o PHP 8</p>
     <p class="dim">Deprecations e <code>php85_offset_null.log</code></p>
-  </div>
-  <div class="step">
-    <span class="step-num">03</span>
-    <p class="step-title">Merge</p>
-    <p class="dim">Review e merge para <code>development</code></p>
   </div>
 </div>
 
