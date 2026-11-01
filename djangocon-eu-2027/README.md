@@ -20,8 +20,10 @@ bun run build  # build static site to dist/
 
 ## Light theme
 
-The deck is dark by default. If the projector washes it out, set `colorSchema: light`
-in the frontmatter at the top of `slides.md`; the dev server picks it up live. The
-dark colours are one `html.dark` block in `style.css`.
+The deck opens dark (`index.html` seeds the preference on first load) but
+`colorSchema` is `auto`, so if the projector washes it out press `d` or click the
+sun/moon button in the nav bar, in either the presenter or the audience window.
+The choice is remembered per browser. Exports stay light. The dark colours are one
+`html.dark` block in `style.css`.
 
 Built with [Slidev](https://sli.dev).

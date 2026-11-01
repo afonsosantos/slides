@@ -1,8 +1,9 @@
 ---
 theme: default
 title: Nobody else is going to write it.
-# light = backup theme for a washed-out projector; nothing else needs changing
-colorSchema: light
+# auto = toggle in the nav bar / key "d" (also in presenter view). index.html
+# seeds dark on first load in a browser; exports stay light.
+colorSchema: auto
 layout: cover
 timer: countdown
 duration: 30min
