@@ -3,7 +3,7 @@
   "dependencies": {
     "@slidev/cli": "^52.20.1",
     "@slidev/theme-default": "latest",
-    "slidev-addon-second-screen": "^1.0.2"
+    "slidev-addon-second-screen": "^1.0.4"
   },
   "private": true,
   "scripts": {
@@ -13,6 +13,6 @@
   },
   "type": "module",
   "devDependencies": {
-    "playwright-chromium": "^1.63.0"
+    "playwright-chromium": "^1.64.1"
   }
 }

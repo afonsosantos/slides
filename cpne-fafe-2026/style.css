@@ -1,0 +1,232 @@
+/* Fafe Eco Rally 2026 — proposta de parceria.
+   Photo-led: CPNE navy + PRIO teal, flat surfaces, big numbers. */
+
+:root {
+  --bg: #fbfbfc;
+  --card: #eef3f8;
+  --fg: #111a33;
+  --fg-dim: #5a6478;
+  --rule: rgba(17, 26, 51, 0.12);
+  --navy: #1b2a6b;
+  --teal: #2fa7b8;
+  --teal-soft: rgba(47, 167, 184, 0.14);
+
+  --slidev-theme-primary: var(--navy);
+}
+
+html, body, #slide-content { background: var(--bg); }
+
+/* ---- base ---- */
+
+.slidev-layout {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.slidev-layout h1 { font-size: 2.3rem; line-height: 1.12; }
+
+.slidev-layout h1 + p { opacity: 1; margin-top: 0.6rem; }
+
+.slidev-layout strong {
+  color: var(--fg);
+  font-weight: 600;
+  box-shadow: inset 0 -0.36em 0 var(--teal-soft);
+}
+
+.slidev-layout ul { list-style: none; padding: 0; }
+
+.slidev-layout ul li {
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+  line-height: 1.55;
+  margin: 0.45rem 0;
+}
+
+.slidev-layout ul li::before {
+  content: '\2022';
+  display: inline-block;
+  width: 1.4em;
+  text-indent: 0;
+  color: var(--teal);
+}
+
+/* ---- system ---- */
+
+.rule {
+  width: 56px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--teal);
+  margin: 1rem 0 1.4rem;
+}
+
+.meta {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--teal-soft);
+  border-radius: 4px;
+  padding: 0.3em 0.7em;
+}
+
+.lead {
+  font-size: 1.25rem;
+  line-height: 1.45;
+  color: var(--fg-dim);
+}
+
+.dim { color: var(--fg-dim); }
+.small { font-size: 0.8rem; }
+.source { font-size: 0.62rem; color: var(--fg-dim); }
+
+/* takeaway line under a list */
+.punch {
+  border-left: 3px solid var(--teal);
+  padding: 0.2rem 0 0.2rem 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+/* footer bar injected via global-bottom.vue */
+.deck-footer {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--fg-dim);
+  z-index: 100;
+}
+
+/* reserve the footer band on content slides */
+.slidev-layout.default { padding-bottom: 3.5rem; }
+
+/* ---- full-bleed photo slides (cover, statement, end) ---- */
+
+.bleed {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.bleed-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10, 16, 38, 0.92) 0%, rgba(10, 16, 38, 0.7) 45%, rgba(10, 16, 38, 0.05) 80%);
+}
+.bleed-content {
+  position: absolute;
+  inset: 0;
+  padding: 3.2rem 3.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+.slidev-layout .bleed-content h1 { color: #fff; font-size: 3rem; line-height: 1.05; }
+.slidev-layout .bleed-content strong { color: #fff; box-shadow: none; }
+.bleed-content .meta { background: rgba(47, 167, 184, 0.9); color: #fff; width: fit-content; }
+.bleed-content .lead { color: rgba(255, 255, 255, 0.82); }
+
+/* ---- numbers ---- */
+
+.stat-grid { display: grid; gap: 1rem; }
+.stat {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+}
+.stat-num {
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.stat-num small { font-size: 0.5em; font-weight: 600; letter-spacing: 0; }
+.stat-label { font-size: 0.78rem; color: var(--fg-dim); margin-top: 0.25rem; line-height: 1.35; }
+.stat.hero { background: var(--navy); }
+.stat.hero .stat-num { color: #fff; }
+.stat.hero .stat-label { color: rgba(255, 255, 255, 0.75); }
+
+/* AAV bar chart */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  height: 220px;
+  border-bottom: 1px solid var(--rule);
+}
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.bar-val { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; font-variant-numeric: tabular-nums; }
+.bar { width: 100%; border-radius: 6px 6px 0 0; background: #b9cbe0; }
+.bar.now { background: var(--teal); }
+.bar-years { display: flex; gap: 1rem; margin-top: 0.4rem; }
+.bar-years span { flex: 1; text-align: center; font-size: 0.75rem; color: var(--fg-dim); }
+
+/* ---- cards ---- */
+
+.card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.card-title { font-weight: 700; color: var(--navy); font-size: 1.02rem; }
+.slidev-layout .card p { margin-bottom: 0; line-height: 1.5; }
+.card-sub { font-size: 0.78rem; color: var(--fg-dim); margin-top: 0.15rem; }
+.slidev-layout .card ul li { font-size: 0.82rem; margin: 0.25rem 0; line-height: 1.4; }
+.card-for { font-size: 0.72rem; color: var(--fg-dim); margin-top: 0.5rem; }
+.card-for b { color: var(--teal); font-weight: 600; }
+
+.tier { border-top: 4px solid #b9cbe0; }
+.tier.main { border-top-color: var(--teal); background: var(--navy); color: #fff; }
+.tier.main .card-title { color: #fff; }
+.tier.main .card-sub { color: rgba(255, 255, 255, 0.72); }
+.slidev-layout .tier.main ul li::before { color: var(--teal); }
+
+/* timeline */
+.timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
+.tl-item { border-top: 3px solid #b9cbe0; padding-top: 0.6rem; }
+.tl-item.done { opacity: 0.55; }
+.tl-item.next { border-top-color: var(--teal); }
+.tl-date { font-size: 0.7rem; font-weight: 600; color: var(--fg-dim); }
+.tl-name { font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+.tl-item.next .tl-name { color: var(--teal); }
+
+.ods img { border-radius: 6px; }
+
+/* photo mosaic */
+.mosaic { display: grid; gap: 0.6rem; }
+.mosaic img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+
+/* two-day programme */
+.day-head { font-weight: 700; color: var(--navy); font-size: 1.05rem; margin-bottom: 0.4rem; }
+.day-head span { color: var(--teal); }
+.sched { display: grid; grid-template-columns: 3.4rem 1fr; gap: 0.35rem 0.8rem; font-size: 0.8rem; line-height: 1.35; }
+.sched .t { font-weight: 600; color: var(--fg-dim); font-variant-numeric: tabular-nums; }
+.sched .hl { font-weight: 600; color: var(--navy); }
+
+/* six stats in a half-width column */
+.stat-grid.compact { gap: 0.7rem; }
+.compact .stat { padding: 0.7rem 0.9rem; }
+.compact .stat-num { font-size: 1.7rem; }
+
+/* theme-default's end layout spaces and uppercases its text */
+.slidev-layout.end,
+.slidev-layout.end .bleed-content * { letter-spacing: normal; text-transform: none; }
+.slidev-layout.end .bleed-content .meta { letter-spacing: 0.11em; text-transform: uppercase; }
+
+/* half-width text column next to a photo */
+.grid-cols-2 > .slidev-layout.default ul li { font-size: 0.95rem; margin: 0.35rem 0; }
