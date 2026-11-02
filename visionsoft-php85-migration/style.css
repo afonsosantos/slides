@@ -596,6 +596,8 @@ html.dark .logo-invert { filter: invert(1) hue-rotate(180deg); }
 .slidev-layout ol.passos li > strong { display: block; font-size: 1.05rem; font-weight: 700; box-shadow: none; }
 .slidev-layout ol.passos li > span { display: block; font-size: 0.9rem; color: var(--fg-dim); }
 .slidev-layout ol.passos li > span code { font-size: 0.85em; }
+.slidev-layout ol.passos.comandos li > span code { font-size: 1.25em; }
+.slidev-layout ol.passos.comandos li { margin-bottom: 0.9rem; }
 
 /* árvore de um repositório de cliente */
 .arvore {

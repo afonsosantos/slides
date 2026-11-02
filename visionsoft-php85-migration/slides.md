@@ -434,9 +434,9 @@ class: big-code url-longo
 
 ```powershell
 git clone --recurse-submodules `
-  -b feat/upgrade-php-8.5 `
-  git@github.com:Visionsoft-Software-Solutions/vsoft-plastics.git
-cd vsoft-plastics
+  -b development `
+  git@github.com:Visionsoft-Software-Solutions/vsoft-industry.git
+cd vsoft-industry
 ```
 
 <p class="hint">Na pasta onde querem o projeto. Traz o core e os 17 <code>company_*</code>.</p>
@@ -574,8 +574,8 @@ As migrações correm na BD do passo 8. A conta da Administração fica numa bas
 </ul>
 
 <div class="meme absolute right-14 top-32">
-  <p>10 anos sem um único teste</p>
-  <p>Agora temos testes</p>
+  <p>Os testes passaram</p>
+  <p>À primeira</p>
 </div>
 <Arrow x1="470" y1="318" x2="650" y2="295" color="#7fb0ea" width="3" />
 
@@ -631,6 +631,31 @@ Dez situações, uma por click. Os ficheiros locais nunca vão para o git.
 [click] phpGrid: subir a versão para o browser ir buscar o ficheiro novo.
 [click] A estrutura das tabelas fica em cache uma hora: coluna nova criada à mão só aparece depois do flush.
 [click] As permissões ficam em cache 5 minutos e limpam-se sozinhas quando são alteradas pelo ecrã; SQL à mão nas tabelas de permissões precisa do flush ou de esperar.
+-->
+
+---
+
+<p class="passo-num">Clientes na tua máquina</p>
+
+# Eliminar e clonar um cliente
+
+<ol class="passos comandos mt-4">
+<li v-click><strong>Ativar o que fica</strong><span><code>php yii company/switch frigosto</code></span></li>
+<li v-click><strong>Eliminar os outros</strong><span>No Explorador, com <em>Itens ocultos</em> ligado: abrir <code>company_x</code>, selecionar tudo, <em>Eliminar</em></span></li>
+<li v-click><strong>Clonar um deles</strong><span><code>php yii company/init omelro</code> · clona e ativa</span></li>
+</ol>
+
+<ul class="checklist mt-3" v-click>
+<li class="avoid"><strong>Esvaziar, não apagar a pasta:</strong> sem ela, um commit tira o cliente do repositório</li>
+<li class="avoid"><strong>Depois de um pull:</strong> <code>git submodule update company_omelro</code>. Sem nome, voltam todos</li>
+</ul>
+
+<!--
+O clone traz os 17. Quem só trabalha num pode apagar os outros: é só a cópia local, o GitHub e o .gitmodules não mudam.
+[click] Primeiro ativar o que fica, para a aplicação não ficar a apontar para uma pasta vazia.
+[click] Eliminar é mesmo no Explorador. O .git de cada cliente é um ficheiro oculto, por isso é preciso ligar os itens ocultos: se ficar lá, o git mostra o cliente como alterado. Vai tudo, incluindo o params-local.php e os uploads desse cliente; os commits por enviar ficam em .git/modules. A pasta vazia fica, o git status continua limpo e o php yii company mostra "sem checkout".
+[click] O company/init traz só esse cliente e passa a ser o ativo. Vem em detached HEAD: git switch main antes de fazer commits nele.
+[click] Dois cuidados. Se apagarem a própria pasta, o git mostra-a como apagada e um git add seguido de commit remove o cliente do repositório para todos. E depois de um pull o update leva o nome do cliente: sem nome traz os 17 outra vez, e o company/init aqui mudaria o cliente ativo.
 -->
 
 ---
