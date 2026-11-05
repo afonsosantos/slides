@@ -125,6 +125,14 @@ html.dark .logo-invert { filter: none; }
   border-radius: 6px;
 }
 
+/* product screenshots: light UI on a dark slide, so give them an edge */
+.shot {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
 /* ---- system ---- */
 
 .rule {
@@ -317,7 +325,7 @@ html.dark .logo-invert { filter: none; }
   letter-spacing: 0;   /* the strip's tracking would push the glyph off-centre */
 }
 
-/* audience prompt: hands up, shout out, guess */
+/* audience prompt: hands up, shout out, thumbs vote, talk to a neighbour */
 .ask {
   display: inline-flex;
   align-items: center;
@@ -337,7 +345,8 @@ html.dark .logo-invert { filter: none; }
   line-height: 1;
 }
 
-.slidev-layout.statement .ask { font-size: 1.25rem; }
+.slidev-layout.statement .ask,
+.slidev-layout.fact .ask { font-size: 1.25rem; }
 
 .order-trail li.done { opacity: 0.85; }
 .order-trail li.done .n { background: var(--accent-soft); color: var(--accent); }
