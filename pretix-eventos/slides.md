@@ -96,6 +96,10 @@ Perguntar à sala: que plataforma usam hoje, como recebem, e quem faz as faturas
 
 <p class="bottom-note">Nós alojamos, configuramos e mantemos. Você foca-se no evento.</p>
 
+<!--
+Marca: logótipo, cores e endereço são do cliente, mas o aviso de atribuição ao pretix mantém-se no rodapé de todas as páginas, por exigência da licença. Não prometer marca branca total.
+-->
+
 ---
 
 <p class="kicker">Site de venda</p>
@@ -118,6 +122,10 @@ Perguntar à sala: que plataforma usam hoje, como recebem, e quem faz as faturas
 
 <p class="credit">Captura real do pretix · pretix.eu</p>
 
+<!--
+Marca: logótipo, cores e endereço são do cliente, mas o aviso de atribuição ao pretix mantém-se no rodapé de todas as páginas, por exigência da licença. Não prometer marca branca total.
+-->
+
 ---
 
 <p class="kicker">Bilhetes</p>
@@ -129,7 +137,7 @@ Perguntar à sala: que plataforma usam hoje, como recebem, e quem faz as faturas
   <div class="feature"><div class="card-icon"><carbon-ticket /></div><div><p class="feature-title">Vários tipos de bilhete</p><p class="feature-desc">Normal, VIP, estudante, passe ou diário.</p></div></div>
   <div class="feature"><div class="card-icon"><carbon-shopping-bag /></div><div><p class="feature-title">Extras</p><p class="feature-desc">Merchandising, workshops, parque.</p></div></div>
   <div class="feature"><div class="card-icon"><carbon-hourglass /></div><div><p class="feature-title">Lotação e lista de espera</p><p class="feature-desc">Esgotou? Quem desiste liberta o lugar a outro.</p></div></div>
-  <div class="feature"><div class="card-icon"><carbon-calendar /></div><div><p class="feature-title">Datas e lugares</p><p class="feature-desc">Sessões repetidas, lugares marcados, descontos.</p></div></div>
+  <div class="feature"><div class="card-icon"><carbon-calendar /></div><div><p class="feature-title">Datas e lugares</p><p class="feature-desc">Sessões repetidas, descontos e lugares marcados, mediante proposta.</p></div></div>
 </div>
 
 <div class="browser">
@@ -144,14 +152,14 @@ Perguntar à sala: que plataforma usam hoje, como recebem, e quem faz as faturas
 
 <p class="kicker">Bilhetes</p>
 
-# Sessões repetidas e lugares marcados
+# Sessões repetidas
 
 <div class="grid grid-cols-[0.8fr_1.3fr] gap-8 mt-5 items-center">
 <div class="feature-list">
   <div class="feature"><div class="card-icon"><carbon-repeat /></div><div><p class="feature-title">Eventos recorrentes</p><p class="feature-desc">Visitas, espetáculos ou cursos com muitas datas.</p></div></div>
   <div class="feature"><div class="card-icon"><carbon-calendar /></div><div><p class="feature-title">Datas criadas de uma vez</p><p class="feature-desc">"Todas as segundas e quartas até dezembro."</p></div></div>
-  <div class="feature"><div class="card-icon"><carbon-events /></div><div><p class="feature-title">Lugares marcados</p><p class="feature-desc">O comprador escolhe o lugar num mapa da sala.</p></div></div>
-  <div class="feature"><div class="card-icon"><carbon-locked /></div><div><p class="feature-title">Preço por zona</p><p class="feature-desc">Plateia, balcão ou lugares bloqueados.</p></div></div>
+  <div class="feature"><div class="card-icon"><carbon-events /></div><div><p class="feature-title">Lugares marcados</p><p class="feature-desc">O comprador escolhe o lugar num mapa da sala. Mediante proposta.</p></div></div>
+  <div class="feature"><div class="card-icon"><carbon-locked /></div><div><p class="feature-title">Preço por zona</p><p class="feature-desc">Plateia, balcão ou lugares bloqueados. Mediante proposta.</p></div></div>
 </div>
 
 <div class="case-shots">
@@ -169,7 +177,7 @@ Perguntar à sala: que plataforma usam hoje, como recebem, e quem faz as faturas
 <p class="credit">Capturas reais do pretix · docs.pretix.eu e pretix.eu</p>
 
 <!--
-Recorrentes: no pretix chamam-se "séries de eventos"; cada data tem lotação e preços próprios. Lugares marcados: o mapa da sala desenha-se no editor seats.pretix.eu.
+Recorrentes: no pretix chamam-se "séries de eventos"; cada data tem lotação e preços próprios. Lugares marcados: o mapa da sala desenha-se no editor seats.pretix.eu. O plugin é proprietário e exige acordo com a pretix, daí ser mediante proposta.
 -->
 
 ---
@@ -289,19 +297,20 @@ Com sistemas separados, cada venda (e cada reembolso) são várias tarefas em v�
 
 <div class="compare mt-6">
 
-| | Plataformas internacionais | Bilheteiras tradicionais | Esta solução |
-|---|---|---|---|
-| MB WAY e Multibanco | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
-| Faturas certificadas automáticas | <span class="no">Não</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> |
-| Site com a sua marca | <span class="meh">Limitado</span> | <span class="meh">Limitado</span> | <span class="yes">Sim</span> |
-| Dados dos compradores são seus | <span class="meh">Nem sempre</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> |
-| Dinheiro na sua conta | <span class="meh">Nem sempre</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> |
-| Check-in incluído | <span class="yes">Sim</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> |
+| | Plataformas internacionais | Bilheteiras tradicionais | pretix Hosted | Esta solução |
+|---|---|---|---|---|
+| MB WAY e Multibanco | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="meh">Só Multibanco</span> | <span class="yes">Sim</span> |
+| Faturas certificadas automáticas | <span class="no">Não</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
+| Site com a sua marca | <span class="meh">Limitado</span> | <span class="meh">Limitado</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
+| Dados dos compradores são seus | <span class="meh">Nem sempre</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
+| Dinheiro na sua conta | <span class="meh">Nem sempre</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
+| Check-in incluído | <span class="yes">Sim</span> | <span class="meh">Nem sempre</span> | <span class="yes">Sim</span> | <span class="yes">Sim</span> |
+| Configurado e suportado por nós | <span class="no">Não</span> | <span class="meh">Nem sempre</span> | <span class="no">Não</span> | <span class="yes">Sim</span> |
 
 </div>
 
 <!--
-Ajustar à concorrência concreta de cada cliente antes de apresentar.
+Ajustar à concorrência concreta de cada cliente antes de apresentar. pretix Hosted: 2,5 % até 15 € por bilhete, self-service; Multibanco via Stripe ou PayPal, MB WAY não listado; envio de faturas à AT via Invopop, 0,20 € por fatura. A diferença é o serviço feito por nós, o MB WAY e a fatura no programa do cliente. Marca: o aviso de atribuição ao pretix mantém-se no rodapé, por exigência da licença; não prometer marca branca total.
 -->
 
 ---
@@ -524,6 +533,10 @@ Os crachás podem ser impressos à entrada, no momento do check-in. Confirmar mo
   <div class="flow-step"><div class="flow-num">2</div><p class="flow-title">Configuração</p><p class="dim">Site com a sua marca, pagamentos e faturação ligados.</p></div>
   <div class="flow-step"><div class="flow-num">3</div><p class="flow-title">Vendas</p><p class="dim">Compras de teste, tudo confirmado, e abrir as vendas.</p></div>
 </div>
+
+<!--
+Marca: logótipo, cores e endereço são do cliente, mas o aviso de atribuição ao pretix mantém-se no rodapé de todas as páginas, por exigência da licença. Não prometer marca branca total.
+-->
 
 ---
 layout: end
