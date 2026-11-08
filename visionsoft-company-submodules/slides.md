@@ -465,11 +465,12 @@ class: text-sm
 
 <p class="meta">Parte 06 · Comandos company/*</p>
 
-# Três comandos: `php yii company/...`
+# Comandos: `php yii company/...`
 
 | Comando | O que faz |
 |---|---|
 | `init <nome>` | Checkout (ou `git submodule add`) de `company_<nome>` e escreve o `bootstrap-local.php` |
+| `deinit` | Retira o checkout local das inativas ou das indicadas, sem perder ficheiros fora do git |
 | `check-template` | Clona o template e lista os ficheiros <strong>em falta</strong> em cada `company_*` |
 | `migrate-uploads` | Move `backend\|frontend\|picking/web/uploads` para `@uploads`, sem substituir |
 
@@ -480,7 +481,7 @@ Movidos: 1843 | Já existentes: 1 | Erros: 0
 ```
 
 <!--
-O init corre mesmo sem @company definido — é por isso que existe. O check-template só aponta ficheiros em falta; conteúdo diferente é personalização do cliente e é ignorado. O migrate-uploads nunca substitui: o que já existe no destino fica na origem para rever à mão.
+O init corre mesmo sem @company definido — é por isso que existe. O deinit limpa um clone --recursive: só mexe na cópia local, e nunca na company ativa. O check-template só aponta ficheiros em falta; conteúdo diferente é personalização do cliente e é ignorado. O migrate-uploads nunca substitui: o que já existe no destino fica na origem para rever à mão.
 -->
 
 ---

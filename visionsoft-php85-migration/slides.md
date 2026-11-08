@@ -608,7 +608,7 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
 
 <div class="note-grid grid grid-cols-2 gap-x-10 gap-y-6 mt-8">
   <div v-click><p class="code-label">Mudar de cliente</p><p><code>php yii company/switch</code></p></div>
-  <div v-click><p class="code-label">Depois de um pull</p><p><code>git submodule update --init</code></p></div>
+  <div v-click><p class="code-label">Depois de um pull</p><p><code>git submodule update</code></p></div>
   <div v-click><p class="code-label">Mudou o composer.lock</p><p><code>composer install</code></p></div>
   <div v-click><p class="code-label">Nova versão da Administração</p><p><code>composer update vsoft/yii2-administration</code></p></div>
   <div v-click><p class="code-label">Correr os testes</p><p><code>composer test:common:unit</code></p></div>
@@ -622,7 +622,7 @@ O que nos aconteceu durante a migração. As mensagens do bootstrap já dizem o 
 <!--
 Dez situações, uma por click. Os ficheiros locais nunca vão para o git.
 [click] Mudar de cliente: o switch reescreve o bootstrap-local.php e limpa a cache.
-[click] Depois de um pull: os submódulos não vêm sozinhos.
+[click] Depois de um pull: os submódulos não vêm sozinhos. Sem --init, só atualiza os clientes que têm; um cliente novo no .gitmodules precisa de git submodule update --init company_novo.
 [click] O composer install instala o que está no composer.lock.
 [click] A Administração está em dev-main: uma versão nova só entra com o composer update do pacote, e o composer.lock alterado vai para o git.
 [click] Os testes: poucos, mas correm.
@@ -637,25 +637,25 @@ Dez situações, uma por click. Os ficheiros locais nunca vão para o git.
 
 <p class="passo-num">Clientes na tua máquina</p>
 
-# Eliminar e clonar um cliente
+# Remover e clonar um cliente
 
 <ol class="passos comandos mt-4">
 <li v-click><strong>Ativar o que fica</strong><span><code>php yii company/switch frigosto</code></span></li>
-<li v-click><strong>Eliminar os outros</strong><span>No Explorador, com <em>Itens ocultos</em> ligado: abrir <code>company_x</code>, selecionar tudo, <em>Eliminar</em></span></li>
+<li v-click><strong>Remover os outros</strong><span><code>php yii company/deinit inativas</code> · ou só alguns: <code>deinit mgr sival</code> · sem nada, pergunta</span></li>
 <li v-click><strong>Clonar um deles</strong><span><code>php yii company/init omelro</code> · clona e ativa</span></li>
 </ol>
 
 <ul class="checklist mt-3" v-click>
-<li class="avoid"><strong>Esvaziar, não apagar a pasta:</strong> sem ela, um commit tira o cliente do repositório</li>
-<li class="avoid"><strong>Depois de um pull:</strong> <code>git submodule update company_omelro</code>. Sem nome, voltam todos</li>
+<li class="avoid"><strong>Saltadas:</strong> com uploads, <code>params-local.php</code> ou alterações, o cliente fica. Tratar deles e repetir</li>
+<li class="avoid"><strong>Depois de um pull:</strong> <code>git submodule update</code>. Com <code>--init</code>, voltam todos</li>
 </ul>
 
 <!--
-O clone traz os 17. Quem só trabalha num pode apagar os outros: é só a cópia local, o GitHub e o .gitmodules não mudam.
-[click] Primeiro ativar o que fica, para a aplicação não ficar a apontar para uma pasta vazia.
-[click] Eliminar é mesmo no Explorador. O .git de cada cliente é um ficheiro oculto, por isso é preciso ligar os itens ocultos: se ficar lá, o git mostra o cliente como alterado. Vai tudo, incluindo o params-local.php e os uploads desse cliente; os commits por enviar ficam em .git/modules. A pasta vazia fica, o git status continua limpo e o php yii company mostra "sem checkout".
-[click] O company/init traz só esse cliente e passa a ser o ativo. Vem em detached HEAD: git switch main antes de fazer commits nele.
-[click] Dois cuidados. Se apagarem a própria pasta, o git mostra-a como apagada e um git add seguido de commit remove o cliente do repositório para todos. E depois de um pull o update leva o nome do cliente: sem nome traz os 17 outra vez, e o company/init aqui mudaria o cliente ativo.
+O clone traz os 17. Quem só trabalha num pode remover os outros: é só a cópia local, o GitHub e o .gitmodules não mudam.
+[click] Primeiro ativar o que fica: o cliente ativo nunca é removido, por isso é este que fica de fora.
+[click] O inativas remove todos menos o ativo. Também aceita uma lista, e sem argumentos mostra os clientes e pergunta. A pasta vazia fica, o git status continua limpo e o php yii company mostra "sem checkout". O histórico fica em .git/modules, por isso poupa pouco disco: cada cliente são 3 a 4 MB.
+[click] O company/init traz só esse cliente e passa a ser o ativo. Vem em detached HEAD: git switch main antes de fazer commits nele. Para trazer um sem o ativar: git submodule update --init company_omelro.
+[click] Dois cuidados. O comando salta os clientes com ficheiros fora do git, porque o deinit apagava-os sem volta, e o git recusa os que têm commits diferentes do registado no core. E depois de um pull o update vai sem --init: assim só atualiza os que têm, com --init traz os 17 outra vez. Não apaguem a própria pasta à mão: o git mostra-a como apagada e um git add seguido de commit remove o cliente do repositório para todos.
 -->
 
 ---
